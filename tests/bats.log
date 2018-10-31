@@ -248,3 +248,49 @@ kimai2_k71pxao0 served a 200 status front page
 Output
 ------
 
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_ihov4ddf -d kimai/kimai2:dev
+Output
+------
+125443f4ff5e14011e062c4d84658f2d428fe6532bb1082c53ad7b32f4cba94d
+
+=================================
++ test_check_dev_site_up
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_9e0oybqi -d kimai/kimai2:dev
+Waiting for kimai2_9e0oybqi.
+kimai2_9e0oybqi served a 200 status front page
+Output
+------
+
+
+=================================
++ test_full_local_dev_version
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_yh019i3t
+docker run --rm -p 8001:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests:/bats_dir -ti ubuntu chown -R 33:33 /bats_dir/kimai2_*
+Output
+------
+chown: cannot access '/bats_dir/kimai2_*': No such file or directory
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_vcqglkbj
+docker run --rm -p 8001:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_vcqglkbj/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name kimai2_vcqglkbj kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Waiting for kimai2_vcqglkbj.
+kimai2_vcqglkbj served a 200 status front page
+Output
+------
+
