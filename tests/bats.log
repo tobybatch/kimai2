@@ -294,3 +294,1254 @@ kimai2_vcqglkbj served a 200 status front page
 Output
 ------
 
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_ws8i8xay -d kimai/kimai2:dev
+Output
+------
+6e8be48477904fe4643dfcca83b6c95677a97d62bbf5b77ec0cfaf78489dc47a
+
+=================================
++ test_check_dev_site_up
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_gr1t0ah7 -d kimai/kimai2:dev
+Waiting for kimai2_gr1t0ah7.
+kimai2_gr1t0ah7 served a 200 status front page
+Output
+------
+
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_gsj8m4yr
+docker run --rm -p 8001:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_gsj8m4yr/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name kimai2_gsj8m4yr kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Waiting for kimai2_gsj8m4yr.
+kimai2_gsj8m4yr served a 200 status front page
+Output
+------
+
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_894yayq0 -d kimai/kimai2:dev
+Output
+------
+3066e8cc13dc4849b784b9c578e3949cf7736fd31375cf3dad31907617480dc4
+
+=================================
++ test_check_dev_site_up
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_t9anr3ma -d kimai/kimai2:dev
+Waiting for kimai2_t9anr3ma.
+kimai2_t9anr3ma served a 200 status front page
+Output
+------
+
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_t9dqe6p7
+docker run --rm -p 8001:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_t9dqe6p7/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name kimai2_t9dqe6p7 kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Waiting for kimai2_t9dqe6p7.
+kimai2_t9dqe6p7 served a 200 status front page
+Output
+------
+
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_cr6xutxo -d kimai/kimai2:dev
+Output
+------
+97b2720bb561abfef4fba6df12bceab0257bf08529e6e3139571a578182fbab1
+
+=================================
++ test_check_dev_site_up
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_yr0aht1f -d kimai/kimai2:dev
+Waiting for kimai2_yr0aht1f.
+kimai2_yr0aht1f served a 200 status front page
+Output
+------
+
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_v467hmr8
+docker run --rm -p 8001:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_v467hmr8/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name kimai2_v467hmr8 kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Waiting for kimai2_v467hmr8.
+kimai2_v467hmr8 served a 200 status front page
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_ubo3qtl9 -d kimai/kimai2:dev
+Output
+------
+58f60370994c4ea9887bc780a70e2a5232e9203c185012a5b080b3f32f0e1a87
+
+=================================
++ test_check_dev_site_up
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_9izmj3bl -d kimai/kimai2:dev
+Waiting for kimai2_9izmj3bl.
+kimai2_9izmj3bl served a 200 status front page
+Output
+------
+
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_f7g3lrxm
+docker run --rm -p 8001:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_f7g3lrxm/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name kimai2_f7g3lrxm kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Waiting for kimai2_f7g3lrxm.
+kimai2_f7g3lrxm served a 200 status front page
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker-2dcompose_run_full_stack() { bats_test_begin "docker-compose run full stack" 6; 
+    compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker-2dcompose_run_full_stack
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker-2dcompose_run_full_stack() { bats_test_begin "docker-compose run full stack" 6; 
+    compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker-2dcompose_run_full_stack
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.1714.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker-2dcompose_run_full_stack() { bats_test_begin "docker-compose run full stack" 6; 
+    compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker-2dcompose_run_full_stack
+%%%% /tmp/bats.1722.out
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.3788.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker-2dcompose_run_full_stack() { bats_test_begin "docker-compose run full stack" 6; 
+    run_compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker-2dcompose_run_full_stack
+%%%% /tmp/bats.3813.out
+Output
+------
+
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_qdq4n0c9 -d kimai/kimai2:dev
+Output
+------
+30ce4456162aa7f2e59223a8652bab47bc3fd88831f5933810b0fa9e060c3df9
+
+=================================
++ test_check_dev_site_up
+---------------------------------
+docker run --rm -p 8001:8001 --name kimai2_z6d8zh2w -d kimai/kimai2:dev
+Waiting for kimai2_z6d8zh2w......
+Timed out after 6 seconds waiting for kimai2_z6d8zh2w to fully start
+Output
+------
+Error: No such object: kimai2_z6d8zh2w
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_xi9ogghr
+docker run --rm -p 8001:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/kimai2_xi9ogghr/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name kimai2_xi9ogghr kimai/kimai2:dev
+Output
+------
+4185b79766e0021c6efc454a3d0906c7b019048454e9371bc0a43d70a680924b docker: Error response from daemon: driver failed programming external connectivity on endpoint kimai2_xi9ogghr (5efbf33aa166f6a7a66fb783f74a01b7ba5ebab80b62f7fa4c68cc3aa8963a4e): Bind for 0.0.0.0:8001 failed: port is already allocated.
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name bats_yotk3847 -d kimai/kimai2:dev
+Output
+------
+5bb8d7a087ff657d2bf07295c4a4ec0be8f07997e5ddc209a09037b931b050e8
+
+=================================
++ test_check_dev_site_up
+---------------------------------
+docker run --rm -p 8001:8001 --name bats_uc09qqv4 -d kimai/kimai2:dev
+Waiting for bats_uc09qqv4......
+Timed out after 6 seconds waiting for bats_uc09qqv4 to fully start
+Output
+------
+Error: No such object: bats_uc09qqv4
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_n93wabbr
+docker run --rm -p 8001:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_n93wabbr/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_n93wabbr kimai/kimai2:dev
+Output
+------
+a95bfb930acc941b66218a5605e607c176a767ebae3bfa98f4a49d24ead5e1eb docker: Error response from daemon: driver failed programming external connectivity on endpoint bats_n93wabbr (effde38c51bf2946a8a46f7d562fdf5cdb58b7b571cd565e7153be10d0af95e9): Bind for 0.0.0.0:8001 failed: port is already allocated.
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name bats_6mr744x9 -d kimai/kimai2:dev
+Output
+------
+8124ceaf69f59a7fd5a97ad48cb7d0b73398efad0a58dc4dd0a336addb189df2
+
+=================================
++ test_check_dev_site_up
+---------------------------------
+docker run --rm -p 8001:8001 --name bats_bxfjtcfu -d kimai/kimai2:dev
+Waiting for bats_bxfjtcfu......
+Timed out after 6 seconds waiting for bats_bxfjtcfu to fully start
+Output
+------
+Error: No such object: bats_bxfjtcfu
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone /home/tobias/workspace/dockers/kimai-docker/tests/bats_i2j7nowa
+Output
+------
+fatal: repository '/home/tobias/workspace/dockers/kimai-docker/tests/bats_i2j7nowa' does not exist
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name bats_yt04og8u -d kimai/kimai2:dev
+Output
+------
+87b2925e9711af3fd89bf49567145531b308fefb2aa8755f660fa163a0296a54
+
+=================================
++ test_check_dev_site_up
+---------------------------------
+docker run --rm -p 8001:8001 --name bats_hrs4nj50 -d kimai/kimai2:dev
+Waiting for bats_hrs4nj50...........
+Timed out after 11 seconds waiting for bats_hrs4nj50 to fully start
+Output
+------
+Error: No such object: bats_hrs4nj50
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone /home/tobias/workspace/dockers/kimai-docker/tests/bats_b2ghlsh9
+Output
+------
+fatal: repository '/home/tobias/workspace/dockers/kimai-docker/tests/bats_b2ghlsh9' does not exist
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name bats_64co2tyb -d kimai/kimai2:dev
+Output
+------
+1ed6c28cbc0b170a0b0dac8b445c03cfd85fb0f4ab3b32930ba2ee91c0ee70d9
+
+=================================
++ test_check_dev_site_up
+---------------------------------
+docker run --rm -p 8001:8001 --name bats_4yseolhs -d kimai/kimai2:dev
+Waiting for bats_4yseolhs.000.000.000.000.000.000.000.000.000.000.000
+Timed out after 11 seconds waiting for bats_4yseolhs to fully start
+Output
+------
+Error: No such object: bats_4yseolhs
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone /home/tobias/workspace/dockers/kimai-docker/tests/bats_djkyac9i
+Output
+------
+fatal: repository '/home/tobias/workspace/dockers/kimai-docker/tests/bats_djkyac9i' does not exist
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 8001:8001 --name bats_ym1yphe2 -d kimai/kimai2:dev
+Output
+------
+b158a0f4c17b3e6ce4aabec9b03878133278be5a355fdcb180d20510e3c13e55 docker: Error response from daemon: driver failed programming external connectivity on endpoint bats_ym1yphe2 (2ed6f593b713069825bac3292965918a90dc9739bfa1c1707d32831441233972): Bind for 0.0.0.0:8001 failed: port is already allocated.
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone /home/tobias/workspace/dockers/kimai-docker/tests/bats_b7pv9dud
+Output
+------
+fatal: repository '/home/tobias/workspace/dockers/kimai-docker/tests/bats_b7pv9dud' does not exist
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 33989:8001 --name bats_es1t29ne -d kimai/kimai2:dev
+Output
+------
+24340f803693f39e5552e3a2189bf6380436003cf19c1f660d4b8e3fedd92dcc
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone /home/tobias/workspace/dockers/kimai-docker/tests/bats_w0wwan08
+Output
+------
+fatal: repository '/home/tobias/workspace/dockers/kimai-docker/tests/bats_w0wwan08' does not exist
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 40131:8001 --name bats_cpg9udm8 -d kimai/kimai2:dev
+Output
+------
+618c54bca0e2ed3360e364c72a57ffdb57a54943c11a1a729f4764aec2a7f2da
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone /home/tobias/workspace/dockers/kimai-docker/tests/bats_ryqmiat5
+Output
+------
+fatal: repository '/home/tobias/workspace/dockers/kimai-docker/tests/bats_ryqmiat5' does not exist
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 34689:8001 --name bats_mcf6cz7v -d kimai/kimai2:dev
+Output
+------
+8ad7385708b5f04d7eefc343629779ac53860568b8c56acd3d061d126b20f3d0
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_ipoac121
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_ipoac121/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_ipoac121 kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output
+------
+/usr/lib/bats/bats-exec-test: line 58: wait_for_image: command not found
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 33019:8001 --name bats_78c4gu5j -d kimai/kimai2:dev
+Output
+------
+c63c004a85d0b9cbf9bb0e368388d21bac010e709443e5ace10d3a9a2b472be4
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_s7zv8e42
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_s7zv8e42/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_s7zv8e42 kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output
+------
+User "tobias" did already have "ROLE_ADMIN" role.
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.15186.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker-2dcompose_run_full_stack() { bats_test_begin "docker-compose run full stack" 6; 
+    run_compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker-2dcompose_run_full_stack
+%%%% /tmp/bats.15194.out
+Output
+------
+
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 53039:8001 --name bats_noomacg9 -d kimai/kimai2:dev
+Output
+------
+79c8e13ad004274590b0b07c4a47c4f8d8a8a4e5e55c726f96f0b0d16a33f3f8
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_44ms415n
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_44ms415n/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_44ms415n kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output
+------
+User "tobias" did already have "ROLE_ADMIN" role.
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.20833.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker-2dcompose_run_full_stack() { bats_test_begin "docker-compose run full stack" 6; 
+    run_compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker-2dcompose_run_full_stack
+%%%% /tmp/bats.20841.out
+Output
+------
+
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 42473:8001 --name bats_bw6z7q87 -d kimai/kimai2:dev
+Output
+------
+a05ffece5fcdcefba9271e36c7098c277f5302979509e49eef4465169bf01453
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_jd20yb68
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_jd20yb68/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_jd20yb68 kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output
+------
+User "tobias" did already have "ROLE_ADMIN" role.
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.25673.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker-2dcompose_run_full_stack() { bats_test_begin "docker-compose run full stack" 6; 
+    run_compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker-2dcompose_run_full_stack
+%%%% /tmp/bats.25681.out
+Output
+------
+
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 56467:8001 --name bats_s7evyk3c -d kimai/kimai2:dev
+Output
+------
+7aa5d78b9c65a45e5a644788b175cb719d47f068cc3e19c00a2d67a8c71c800b
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_1cvu4mgg
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_1cvu4mgg/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_1cvu4mgg kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output
+------
+User "tobias" did already have "ROLE_ADMIN" role.
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.30014.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker-2dcompose_run_full_stack() { bats_test_begin "docker-compose run full stack" 6; 
+    run_compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker-2dcompose_run_full_stack
+%%%% /tmp/bats.30026.out
+Output
+------
+
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 43113:8001 --name bats_r6xo2ik7 -d kimai/kimai2:dev
+Output
+------
+bdb777fd6f622996df7c4d186afecc103178e80888944ea16f84431af79f22c8
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_1ng493c7
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_1ng493c7/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_1ng493c7 kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output
+------
+User "tobias" did already have "ROLE_ADMIN" role.
+
+=================================
++ test_image_build_dev
+---------------------------------
+name = /bats_1ng493c7
+trimmed =
+name = /bats_r6xo2ik7
+trimmed =
+name = /bats_1cvu4mgg
+trimmed =
+name = /bats_s7evyk3c
+trimmed =
+name = /bats_jd20yb68
+trimmed =
+name = /bats_bw6z7q87
+trimmed =
+name = /bats_44ms415n
+trimmed =
+name = /bats_noomacg9
+trimmed =
+name = /bats_kimai_1
+trimmed =
+name = /bats_db_1
+trimmed =
+name = /bats_s7zv8e42
+trimmed =
+name = /bats_78c4gu5j
+trimmed =
+name = /bats_ipoac121
+trimmed =
+name = /bats_mcf6cz7v
+trimmed =
+name = /thunderbird
+trimmed =
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 36436:8001 --name bats_twjg8bf2 -d kimai/kimai2:dev
+name = /bats_twjg8bf2
+trimmed =
+name = /bats_1ng493c7
+trimmed =
+name = /bats_r6xo2ik7
+trimmed =
+name = /bats_1cvu4mgg
+trimmed =
+name = /bats_s7evyk3c
+trimmed =
+name = /bats_jd20yb68
+trimmed =
+name = /bats_bw6z7q87
+trimmed =
+name = /bats_44ms415n
+trimmed =
+name = /bats_noomacg9
+trimmed =
+name = /bats_kimai_1
+trimmed =
+name = /bats_db_1
+trimmed =
+name = /bats_s7zv8e42
+trimmed =
+name = /bats_78c4gu5j
+trimmed =
+name = /bats_ipoac121
+trimmed =
+name = /bats_mcf6cz7v
+trimmed =
+name = /thunderbird
+trimmed =
+Output
+------
+d86fb78ddaa9b5579f5f805470669fe61f6414d917906539b0d6de545b4e397b
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_qy6djyhh
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_qy6djyhh/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_qy6djyhh kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+name = /bats_qy6djyhh
+trimmed =
+name = /bats_twjg8bf2
+trimmed =
+name = /bats_1ng493c7
+trimmed =
+name = /bats_r6xo2ik7
+trimmed =
+name = /bats_1cvu4mgg
+trimmed =
+name = /bats_s7evyk3c
+trimmed =
+name = /bats_jd20yb68
+trimmed =
+name = /bats_bw6z7q87
+trimmed =
+name = /bats_44ms415n
+trimmed =
+name = /bats_noomacg9
+trimmed =
+name = /bats_kimai_1
+trimmed =
+name = /bats_db_1
+trimmed =
+name = /bats_s7zv8e42
+trimmed =
+name = /bats_78c4gu5j
+trimmed =
+name = /bats_ipoac121
+trimmed =
+name = /bats_mcf6cz7v
+trimmed =
+name = /thunderbird
+trimmed =
+Output
+------
+User "tobias" did already have "ROLE_ADMIN" role.
+
+=================================
++ test_image_build_dev
+---------------------------------
+name = /bats_qy6djyhh
+trimmed = bats_qy6djyhh
+Stopping and removing bats_qy6djyhh
+name = /bats_twjg8bf2
+trimmed = bats_twjg8bf2
+Stopping and removing bats_twjg8bf2
+name = /bats_1ng493c7
+trimmed = bats_1ng493c7
+Stopping and removing bats_1ng493c7
+name = /bats_r6xo2ik7
+trimmed = bats_r6xo2ik7
+Stopping and removing bats_r6xo2ik7
+name = /bats_1cvu4mgg
+trimmed = bats_1cvu4mgg
+Stopping and removing bats_1cvu4mgg
+name = /bats_s7evyk3c
+trimmed = bats_s7evyk3c
+Stopping and removing bats_s7evyk3c
+name = /bats_jd20yb68
+trimmed = bats_jd20yb68
+Stopping and removing bats_jd20yb68
+name = /bats_bw6z7q87
+trimmed = bats_bw6z7q87
+Stopping and removing bats_bw6z7q87
+name = /bats_44ms415n
+trimmed = bats_44ms415n
+Stopping and removing bats_44ms415n
+name = /bats_noomacg9
+trimmed = bats_noomacg9
+Stopping and removing bats_noomacg9
+name = /bats_kimai_1
+trimmed = bats_kimai_1
+Stopping and removing bats_kimai_1
+name = /bats_db_1
+trimmed = bats_db_1
+Stopping and removing bats_db_1
+name = /bats_s7zv8e42
+trimmed = bats_s7zv8e42
+Stopping and removing bats_s7zv8e42
+name = /bats_78c4gu5j
+trimmed = bats_78c4gu5j
+Stopping and removing bats_78c4gu5j
+name = /bats_ipoac121
+trimmed = bats_ipoac121
+Stopping and removing bats_ipoac121
+name = /bats_mcf6cz7v
+trimmed = bats_mcf6cz7v
+Stopping and removing bats_mcf6cz7v
+name = /thunderbird
+trimmed = thunderbird
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 48392:8001 --name bats_62uf4tbm -d kimai/kimai2:dev
+Stopping and removing bats_62uf4tbm
+Output
+------
+6c4245e38503fe402339113adcad07346861135ba1320ad084675b2aec1681ac
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_xih0zubo
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_xih0zubo/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_xih0zubo kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Stopping and removing bats_xih0zubo
+Output
+------
+User "tobias" did already have "ROLE_ADMIN" role.
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 44201:8001 --name bats_aj4rua1c -d kimai/kimai2:dev
+Stopping and removing bats_aj4rua1c
+Output
+------
+61cd8bb89d62633a0e6d4ee6db44dcc76a910f57263694317ef3460630c43bf3
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_7mx5sm57
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_7mx5sm57/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_7mx5sm57 kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Stopping and removing bats_7mx5sm57
+Output
+------
+User "tobias" did already have "ROLE_ADMIN" role.
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.32383.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker-2dcompose_run_full_stack() { bats_test_begin "docker-compose run full stack" 6; 
+    run_compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker-2dcompose_run_full_stack
+%%%% /tmp/bats.32392.out
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output
+------
+
+
+=================================
++ test_docker-2dcompose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.1719.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker-2dcompose_run_full_stack() { bats_test_begin "docker-compose run full stack" 6; 
+    run_compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker-2dcompose_run_full_stack
+%%%% /tmp/bats.1727.out
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.3471.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker_compose_run_full_stack() { bats_test_begin "docker compose run full stack" 6; 
+    run_compose_up bats
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker_compose_run_full_stack
+%%%% /tmp/bats.3479.out
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.6354.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker_compose_run_full_stack() { bats_test_begin "docker compose run full stack" 6; 
+    run_compose_up bats
+    echo $status
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker_compose_run_full_stack
+%%%% /tmp/bats.6362.out
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.7973.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker_compose_run_full_stack() { bats_test_begin "docker compose run full stack" 6; 
+    run_compose_up bats
+    echo STATUS=${status}
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker_compose_run_full_stack
+%%%% /tmp/bats.7981.out
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.9437.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker_compose_run_full_stack() { bats_test_begin "docker compose run full stack" 6; 
+    run_compose_up bats
+    echo STATUS=${status}
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker_compose_run_full_stack
+%%%% /tmp/bats.9445.out
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.11042.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker_compose_run_full_stack() { bats_test_begin "docker compose run full stack" 6; 
+    run_compose_up bats
+    echo STATUS=${status}
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker_compose_run_full_stack
+%%%% /tmp/bats.11050.out
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+%%%% /tmp/bats.12766.src
+#!/usr/bin/env bats
+  
+load test_helper
+
+# Prod docker composer bundle
+test_docker_compose_run_full_stack() { bats_test_begin "docker compose run full stack" 6; 
+    run_compose_up bats
+    echo STATUS=${status}
+    [ "$status" -eq 0 ]
+}
+
+bats_test_function test_docker_compose_run_full_stack
+%%%% /tmp/bats.12774.out
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output: 0
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output: 0
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output: 0
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output: 0
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_docker_compose_run_full_stack
+---------------------------------
+Stopping and removing bats_kimai_1
+Stopping and removing bats_db_1
+Output: 0
+------
+

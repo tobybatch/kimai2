@@ -1,3 +1,4 @@
 dev/Dockerfile
 docker
 tests/kimai2_*
+mysql

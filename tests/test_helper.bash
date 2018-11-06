@@ -1,9 +1,6 @@
 setup() {
-  IMAGE_NAME="$NAME:$VERSION"
-  CONTAINER_NAME="kimai2_$(</dev/urandom tr -dc 'a-z0-9' | head -c8)"
-  REPO_SOURCE="https://github.com/tobybatch/kimai2.git"
+  CONTAINER_NAME="bats_$(</dev/urandom tr -dc 'a-z0-9' | head -c8)"
   REPO_DIR=$BATS_TEST_DIRNAME/$CONTAINER_NAME
-  TIMEOUT_MAX=5
   BATS_LOG=$BATS_TEST_DIRNAME/bats.log
   log -e "\n================================="
   log "+ $BATS_TEST_NAME"
@@ -11,10 +8,29 @@ setup() {
 }
 
 teardown() {
-    (docker stop $CONTAINER_NAME > /dev/null || true)
-    log -e "Output\n------\n$output"
+    docker_list=$(docker ps -q)
+    for docker in $docker_list; do
+        name=$(docker inspect --format='{{.Name}}' $docker)
+        trimmed=${name:1}
+        if [[ "$trimmed" == bats_* ]]; then
+            log "Stopping and removing $trimmed"
+            docker stop $trimmed || true
+            docker rm $trimmed || true
+        fi
+    done
+    log -e "Output: $status\n------\n$output"
     docker run -v $REPO_DIR:/opt/kimai --rm ubuntu chown -R $(id -u):$(id -g) /opt/kimai
     rm -rf $REPO_DIR
+}
+
+free_port() {
+    read LOWERPORT UPPERPORT < /proc/sys/net/ipv4/ip_local_port_range
+    while :
+    do
+        PORT="`shuf -i $LOWERPORT-$UPPERPORT -n 1`"
+        ss -lpn | grep -q ":$PORT " || break
+    done
+    echo $PORT
 }
 
 build_image() {
@@ -22,25 +38,9 @@ build_image() {
 }
 
 run_image() {
-    log docker run --rm -p 8001:8001 $@
-    docker run --rm -p 8001:8001 $@
-}
-
-wait_for_image() {
-    log -n "Waiting for $CONTAINER_NAME"
-    CONTAINER_IP=$(docker inspect -f "{{ .NetworkSettings.IPAddress }}" $CONTAINER_NAME)
-    TIMEOUT=0
-    while [ "$HTTP_CODE" != 200 ]; do
-        sleep 1
-        log -n "."
-        HTTP_CODE=$(curl -sL -w "%{http_code}\\n" "http://${CONTAINER_IP}:8001/" -o /dev/null)
-        TIMEOUT=$((TIMEOUT+1))
-        if (( TIMEOUT > ${TIMEOUT_MAX} )); then
-            log -e "\nTimed out after $TIMEOUT seconds waiting for $CONTAINER_NAME to fully start"
-            return 1
-        fi
-    done
-    log -e "\n$CONTAINER_NAME served a 200 status front page"
+    port=$(free_port)
+    log docker run --rm -p $port:8001 $@
+    docker run --rm -p $port:8001 $@
 }
 
 execute_cmd() {
@@ -51,6 +51,10 @@ execute_cmd() {
 fetch_source_repo() {
     log git clone $REPO_SOURCE $1
     git clone $REPO_SOURCE $1
+}
+
+run_composeup() {
+    docker-compose -f $BATS_TEST_DIRNAME/../docker-compose.yml -p $1 up -d 2>&1 > /dev/null
 }
 
 log() {
