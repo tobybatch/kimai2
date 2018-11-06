@@ -1,0 +1,25 @@
+version: '3'
+services:
+
+  db:
+    image: mysql:5.6
+    environment:
+      - MYSQL_DATABASE=kimai
+      - MYSQL_USER=kimai
+      - MYSQL_PASSWORD=kimai
+      - MYSQL_ROOT_PASSWORD=changeme
+    volumes:
+        - ./mysql:/var/lib/mysql
+    command: --default-storage-engine innodb
+    restart: always
+
+  kimai:
+    image: kimai/kimai2:prod
+    environment:
+        - APP_ENV=prod
+        - DATABASE_URL=mysql://kimai:kimai@db/kimai
+    depends_on:
+        - db
+    ports:
+        - 8080:8080
+    restart: always
