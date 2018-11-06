@@ -8,7 +8,9 @@ The docker file for development is bundled in the Kimai project: https://github.
 
 ## Production docker
 
-THIS IS NOT READY. It's in development
+    docker run --rm -ti -p 8080:8080 --name kimai2 kimai/kimai2
+
+More options: [prod](prod/README.md)
 
 ## Tests
 

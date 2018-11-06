@@ -1545,3 +1545,511 @@ Stopping and removing bats_db_1
 Output: 0
 ------
 
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 49081:8001 --name bats_6ak1zldn -d kimai/kimai2:dev
+Stopping and removing bats_6ak1zldn
+Output: 0
+------
+c8b338e46b4438cc548168abc6ed720da3a3a5d7bd2d5bee3da2a55c062db7dd
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_nlodonx6
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_nlodonx6/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_nlodonx6 kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_nlodonx6
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+PORT=
+docker run --rm -p 49187:8001 --name bats_p09t9jqe -d kimai/kimai2:dev
+Stopping and removing bats_p09t9jqe
+Output: 0
+------
+348ba346199c6c1d2b795791cd5ee3cca49feb1d2eb1d135733f9c33f20fc677
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_bktlzh5v
+PORT=
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_bktlzh5v/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_bktlzh5v kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_bktlzh5v
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+PORT=44313
+docker run --rm -p 44313:8001 --name bats_qtff9q7i -d kimai/kimai2:dev
+Stopping and removing bats_qtff9q7i
+Output: 0
+------
+40a52b336c22f10bbdc9f15b782d80d88523066227b3012157a40a2e2c4dba8e
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_q2t6ms3k
+PORT=
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_q2t6ms3k/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_q2t6ms3k kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_q2t6ms3k
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+PORT=50372
+docker run --rm -p 50372:8001 --name bats_qkxx50d6 -d kimai/kimai2:dev
+Stopping and removing bats_qkxx50d6
+Output: 0
+------
+38ad75d757ac1920b39ef3f36b231832810ccd2365d62979f86345921ee667fc
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_769bpu3a
+PORT=
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_769bpu3a/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_769bpu3a kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_769bpu3a
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+PORT=54334
+docker run --rm -p 54334:8001 --name bats_iercjppy -d kimai/kimai2:dev
+Stopping and removing bats_iercjppy
+Output: 0
+------
+ab3b7ade041bc95778d6ad79d3cc2518a38cc68490e9852a9a164a772819718a
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_undcaiz7
+PORT=
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_undcaiz7/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_undcaiz7 kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_undcaiz7
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+In freeport PORT=58509
+docker run --rm -p 58509:8001 --name bats_5gwbioa4 -d kimai/kimai2:dev
+Stopping and removing bats_5gwbioa4
+Output: 0
+------
+23a080fc653591393f8c79c64bb03a9bd2543cc1998597afc3567eae61d16eab
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_hp9r7rbi
+In freeport PORT=
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_hp9r7rbi/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_hp9r7rbi kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_hp9r7rbi
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+In freeport PORT=40778
+docker run --rm -p A B 1 40778 2 40778:8001 --name bats_93dlpok9 -d kimai/kimai2:dev
+Output: 0
+------
+docker: Invalid containerPort: A. See 'docker run --help'.
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_7nxeu6y7
+In freeport PORT=
+docker run --rm -p A B 1  2 :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_7nxeu6y7/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_7nxeu6y7 kimai/kimai2:dev
+Output: 0
+------
+shuf: invalid input range: ‘32768	60999’ docker: Invalid containerPort: A. See 'docker run --help'.
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+1 49673
+2
+In freeport PORT=49673
+docker run --rm -p 49673:8001 --name bats_wfnv22j9 -d kimai/kimai2:dev
+Stopping and removing bats_wfnv22j9
+Output: 0
+------
+529ff39133efbac5dc64684bf97451f57ba1d0c39c973d5c33bd722c7aed6126
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_5fr36z5p
+1 
+2 
+In freeport PORT=
+docker run --rm -p :8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_5fr36z5p/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_5fr36z5p kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_5fr36z5p
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_7waipz1j -d kimai/kimai2:dev
+Stopping and removing bats_7waipz1j
+Output: 0
+------
+6094bdafbf51e36ab773775db71ec9fd0add68b65cb8e64db7361c1871d66f48
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_jswq1kdz
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_jswq1kdz/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_jswq1kdz kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_jswq1kdz
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_v4cbe480 -d kimai/kimai2:dev
+Stopping and removing bats_v4cbe480
+Output: 0
+------
+f6e5e45581b032cfe45beae49de57d5b84c03dd1e85ffa9db88ae5f5b6edd3b0
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_stgvpwhs
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_stgvpwhs/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_stgvpwhs kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_stgvpwhs
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_hmu5082o -d kimai/kimai2:dev
+Stopping and removing bats_hmu5082o
+Output: 0
+------
+1c8d4a1aa90f06c651ed142a799a7f30a1c20c365273409b610ef9a04c2fc5ba
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_n9k8dbpb
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_n9k8dbpb/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_n9k8dbpb kimai/kimai2:dev composer install
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_n9k8dbpb/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_n9k8dbpb kimai/kimai2:dev
+Stopping and removing bats_n9k8dbpb
+Output: 0
+------
+docker: Error response from daemon: Conflict. The container name "/bats_n9k8dbpb" is already in use by container "f7862ffeaedfbe0af4fa6c423a643532ba6f0f74eab8bd2cd45e590eac2f7178". You have to remove (or rename) that container to be able to reuse that name. See 'docker run --help'.
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_h8y23sop -d kimai/kimai2:dev
+Stopping and removing bats_h8y23sop
+Output: 0
+------
+2d229cfae57e67b0a95cada4007b5dbc5d3bff4c9190f0c9720986fce57441d0
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_6vij8cgo
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_6vij8cgo/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d kimai/kimai2:dev composer install
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_6vij8cgo/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_6vij8cgo kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_6vij8cgo
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_xcjdafso -d kimai/kimai2:dev
+Stopping and removing bats_xcjdafso
+Output: 0
+------
+8bc2c5082bfaf422dcd56901287002bb027cec511ed5be66ce7c3ced620aff87
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_zarwr2p3
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_zarwr2p3/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d kimai/kimai2:dev composer install
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_zarwr2p3/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -d --name bats_zarwr2p3 kimai/kimai2:dev
+Execute command: 'bin/console fos:user:promote tobias ROLE_ADMIN'
+Output: 0
+------
+Error: No such container: bats_zarwr2p3
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_upa7p616 -d kimai/kimai2:dev
+Stopping and removing bats_upa7p616
+Output: 0
+------
+0587cbc61c13cbd74f1d7cc1a7464b84f73d48caee8c527ae61779ad347016ca
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_g10nfkuk
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_g10nfkuk/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -ti kimai/kimai2:dev composer install
+Output: 0
+------
+[30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/files/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---flex.symfony.com/, or directory is not writable. Proceeding without cache[39;49m [32mLoading composer repositories with package information[39m [32mInstalling dependencies (including require-dev) from lock file[39m Nothing to install or update  [37;41m                                                                                                          [39;49m [37;41m  [ErrorException]                                                                                        [39;49m [37;41m  file_put_contents(/opt/kimai/vendor/composer/installed.json): failed to open stream: Permission denied  [39;49m [37;41m                                                                                                          [39;49m  [32minstall [--prefer-source] [--prefer-dist] [--dry-run] [--dev] [--no-dev] [--no-custom-installers] [--no-autoloader] [--no-scripts] [--no-progress] [--no-suggest] [-v|vv|vvv|--verbose] [-o|--optimize-autoloader] [-a|--classmap-authoritative] [--apcu-autoloader] [--ignore-platform-reqs] [--] [[39m[32m<packages>[39m[32m]...[39m 
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_qczws3pc -d kimai/kimai2:dev
+Stopping and removing bats_qczws3pc
+Output: 0
+------
+61bf826db09dacd9b03e23c5b15c4cb8bf8f678efa13c549a025a1ecf68e5688
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_w0ufz5st
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_w0ufz5st/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -ti kimai/kimai2:dev composer --working-dir=/opt/kimai install
+Output: 0
+------
+[30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/files/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---flex.symfony.com/, or directory is not writable. Proceeding without cache[39;49m [32mLoading composer repositories with package information[39m [32mInstalling dependencies (including require-dev) from lock file[39m Nothing to install or update  [37;41m                                                                                                          [39;49m [37;41m  [ErrorException]                                                                                        [39;49m [37;41m  file_put_contents(/opt/kimai/vendor/composer/installed.json): failed to open stream: Permission denied  [39;49m [37;41m                                                                                                          [39;49m  [32minstall [--prefer-source] [--prefer-dist] [--dry-run] [--dev] [--no-dev] [--no-custom-installers] [--no-autoloader] [--no-scripts] [--no-progress] [--no-suggest] [-v|vv|vvv|--verbose] [-o|--optimize-autoloader] [-a|--classmap-authoritative] [--apcu-autoloader] [--ignore-platform-reqs] [--] [[39m[32m<packages>[39m[32m]...[39m 
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_hh7oa5pn -d kimai/kimai2:dev
+Stopping and removing bats_hh7oa5pn
+Output: 0
+------
+1dc3679b534995cd1b8bf0d3a1952283a67c6abc43ce6079885ae810c63a4be9
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_1b9b5n5t
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/kimai.sqlite --rm ubuntu chown 33:33 /opt/kimai
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_1b9b5n5t/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -ti kimai/kimai2:dev composer --working-dir=/opt/kimai install
+Output: 0
+------
+[30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/files/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---flex.symfony.com/, or directory is not writable. Proceeding without cache[39;49m [32mLoading composer repositories with package information[39m [32mInstalling dependencies (including require-dev) from lock file[39m Nothing to install or update  [37;41m                                                                                                          [39;49m [37;41m  [ErrorException]                                                                                        [39;49m [37;41m  file_put_contents(/opt/kimai/vendor/composer/installed.json): failed to open stream: Permission denied  [39;49m [37;41m                                                                                                          [39;49m  [32minstall [--prefer-source] [--prefer-dist] [--dry-run] [--dev] [--no-dev] [--no-custom-installers] [--no-autoloader] [--no-scripts] [--no-progress] [--no-suggest] [-v|vv|vvv|--verbose] [-o|--optimize-autoloader] [-a|--classmap-authoritative] [--apcu-autoloader] [--ignore-platform-reqs] [--] [[39m[32m<packages>[39m[32m]...[39m 
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_yu67zok4 -d kimai/kimai2:dev
+Stopping and removing bats_yu67zok4
+Output: 0
+------
+5616994f317e29a1f6f11689650575c8048e56c0de893c1eb01c2288b9fc34e3
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_d9kxisxy
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_d9kxisxy/src:/opt/kimai/src --rm ubuntu chown 33:33 /opt/kimai
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_d9kxisxy/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite -ti kimai/kimai2:dev composer --working-dir=/opt/kimai install
+Output: 0
+------
+[30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/files/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---repo.packagist.org/, or directory is not writable. Proceeding without cache[39;49m [30;43mCannot create cache directory /var/www/.composer/cache/repo/https---flex.symfony.com/, or directory is not writable. Proceeding without cache[39;49m [32mLoading composer repositories with package information[39m [32mInstalling dependencies (including require-dev) from lock file[39m Nothing to install or update  [37;41m                                                                                                          [39;49m [37;41m  [ErrorException]                                                                                        [39;49m [37;41m  file_put_contents(/opt/kimai/vendor/composer/installed.json): failed to open stream: Permission denied  [39;49m [37;41m                                                                                                          [39;49m  [32minstall [--prefer-source] [--prefer-dist] [--dry-run] [--dev] [--no-dev] [--no-custom-installers] [--no-autoloader] [--no-scripts] [--no-progress] [--no-suggest] [-v|vv|vvv|--verbose] [-o|--optimize-autoloader] [-a|--classmap-authoritative] [--apcu-autoloader] [--ignore-platform-reqs] [--] [[39m[32m<packages>[39m[32m]...[39m 
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_nwhe7005 -d kimai/kimai2:dev
+Stopping and removing bats_nwhe7005
+Output: 0
+------
+0c11046256ed0c29aad6366e9f02d5d9782efe913dc15fa274efb62d6e5ba03c
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_cx2xuth7
+Output: 0
+------
+Cloning into '/home/tobias/workspace/dockers/kimai-docker/tests/bats_cx2xuth7'...
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_fyg9dxwu -d kimai/kimai2:dev
+Stopping and removing bats_fyg9dxwu
+Output: 0
+------
+6274a06766c1bfc3ab1e947e774a0930df503379baf6873d6e43a47dca0c5f42
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/dockers/kimai-docker/tests/bats_xisrcthf
+docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/bats_xisrcthf/src:/opt/kimai/src -v /home/tobias/workspace/dockers/kimai-docker/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite --user root -ti kimai/kimai2:dev composer --working-dir=/opt/kimai install
+Output: 0
+------
+[30;43mDo not run Composer as root/super user! See https://getcomposer.org/root for details[39;49m [32mLoading composer repositories with package information[39m [32mInstalling dependencies (including require-dev) from lock file[39m Nothing to install or update [32mGenerating autoload files[39m [32mocramius/package-versions:[39m  Generating version class... [32mocramius/package-versions:[39m ...done generating version class Executing script cache:clear [37;41m[KO][39;49m  [37;41m[KO][39;49m [37;41mScript cache:clear returned with error code 255[39;49m !!   !!  Fatal error: Uncaught Symfony\Component\Debugxception\ClassNotFoundException: Attempted to load class "Kernel" from namespace "App". !!  Did you forget a "use" statement for "Symfony\Component\HttpKernel\Kernel"? in /opt/kimai/bin/console:37 !!  Stack trace: !!  #0 {main} !!    thrown in /opt/kimai/bin/console on line 37 !!   [37;41mScript @auto-scripts was called via post-install-cmd[39;49m
