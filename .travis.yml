@@ -1,18 +1,21 @@
 sudo: required
-
 language: ruby
-
 addons:
   apt:
     sources:
-    - sourceline: 'ppa:duggan/bats'
+    - sourceline: ppa:duggan/bats
     packages:
     - bats
     - bc
-
 services:
-  - docker
-
+- docker
 script:
-- make build
-
+- make build > /dev/null
+- make test
+- make tag-latest
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- make push
+env:
+  matrix:
+  - secure: YkgqaqbvWG3rL5mQktoH+CbtIusI1kTOHXqrShjcPrB5lYkXbw9XwcThzpLVlIcZfGU67VkE5pg1fkJcQawk6TNsxKbd9Ac4GwFe4kf197GhKMNyn86woBmksio7HTEJNP9KdASJwwmU2qB0qRkjRW+Fbfxzd7aY4xVIgCBsKCZ+hjej0Mmwx+IE35zOAJ6x84cSFISu55fd2NXjRGypjgIlqwFn+0FdzwgklVxE7s5Kghu+lEVtglnVlTNNfuburUrlFgtzbIJkR6p093tLcnHxGCVh76Xh0jp62oCw5RpGjZYQYbDnb42xe7Uqa11cr6wH8EGnzKNFKrs/32Mv2mul9CAgYjXf+Nx3sUHEyfneSt6h8DEwq9oVwMntPVpQXJUxmKRjawWJnu2P66dUj5ivtCANMgC8g5R1/Fb/Cvs5QvBEtJzCjmU4V6AjzO1ki2z/63MjiS+lefUoKYHVtU4ARreKeQ60gdQZQQ0kKWOUi5KltYrLyuGhCKZxKm4k1YmwNQ5rfRUEVyraYi7TbgBJur//fg34vltKzNeGEYjteesCVZOYJk4cnNpIp7x5vBd+Zvdle/DygRYDFhpSqsF5gY7AeMsDjqIGSKQShznxhzREesCMgbidk0iNBSFm4O6r076ue8V6BedvgJyosZTBDu15cq2dr9Ai0+4dSUQ=
+  - secure: AGZL3otK8e1vHcQkvRA7RqKqjf28t2fUDqSglS3y0r7ZRwvRVzsRJoR76S+sqwfFq3OUSfUUACo4QMCLGL+YEhJS/VuQChT22tF6ibrRUgGDE+4zpd4mpgPlB2nA/HIQsFqOWkFTRzobhbEUq4HBv1fBJ+THTR/28EDr9R9XDkVrh3OTCBPCzXs0cZU1HowkB7bNuzAYG8JTR2Vs7HgYhTa/E1K5qYLW5TMj8hKkbNZ31ZaUl10xR2D0bH6x6vGr/yqSkAYCsAynTDNN+mc0GTeHoC8QTekTdU2UsQtN2vkyz0PsCFSS/U8f1rWyBn1Ac2YrsqthgYAnFm6OZpgQX9//wAVdM4MnXHAFm21QwvzI4AkCRCG9/WgR5xAgqxZT4Yhg8QNWYNc485y86qACxe7xuyG1OZYKOfnz/fLmf2TZn35QUCc5Ges8EdUkCr7qUUPIBQZprGZcPKb2nJqzt+VDXJCFb3Z76+S+7BZfDVVPXpBOHGIDMESMSMcXqb5LHCTTgVDpLl6ywIQBTII+h3lbDDfi+9LuSyPlH5KeAgdV27L5gbTfNs2oRVmfNoT7yWbbUYmnMOMivSY8iz5UsimWyQAtvBjcdGElTx7vhvrlcebqXZ4zUw9t7Rs9cue4v03wpqN2I/dghg0WB/8wYRm6VMqYgk0fDyqIE+9+ipM=

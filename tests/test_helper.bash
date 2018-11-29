@@ -39,6 +39,7 @@ execute_cmd() {
 
 fetch_source_repo() {
     log git clone $REPO_SOURCE $1
+    rm -rf $1
     git clone $REPO_SOURCE $1
 }
 

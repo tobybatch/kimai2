@@ -1,5 +1,5 @@
 NAME = kimai/kimai2
-REPO_SOURCE="https://github.com/tobybatch/kimai2.git"
+REPO_SOURCE="https://github.com/kevinpapst/kimai2.git"
 TIMEOUT_MAX=10
 
 test: update-dev test-dev test-prod
