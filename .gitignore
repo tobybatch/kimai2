@@ -1,3 +1,5 @@
 docker
 tests/kimai2_*
 mysql
+tests/bats.log
+tests/bats_*
