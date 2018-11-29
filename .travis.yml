@@ -2,6 +2,14 @@ sudo: required
 
 language: ruby
 
+addons:
+  apt:
+    sources:
+    - sourceline: 'ppa:duggan/bats'
+    packages:
+    - bats
+    - bc
+
 services:
   - docker
 

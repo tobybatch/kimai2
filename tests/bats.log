@@ -2053,3 +2053,28 @@ docker run --rm -p 0:8001 -v /home/tobias/workspace/dockers/kimai-docker/tests/b
 Output: 0
 ------
 [30;43mDo not run Composer as root/super user! See https://getcomposer.org/root for details[39;49m [32mLoading composer repositories with package information[39m [32mInstalling dependencies (including require-dev) from lock file[39m Nothing to install or update [32mGenerating autoload files[39m [32mocramius/package-versions:[39m  Generating version class... [32mocramius/package-versions:[39m ...done generating version class Executing script cache:clear [37;41m[KO][39;49m  [37;41m[KO][39;49m [37;41mScript cache:clear returned with error code 255[39;49m !!   !!  Fatal error: Uncaught Symfony\Component\Debugxception\ClassNotFoundException: Attempted to load class "Kernel" from namespace "App". !!  Did you forget a "use" statement for "Symfony\Component\HttpKernel\Kernel"? in /opt/kimai/bin/console:37 !!  Stack trace: !!  #0 {main} !!    thrown in /opt/kimai/bin/console on line 37 !!   [37;41mScript @auto-scripts was called via post-install-cmd[39;49m
+
+=================================
++ test_image_build_dev
+---------------------------------
+Output: 0
+------
+
+
+=================================
++ test_image_start_dev
+---------------------------------
+docker run --rm -p 0:8001 --name bats_fo3657q6 -d kimai/kimai2:dev
+Stopping and removing bats_fo3657q6
+Output: 0
+------
+3f486f72e369269731498d0de1e75073a60cb993be08669c5bd32831276a5a24
+
+=================================
++ test_existing_db_and_local_source_tree
+---------------------------------
+git clone https://github.com/tobybatch/kimai2.git /home/tobias/workspace/kimai2/tests/bats_jidfym05
+docker run --rm -p 0:8001 -v /home/tobias/workspace/kimai2/tests/bats_jidfym05/src:/opt/kimai/src -v /home/tobias/workspace/kimai2/tests/test.sqlite:/opt/kimai/var/data/kimai.sqlite --user root -ti kimai/kimai2:dev composer --working-dir=/opt/kimai install
+Output: 0
+------
+[30;43mDo not run Composer as root/super user! See https://getcomposer.org/root for details[39;49m [32mLoading composer repositories with package information[39m [32mInstalling dependencies (including require-dev) from lock file[39m Nothing to install or update [32mGenerating autoload files[39m [32mocramius/package-versions:[39m  Generating version class... [32mocramius/package-versions:[39m ...done generating version class Executing script cache:clear [37;41m[KO][39;49m  [37;41m[KO][39;49m [37;41mScript cache:clear returned with error code 255[39;49m !!   !!  Fatal error: Uncaught Symfony\Component\Debugxception\ClassNotFoundException: Attempted to load class "Kernel" from namespace "App". !!  Did you forget a "use" statement for "Symfony\Component\HttpKernel\Kernel"? in /opt/kimai/bin/console:37 !!  Stack trace: !!  #0 {main} !!    thrown in /opt/kimai/bin/console on line 37 !!   [37;41mScript @auto-scripts was called via post-install-cmd[39;49m
