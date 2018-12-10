@@ -1,18 +1,17 @@
 sudo: required
-
 language: ruby
-
 addons:
   apt:
     sources:
-    - sourceline: 'ppa:duggan/bats'
+    - sourceline: ppa:duggan/bats
     packages:
     - bats
     - bc
-
 services:
-  - docker
-
+- docker
 script:
-- make build
-
+- make build > /dev/null
+- make test
+- make tag-latest
+- echo "$DOCKER_PASSWORD" | docker login  --username "$DOCKER_USERNAME" --password-stdin
+- make push

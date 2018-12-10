@@ -1,5 +1,5 @@
 NAME = kimai/kimai2
-REPO_SOURCE="https://github.com/tobybatch/kimai2.git"
+REPO_SOURCE="https://github.com/kevinpapst/kimai2.git"
 TIMEOUT_MAX=10
 
 test: update-dev test-dev test-prod
@@ -30,4 +30,4 @@ push:
 	docker push $(NAME):latest
 	docker push $(NAME):prod
 
-release: build test tag-latest push
+release: build-nocache test tag-latest push
