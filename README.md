@@ -1,5 +1,7 @@
 # kimai-docker
 
+[![Build Status](https://travis-ci.org/tobybatch/kimai2.svg?branch=master)](https://travis-ci.org/tobybatch/kimai2)
+
 Docker containers for the kimai2 web application
 
 ## Dev docker
