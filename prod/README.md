@@ -21,7 +21,7 @@ You can ovverride settings at run time, e.g.:
         -e MAILER_URL=smtp://user:pass@host:port/?timeout=60&encryption=ssl&auth_mode=login \
         kimai/kimai2:prod
 
-** Kimai default env vars, see [https://github.com/kevinpapst/kimai2](here).**
+**Kimai default env vars**, see [https://github.com/kevinpapst/kimai2](here).
  * DATABASE_PREFIX
    Default: ```kimai2_```
    The table prefix in the database.
@@ -29,7 +29,7 @@ You can ovverride settings at run time, e.g.:
    Default: ```kimai@example.com```
    The from address for mails from the system.
 
-** Symfony framework bundle, see [https://symfony.com/doc/current/reference/configuration/framework.html](here).**
+**Symfony framework bundle**, see [https://symfony.com/doc/current/reference/configuration/framework.html](here).
  * APP_ENV
    Default: ```prod```
  * APP_SECRET
@@ -39,11 +39,11 @@ You can ovverride settings at run time, e.g.:
  * TRUSTED_HOSTS
    Default: Not set by default
 
-** Doctrine bundle, see [https://symfony.com/doc/current/reference/configuration/doctrine.html](here).**
+**Doctrine bundle**, see [https://symfony.com/doc/current/reference/configuration/doctrine.html](here).**
  * DATABASE_URL
    Default: ```sqlite:///%kernel.project_dir%/var/data/kimai.sqlite```
 
-** Swiftmailer bundle, see [https://symfony.com/doc/current/reference/configuration/swiftmailer.html](here).**
+**Swiftmailer bundle**, see [https://symfony.com/doc/current/reference/configuration/swiftmailer.html](here).**
  * MAILER_URL
    Default: ```null://localhost```
 
