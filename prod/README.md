@@ -1,10 +1,10 @@
-# Kimai docker
+## Production docker
 
 See the kimai repository for more setails on all options. https://github.com/kevinpapst/kimai2
 
     docker run --rm -ti -p 8080:8080 --name kimai2 kimai/kimai2
 
-## Runtime args
+### Runtime args
 
 You can ovverride settings at run time, e.g.:
 
@@ -47,6 +47,6 @@ You can ovverride settings at run time, e.g.:
  * MAILER_URL
    Default: ```null://localhost```
 
-## Create a user
+### Create a user
 
     docker exec -ti kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
