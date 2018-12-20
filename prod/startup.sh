@@ -17,10 +17,10 @@ DATABASE_URL=${DATABASE_URL}
 MAILER_URL=${MAILER_URL}
 EOF
 if [ "${TRUSTED_PROXIES}" != 'false' ]; then
-    echo TRUSTED_PROXIES=${TRUSTED_PROXIES} >> /opt/kimai/,env
+    echo TRUSTED_PROXIES=${TRUSTED_PROXIES} >> /opt/kimai/.env
 fi
 if [ "${TRUSTED_HOSTS}" != 'false' ]; then
-    echo TRUSTED_PROXIES=${TRUSTED_HOSTS} >> /opt/kimai/,env
+    echo TRUSTED_PROXIES=${TRUSTED_HOSTS} >> /opt/kimai/.env
 fi
 
 # If the schema does not exist then create it (and run the migrations)
