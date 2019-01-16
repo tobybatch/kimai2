@@ -2,15 +2,16 @@ FROM kimai/kimai2:dev
 LABEL maintainer="tobias@neontribe.co.uk"
 
 USER root
+
 RUN apt update && apt install -y mysql-client && \
     apt install -y vim && \
     apt-get -y autoremove && apt-get clean && \
     touch .env && \
     chown -R www-data:www-data .env var && \
-    echo "Listen 8080" > /etc/apache2/ports.conf
-RUN a2enmod rewrite
+    echo "Listen 8080" > /etc/apache2/ports.conf && \
+    a2enmod rewrite
 
-ADD 000-default.conf /etc/apache2/sites-enabled/000-default.conf
+ADD 000-default.conf /etc/apache2/sites-available/000-default.conf
 ADD startup.sh /startup.sh
 
 USER www-data
