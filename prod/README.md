@@ -53,7 +53,7 @@ The old DATABASE_URL has been removed.  Now specify the sql db components sepera
    Database name, Default: %kernel.project_dir%/var/data/kimai.sqlite
  * SQL_USER
    DB Username, Default: - empty -
- * SQL_PASSWORD=kimaip
+ * SQL_PASSWORD
    DB Password, Default: - empty -
  * SQL_HOST
    DB Host, Default: - empty -
