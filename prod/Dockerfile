@@ -22,8 +22,15 @@ ENV APP_ENV=prod
 ENV APP_SECRET=change_this_to_something_unique
 ENV TRUSTED_PROXIES=false
 ENV TRUSTED_HOSTS=false
-ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
 ENV MAILER_URL=null://localhost
+
+# These are ignored unless the DATABASE_URL above is set to mysql
+ENV SQL_PROTOCOL=sqlite
+ENV SQL_DATABASE=%kernel.project_dir%/var/data/kimai.sqlite
+ENV SQL_USER=
+ENV SQL_PASSWORD=
+ENV SQL_HOST=
+
 
 EXPOSE 8080
 

@@ -1,9 +1,22 @@
 #!/bin/bash
 
+DATABASE_URL="${SQL_PROTOCOL}://"
+if [ ! -z "${SQL_USER}" ]; then
+    DATABASE_URL="${DATABASE_URL}${SQL_USER}"
+fi
+if [ ! -z "${SQL_PASSWORD}" ]; then
+    DATABASE_URL="${DATABASE_URL}:${SQL_PASSWORD}@"
+fi
+if [ ! -z "${SQL_HOST}" ]; then
+    DATABASE_URL="${DATABASE_URL}${SQL_HOST}"
+fi
+export DATABASE_URL="${DATABASE_URL}/${SQL_DATABASE}"
+echo "DATABASE_URL = ${DATABASE_URL}"
+
 # If we are mysql wait for it.
 if [[ "${DATABASE_URL}" == mysql* ]]; then
     echo Using Mysql DB
-    until mysql -u kimai -pkimai -h db kimai -e "show tables"; do
+    until mysql -u ${SQL_USER} -p${SQL_PASSWORD} -h ${SQL_HOST} ${SQL_DATABASE} -e "show tables"; do
         >&2 echo "Mysql is unavailable - sleeping"
         sleep 5
     done
@@ -11,15 +24,23 @@ else
     echo Using non mysql DB
 fi
 
-cat <<EOF > /opt/kimai/.env
+# Set .env for CLI
+echo "# Check /etc/apache2/sites-available/000-default.conf for env setting" > /opt/kimai/.env
+cat <<EOF >> /opt/kimai/.env
 DATABASE_PREFIX=${DATABASE_PREFIX}
 MAILER_FROM=${MAILER_FROM}
-APP_ENV=${APP_ENV}
 APP_SECRET=${APP_SECRET}
 DATABASE_URL=${DATABASE_URL}
 MAILER_URL=${MAILER_URL}
 EOF
-echo "# Check /etc/apache2/sites-available/000-default.conf for env vars" > /opt/kimai/.env
+
+# Set 000-default.conf for prod
+sed -i "s/{DATABASE_PREFIX}/${DATABASE_PREFIX}" /etc/apache2/sites-available/000-default.conf
+sed -i "s/{MAILER_FROM}/${MAILER_FROM}" /etc/apache2/sites-available/000-default.conf
+sed -i "s/{APP_SECRET}/${APP_SECRET}" /etc/apache2/sites-available/000-default.conf
+sed -i "s/{DATABASE_URL}/${DATABASE_URL}" /etc/apache2/sites-available/000-default.conf
+sed -i "s/{MAILER_URL}/${MAILER_URL}" /etc/apache2/sites-available/000-default.conf
+
 if [ "${TRUSTED_PROXIES}" != 'false' ]; then
     echo TRUSTED_PROXIES=${TRUSTED_PROXIES} >> /opt/kimai/.env
 fi

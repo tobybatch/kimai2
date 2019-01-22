@@ -17,7 +17,11 @@ You can ovverride settings at run time, e.g.:
         -e APP_SECRET=shhh_no_one_will_guess_this \
         -e TRUSTED_PROXIES=192.0.0.1 \
         -e TRUSTED_HOSTS=localhost \
-        -e DATABASE_URL=mysql://user:pass@host/database \
+        -e SQL_PROTOCOL=mysql
+        -e SQL_DATABASE=database
+        -e SQL_USER=user
+        -e SQL_PASSWORD=pass
+        -e SQL_HOST=host
         -e MAILER_URL=smtp://user:pass@host:port/?timeout=60&encryption=ssl&auth_mode=login \
         kimai/kimai2:prod
 
@@ -40,12 +44,29 @@ You can ovverride settings at run time, e.g.:
    Default: Not set by default
 
 **Doctrine bundle**, see [https://symfony.com/doc/current/reference/configuration/doctrine.html](here).**
- * DATABASE_URL
+
+The old DATABASE_URL has been removed.  Now specify the sql db components seperatley.
+
+ * SQL_PROTOCOL
+   Either mysql or sqlite, Default: sqlite
+ * SQL_DATABASE
+   Database name, Default: %kernel.project_dir%/var/data/kimai.sqlite
+ * SQL_USER
+   DB Username, Default: - empty -
+ * SQL_PASSWORD=kimaip
+   DB Password, Default: - empty -
+ * SQL_HOST
+   DB Host, Default: - empty -
+
    Default: ```sqlite:///%kernel.project_dir%/var/data/kimai.sqlite```
 
 **Swiftmailer bundle**, see [https://symfony.com/doc/current/reference/configuration/swiftmailer.html](here).**
  * MAILER_URL
    Default: ```null://localhost```
+
+**DB Details**
+
+These details sre used 
 
 ### Create a user
 

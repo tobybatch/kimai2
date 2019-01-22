@@ -1,12 +1,12 @@
 version: '3'
 services:
 
-  db:
+  mydb:
     image: mysql:5.6
     environment:
       - MYSQL_DATABASE=kimai
-      - MYSQL_USER=kimai
-      - MYSQL_PASSWORD=kimai
+      - MYSQL_USER=kimaiu
+      - MYSQL_PASSWORD=kimaip
       - MYSQL_ROOT_PASSWORD=changeme
     volumes:
         - ./mysql:/var/lib/mysql
@@ -17,9 +17,14 @@ services:
     image: kimai/kimai2:prod
     environment:
         - APP_ENV=prod
-        - DATABASE_URL=mysql://kimai:kimai@db/kimai
+        # These are added to override the the DB URL from env when checking the DB status during start up.
+        - SQL_PROTOCOL=mysql
+        - SQL_DATABASE=kimai
+        - SQL_USER=kimaiu
+        - SQL_PASSWORD=kimaip
+        - SQL_HOST=mydb
     depends_on:
-        - db
+        - mydb
     ports:
         - 8080:8080
     restart: always
