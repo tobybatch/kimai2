@@ -44,6 +44,6 @@ RUN apt update && \
 
 WORKDIR /opt/kimai
 
-EXPOSE 8001
+EXPOSE 8080
 USER www-data
-CMD /opt/kimai/bin/console server:run 0.0.0.0:8001
+CMD /opt/kimai/bin/console server:run 0.0.0.0:8080
