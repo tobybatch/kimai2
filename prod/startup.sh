@@ -35,11 +35,11 @@ MAILER_URL=${MAILER_URL}
 EOF
 
 # Set 000-default.conf for prod
-sed -i "s/{DATABASE_PREFIX}/${DATABASE_PREFIX}" /etc/apache2/sites-available/000-default.conf
-sed -i "s/{MAILER_FROM}/${MAILER_FROM}" /etc/apache2/sites-available/000-default.conf
-sed -i "s/{APP_SECRET}/${APP_SECRET}" /etc/apache2/sites-available/000-default.conf
-sed -i "s/{DATABASE_URL}/${DATABASE_URL}" /etc/apache2/sites-available/000-default.conf
-sed -i "s/{MAILER_URL}/${MAILER_URL}" /etc/apache2/sites-available/000-default.conf
+sed -i "s/{DATABASE_PREFIX}/${DATABASE_PREFIX}/g" /etc/apache2/sites-available/000-default.conf
+sed -i "s/{MAILER_FROM}/${MAILER_FROM}/g" /etc/apache2/sites-available/000-default.conf
+sed -i "s/{APP_SECRET}/${APP_SECRET}/g" /etc/apache2/sites-available/000-default.conf
+sed -i "s {DATABASE_URL} ${DATABASE_URL} " /etc/apache2/sites-available/000-default.conf
+sed -i "s {MAILER_URL} ${MAILER_URL} " /etc/apache2/sites-available/000-default.conf
 
 if [ "${TRUSTED_PROXIES}" != 'false' ]; then
     echo TRUSTED_PROXIES=${TRUSTED_PROXIES} >> /opt/kimai/.env
