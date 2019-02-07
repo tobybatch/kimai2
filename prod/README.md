@@ -2,14 +2,14 @@
 
 See the kimai repository for more setails on all options. https://github.com/kevinpapst/kimai2
 
-    docker run --rm -ti -p 8080:8080 --name kimai2 kimai/kimai2
+    docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2
 
 ### Runtime args
 
 You can ovverride settings at run time, e.g.:
 
     docker run --rm -ti \
-        -p 8080:8080 \
+        -p 8001:8001 \
         --name kimai2 \
         -e DATABASE_PREFIX=foo_ \
         -e MAILER_FROM=me@example.com \

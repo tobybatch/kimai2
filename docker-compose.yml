@@ -26,5 +26,5 @@ services:
     depends_on:
         - mydb
     ports:
-        - 8080:8080
+        - 8001:8001
     restart: always
