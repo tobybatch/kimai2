@@ -33,7 +33,7 @@ You can ovverride settings at run time, e.g.:
    Default: ```kimai@example.com```
    The from address for mails from the system.
 
-**Symfony framework bundle**, see [https://symfony.com/doc/current/reference/configuration/framework.html](here).
+**Symfony framework bundle**, see [https://symfony.com/doc/current/reference/configuration/framework.html].
  * APP_ENV
    Default: ```prod```
  * APP_SECRET
@@ -43,7 +43,7 @@ You can ovverride settings at run time, e.g.:
  * TRUSTED_HOSTS
    Default: Not set by default
 
-**Doctrine bundle**, see [https://symfony.com/doc/current/reference/configuration/doctrine.html](here).**
+**Doctrine bundle**, see [https://symfony.com/doc/current/reference/configuration/doctrine.html].
 
 The old DATABASE_URL has been removed.  Now specify the sql db components seperatley.
 
@@ -60,7 +60,7 @@ The old DATABASE_URL has been removed.  Now specify the sql db components sepera
 
    Default: ```sqlite:///%kernel.project_dir%/var/data/kimai.sqlite```
 
-**Swiftmailer bundle**, see [https://symfony.com/doc/current/reference/configuration/swiftmailer.html](here).**
+**Swiftmailer bundle**, see [https://symfony.com/doc/current/reference/configuration/swiftmailer.html]
  * MAILER_URL
    Default: ```null://localhost```
 
