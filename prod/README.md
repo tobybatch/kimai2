@@ -25,7 +25,7 @@ You can ovverride settings at run time, e.g.:
         -e MAILER_URL=smtp://user:pass@host:port/?timeout=60&encryption=ssl&auth_mode=login \
         kimai/kimai2:prod
 
-**Kimai default env vars**, see (here)[https://github.com/kevinpapst/kimai2].
+**Kimai default env vars**, see [https://github.com/kevinpapst/kimai2].
  * DATABASE_PREFIX
    Default: ```kimai2_```
    The table prefix in the database.
