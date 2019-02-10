@@ -17,11 +17,11 @@ You can ovverride settings at run time, e.g.:
         -e APP_SECRET=shhh_no_one_will_guess_this \
         -e TRUSTED_PROXIES=192.0.0.1 \
         -e TRUSTED_HOSTS=localhost \
-        -e SQL_PROTOCOL=mysql
-        -e SQL_DATABASE=database
-        -e SQL_USER=user
-        -e SQL_PASSWORD=pass
-        -e SQL_HOST=host
+        -e SQL_PROTOCOL=mysql \
+        -e SQL_DATABASE=database \
+        -e SQL_USER=user \
+        -e SQL_PASSWORD=pass \
+        -e SQL_HOST=host \
         -e MAILER_URL=smtp://user:pass@host:port/?timeout=60&encryption=ssl&auth_mode=login \
         kimai/kimai2:prod
 
