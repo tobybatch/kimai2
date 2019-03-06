@@ -67,13 +67,13 @@ for initfile in /var/tmp/init-sql/*; do
     elif [ ${initfile: -4} == ".dql" ]; then
         while IFS='' read -r line || [[ -n "$line" ]]; do
             echo $line
-            /var/www/html/bin/console doctrine:query:dql "$line"
+            /opt/kimai/bin/console doctrine:query:dql "$line"
         done < $initfile
 
     elif [ ${initfile: -4} == ".sql" ]; then
         while IFS='' read -r line || [[ -n "$line" ]]; do
             echo $line
-            /var/www/html/bin/console doctrine:query:sql "$line"
+            /opt/kimai/bin/console doctrine:query:sql "$line"
         done < $initfile
     fi
 done
