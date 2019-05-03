@@ -18,11 +18,7 @@ services:
     environment:
         - APP_ENV=prod
         # These are added to override the the DB URL from env when checking the DB status during start up.
-        - SQL_PROTOCOL=mysql
-        - SQL_DATABASE=kimai
-        - SQL_USER=kimaiu
-        - SQL_PASSWORD=kimaip
-        - SQL_HOST=mydb
+        - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
     depends_on:
         - mydb
     ports:

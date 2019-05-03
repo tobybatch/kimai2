@@ -2,7 +2,9 @@
 
 See the kimai repository for more setails on all options. https://github.com/kevinpapst/kimai2
 
-    docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2
+    docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:prod
+    docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
+
 
 ### Runtime args
 
@@ -17,11 +19,7 @@ You can ovverride settings at run time, e.g.:
         -e APP_SECRET=shhh_no_one_will_guess_this \
         -e TRUSTED_PROXIES=192.0.0.1 \
         -e TRUSTED_HOSTS=localhost \
-        -e SQL_PROTOCOL=mysql
-        -e SQL_DATABASE=database
-        -e SQL_USER=user
-        -e SQL_PASSWORD=pass
-        -e SQL_HOST=host
+        -e DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai \ # | DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
         -e MAILER_URL=smtp://user:pass@host:port/?timeout=60&encryption=ssl&auth_mode=login \
         kimai/kimai2:prod
 

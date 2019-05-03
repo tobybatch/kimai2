@@ -13,6 +13,7 @@ RUN apt update && apt install -y mysql-client vim sudo && \
     a2enmod rewrite
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ADD startup.sh /startup.sh
+ADD url_parse.php /url_parse.php
 
 USER www-data
 

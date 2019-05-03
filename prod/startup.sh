@@ -1,22 +1,27 @@
 #!/bin/bash
 
-DATABASE_URL="${SQL_PROTOCOL}://"
-if [ ! -z "${SQL_USER}" ]; then
-    DATABASE_URL="${DATABASE_URL}${SQL_USER}"
-fi
-if [ ! -z "${SQL_PASSWORD}" ]; then
-    DATABASE_URL="${DATABASE_URL}:${SQL_PASSWORD}@"
-fi
-if [ ! -z "${SQL_HOST}" ]; then
-    DATABASE_URL="${DATABASE_URL}${SQL_HOST}"
-fi
-export DATABASE_URL="${DATABASE_URL}/${SQL_DATABASE}"
 echo "DATABASE_URL = ${DATABASE_URL}"
 
 # If we are mysql wait for it.
 if [[ "${DATABASE_URL}" == mysql* ]]; then
     echo Using Mysql DB
+    SQL_PROTOCOL=$(/url_parse.php $DATABASE_URL scheme)
+    SQL_USER=$(/url_parse.php $DATABASE_URL user)
+    SQL_PASSWORD=$(/url_parse.php $DATABASE_URL pass)
+    SQL_HOST=$(/url_parse.php $DATABASE_URL host)
+    SQL_PORT=$(/url_parse.php $DATABASE_URL port)
+    SQL_DATABASE=$(/url_parse.php $DATABASE_URL path)
+
+    echo "url: $SQL_URL"
+    echo "  proto: $SQL_PROTOCOL"
+    echo "  user:  $SQL_USER"
+    echo "  pass:  $SQL_PASSWORD"
+    echo "  host:  $SQL_HOST"
+    echo "  port:  $SQL_PORT"
+    echo "  db:    $SQL_DATABASE"
+
     until mysql -u ${SQL_USER} -p${SQL_PASSWORD} -h ${SQL_HOST} ${SQL_DATABASE} -e "show tables"; do
+        echo "mysql -u ${SQL_USER} -p${SQL_PASSWORD} -h ${SQL_HOST} ${SQL_DATABASE}"
         >&2 echo "Mysql is unavailable - sleeping"
         sleep 5
     done
