@@ -51,20 +51,10 @@ Create admin user:
 
 **Doctrine bundle**, see [https://symfony.com/doc/current/reference/configuration/doctrine.html].
 
-The old DATABASE_URL has been removed.  Now specify the sql db components seperatley.
+The old DATABASE_URL is back!
 
- * SQL_PROTOCOL
-   Either mysql or sqlite, Default: sqlite
- * SQL_DATABASE
-   Database name, Default: %kernel.project_dir%/var/data/kimai.sqlite
- * SQL_USER
-   DB Username, Default: - empty -
- * SQL_PASSWORD
-   DB Password, Default: - empty -
- * SQL_HOST
-   DB Host, Default: - empty -
-
-   Default: ```sqlite:///%kernel.project_dir%/var/data/kimai.sqlite```
+Default: ```sqlite:///%kernel.project_dir%/var/data/kimai.sqlite```
+or: ```mysql://kimaiu:kimaip@mydb/kimai```
 
 **Swiftmailer bundle**, see [https://symfony.com/doc/current/reference/configuration/swiftmailer.html]
  * MAILER_URL
