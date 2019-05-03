@@ -23,6 +23,10 @@ You can ovverride settings at run time, e.g.:
         -e MAILER_URL=smtp://user:pass@host:port/?timeout=60&encryption=ssl&auth_mode=login \
         kimai/kimai2:prod
 
+Create admin user:
+
+    docker-compose exec kimai bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
+
 **Kimai default env vars**, see [https://github.com/kevinpapst/kimai2].
  * DATABASE_PREFIX
    Default: ```kimai2_```
