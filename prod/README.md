@@ -32,9 +32,6 @@ Create admin user:
     docker-compose exec kimai bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
 
 **Kimai default env vars**, see [https://github.com/kevinpapst/kimai2].
- * DATABASE_PREFIX
-   Default: ```kimai2_```
-   The table prefix in the database.
  * MAILER_FROM
    Default: ```kimai@example.com```
    The from address for mails from the system.
@@ -54,15 +51,12 @@ Create admin user:
 The old DATABASE_URL is back!
 
 Default: ```sqlite:///%kernel.project_dir%/var/data/kimai.sqlite```
-or: ```mysql://kimaiu:kimaip@mydb/kimai```
+
+or it can be customised: ```mysql://kimaiu:kimaip@mydb/kimai```
 
 **Swiftmailer bundle**, see [https://symfony.com/doc/current/reference/configuration/swiftmailer.html]
  * MAILER_URL
    Default: ```null://localhost```
-
-**DB Details**
-
-These details sre used 
 
 ### Create a user
 
