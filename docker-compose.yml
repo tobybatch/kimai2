@@ -9,7 +9,7 @@ services:
       - MYSQL_PASSWORD=kimaip
       - MYSQL_ROOT_PASSWORD=changeme
     volumes:
-        - ./mysql:/var/lib/mysql
+        - mysql:/var/lib/mysql
     command: --default-storage-engine innodb
     restart: always
 
@@ -24,3 +24,6 @@ services:
     ports:
         - 8001:8001
     restart: always
+
+volumes:
+  mysql:

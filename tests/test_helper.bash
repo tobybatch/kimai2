@@ -32,19 +32,32 @@ run_image() {
     docker run --rm -p 0:8001 $@
 }
 
+unit_tests() {
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/API && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Calendar && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Command && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Configuration && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Controller && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/DataFixtures && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Doctrine && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Entity && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Event && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/EventSubscriber && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Export && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Invoice && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Model && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Repository && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Security && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Timesheet && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Twig && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Utils && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Validator && \
+  docker exec -t $1 /opt/kimai/vendor/bin/phpunit /opt/kimai/tests/Voter
+}
+
 execute_cmd() {
     log "Execute command: '$@'"
     docker exec -ti $CONTAINER_NAME $@
-}
-
-fetch_source_repo() {
-    log git clone $REPO_SOURCE $1
-    rm -rf $1
-    git clone $REPO_SOURCE $1
-}
-
-run_composeup() {
-    docker-compose -f $BATS_TEST_DIRNAME/../docker-compose.yml -p $1 up -d 2>&1 > /dev/null
 }
 
 log() {

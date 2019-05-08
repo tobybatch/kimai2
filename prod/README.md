@@ -1,10 +1,34 @@
 ## Production docker
 
-See the kimai repository for more setails on all options. https://github.com/kevinpapst/kimai2
+### Building
 
-    docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:prod
-    docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
+```bash
+ docker build -t kimai/kimai2:prod --rm .
+```
+    
+### Starting the docker (sqlite)
 
+```bash
+docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:prod
+docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
+```
+    
+### Starting the docker (mysql)
+
+The prod image will require an external mysql db to store the kimai data.  Pass one via the DATABASE_URL runtime argument. e.g.
+
+```bash
+docker run -d -p 3386:3306 --name kimai_db \
+    -e MYSQL_USER=kimai_user \
+    -e MYSQL_PASSWORD=kimai_pass \
+    -e MYSQL_DATABASE=kimai_db \
+    -e MYSQL_ROOT_PASSWORD=kimai_dbroot \
+    -v kimai_mysql:/var/lib/mysql \
+    mysql
+docker run -ti -p 8001:8001 --name kimai2 \
+    -e DATABASE_URL=mysql://kimai_user:kimai_pass@localhost:3386:3306/kimai_db \
+    kimai/kimai2:prod
+```
 
 ### Runtime args
 
@@ -17,7 +41,6 @@ You can ovverride settings at run time, e.g.:
     docker run --rm -ti \
         -p 8001:8001 \
         --name kimai2 \
-        -e DATABASE_PREFIX=foo_ \
         -e MAILER_FROM=me@example.com \
         -e APP_ENV=dev \
         -e APP_SECRET=shhh_no_one_will_guess_this \
@@ -27,16 +50,22 @@ You can ovverride settings at run time, e.g.:
         -e MAILER_URL=smtp://user:pass@host:port/?timeout=60&encryption=ssl&auth_mode=login \
         kimai/kimai2:prod
 
-Create admin user:
+#### Create admin user:
 
     docker-compose exec kimai bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
 
-**Kimai default env vars**, see [https://github.com/kevinpapst/kimai2].
+#### Kimai default env vars:
+
+see [https://github.com/kevinpapst/kimai2].
+
  * MAILER_FROM
    Default: ```kimai@example.com```
    The from address for mails from the system.
 
-**Symfony framework bundle**, see [https://symfony.com/doc/current/reference/configuration/framework.html].
+#### Symfony framework bundle
+
+see [https://symfony.com/doc/current/reference/configuration/framework.html].
+
  * APP_ENV
    Default: ```prod```
  * APP_SECRET
@@ -46,7 +75,9 @@ Create admin user:
  * TRUSTED_HOSTS
    Default: Not set by default
 
-**Doctrine bundle**, see [https://symfony.com/doc/current/reference/configuration/doctrine.html].
+#### Doctrine bundle
+
+see [https://symfony.com/doc/current/reference/configuration/doctrine.html].
 
 The old DATABASE_URL is back!
 
@@ -54,7 +85,10 @@ Default: ```sqlite:///%kernel.project_dir%/var/data/kimai.sqlite```
 
 or it can be customised: ```mysql://kimaiu:kimaip@mydb/kimai```
 
-**Swiftmailer bundle**, see [https://symfony.com/doc/current/reference/configuration/swiftmailer.html]
+#### Swiftmailer bundle
+
+see [https://symfony.com/doc/current/reference/configuration/swiftmailer.html]
+
  * MAILER_URL
    Default: ```null://localhost```
 
