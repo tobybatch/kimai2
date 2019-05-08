@@ -20,8 +20,13 @@ if [[ "${DATABASE_URL}" == mysql* ]]; then
     echo "  port:  $SQL_PORT"
     echo "  db:    $SQL_DATABASE"
 
-    until mysql -u ${SQL_USER} -p${SQL_PASSWORD} -h ${SQL_HOST} ${SQL_DATABASE} -e "show tables"; do
-        echo "mysql -u ${SQL_USER} -p${SQL_PASSWORD} -h ${SQL_HOST} ${SQL_DATABASE}"
+    if [ ! -z "${SQL_PORT}" ]; then
+      PORT="-P ${SQL_PORT}"
+      echo "  port:  $PORT"
+    fi
+
+    until mysql -u ${SQL_USER} -p${SQL_PASSWORD} -h ${SQL_HOST} ${PORT} ${SQL_DATABASE} -e "show tables"; do
+        echo "mysql -u ${SQL_USER} -p${SQL_PASSWORD} -h ${SQL_HOST} ${PORT} ${SQL_DATABASE}"
         >&2 echo "Mysql is unavailable - sleeping"
         sleep 5
     done
