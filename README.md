@@ -50,6 +50,38 @@ docker run -ti -p 8001:8001 --name kimai2 \
 
 ### Docker compose
 
+```yaml
+version: '3'
+services:
+
+  mydb:
+    image: mysql:5.6
+    environment:
+      - MYSQL_DATABASE=kimai
+      - MYSQL_USER=kimaiu
+      - MYSQL_PASSWORD=kimaip
+      - MYSQL_ROOT_PASSWORD=changeme
+    volumes:
+        - mysql:/var/lib/mysql
+    command: --default-storage-engine innodb
+    restart: always
+
+  kimai:
+    image: kimai/kimai2:0.9
+    environment:
+        - APP_ENV=prod
+        # These are added to override the the DB URL from env when checking the DB status during start up.
+        - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
+    depends_on:
+        - mydb
+    ports:
+        - 8001:8001
+    restart: always
+
+volumes:
+  mysql
+```
+
 ### Runtime args
 
 **Database Passwords**
