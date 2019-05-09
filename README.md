@@ -8,6 +8,21 @@ Docker hub hosts a nuber f tagged releases, starting ith 0.8.  These are all bui
 
 In addition there a dev image that is built for development / quick test purposes. 
 
+## Development docker
+
+### Building
+
+```bash
+ docker build -t kimai/kimai2:dev --rm .
+```
+
+### Starting the docker (sqlite)
+
+```bash
+docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:dev
+docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
+```
+
 ## Production docker
 
 ### Building
