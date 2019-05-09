@@ -21,5 +21,9 @@ for x in $(ls tags); do
   docker push kimai/kimai2:$x 2>&1 >> build.log
 done
 
-buildimage -t kimai/kimai2 .
+docker tag kimai/kimai2:${TAG} kimai/kimai2:latest
+docker push kimai/kimai2:latest 2>&1 >> build.log
+
+buildimage kimai/kimai2:dev .
 docker push kimai/kimai2 2>&1 >> build.log
+
