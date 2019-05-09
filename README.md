@@ -34,7 +34,7 @@ docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SU
 ### Starting the docker (sqlite)
 
 ```bash
-docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:prod
+docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:0.9
 docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
 ```
 
@@ -45,7 +45,7 @@ The prod image will require an external mysql db to store the kimai data.  Pass 
 ```bash
 docker run -ti -p 8001:8001 --name kimai2 \
     -e DATABASE_URL=mysql://kimai_user:kimai_pass@somehost/kimai_db \
-    kimai/kimai2:prod
+    kimai/kimai2:0.9
 ```
 
 ### Docker compose
@@ -68,7 +68,7 @@ You can ovverride settings at run time, e.g.:
         -e TRUSTED_HOSTS=localhost \
         -e DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai \ # | DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
         -e MAILER_URL=smtp://user:pass@host:port/?timeout=60&encryption=ssl&auth_mode=login \
-        kimai/kimai2:prod
+        kimai/kimai2:0.9
 
 #### Create admin user:
 
