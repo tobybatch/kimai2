@@ -1,8 +1,9 @@
 FROM php:7.2.9-apache-stretch
 
 RUN apt update && \
-    apt install -y \
+    apt install -y --allow-unauthenticated \
         git \
+        haveged \
         libicu-dev \
         libjpeg-dev \
         libldap2-dev \
