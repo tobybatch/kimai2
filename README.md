@@ -92,7 +92,7 @@ volumes:
 
 Database configurations are set using a url schema.  If you use a password that contains character like /, \ or @ Kimai will not work as it can't parse the URL.  I will add protection for this but not in the near future.  I am very happy to accept a patch that will do that for me.
 
-You can ovverride settings at run time, e.g.:
+You can override settings at run time, e.g.:
 
     docker run --rm -ti \
         -p 8001:8001 \
