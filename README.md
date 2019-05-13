@@ -4,7 +4,7 @@
 
 ## Dockerhub
 
-Docker hub hosts a nuber f tagged releases, starting ith 0.8.  These are all build against a production docker file that will function best with an external MYSQL DB.
+Docker hub hosts a number of tagged releases, starting ith 0.8.  These are all build against a production docker file that will function best with an external MYSQL DB.
 
 In addition there a dev image that is built for development / quick test purposes. 
 
