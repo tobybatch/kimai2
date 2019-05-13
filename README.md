@@ -27,9 +27,13 @@ docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SU
 
 ### Building
 
+Each of the folders in the tag folder hold a build for a different tag.  You can build any tag by passing it to the docker build command. e.g.
+
 ```bash
- docker build -t kimai/kimai2:prod --rm .
+ docker build -t kimai/kimai2:prod --build-arg "TAG=0.9" --rm tags/0.9
 ```
+
+Use the latest tag for the most stable conatiner, the passed TAG arg will override the version of kimai built.
 
 ### Starting the docker (sqlite)
 
