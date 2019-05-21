@@ -65,8 +65,10 @@ if [ -z "$TABLE_COUNT" ]; then
     # We can't find the users table.  We'll usae this to guess we don't have a schema installed.
     # Is there a better way of doing this?
     /opt/kimai/bin/console -n doctrine:schema:create
-    /opt/kimai/bin/console -n doctrine:migrations:version --add --all
 fi
+
+# Migrations are idempotent
+/opt/kimai/bin/console -n doctrine:migrations:version --add --all
 
 # If we have a start up/seed sql file run that.
 for initfile in /var/tmp/init-sql/*; do
