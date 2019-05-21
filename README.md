@@ -4,7 +4,7 @@
 
 ## Dockerhub
 
-Docker hub hosts a nuber f tagged releases, starting ith 0.8.  These are all build against a production docker file that will function best with an external MYSQL DB.
+Docker hub hosts a number of tagged releases, starting with 0.8.  These are all build against a production docker file that will function best with an external MYSQL DB.
 
 In addition there a dev image that is built for development / quick test purposes. 
 
@@ -27,9 +27,13 @@ docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SU
 
 ### Building
 
+Each of the folders in the tag folder hold a build for a different tag.  You can build any tag by passing it to the docker build command. e.g.
+
 ```bash
- docker build -t kimai/kimai2:prod --rm .
+ docker build -t kimai/kimai2:prod --build-arg "TAG=0.9" --rm tags/0.9
 ```
+
+Use the latest tag for the most stable conatiner, the passed TAG arg will override the version of kimai built.
 
 ### Starting the docker (sqlite)
 
@@ -88,7 +92,7 @@ volumes:
 
 Database configurations are set using a url schema.  If you use a password that contains character like /, \ or @ Kimai will not work as it can't parse the URL.  I will add protection for this but not in the near future.  I am very happy to accept a patch that will do that for me.
 
-You can ovverride settings at run time, e.g.:
+You can override settings at run time, e.g.:
 
     docker run --rm -ti \
         -p 8001:8001 \
