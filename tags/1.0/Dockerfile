@@ -14,7 +14,8 @@ RUN git clone --branch ${TAG} https://github.com/kevinpapst/kimai2.git /opt/kima
     echo "Listen 8001" > /etc/apache2/ports.conf && \
     a2enmod rewrite && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
-    chown -R www-data:www-data /opt/kimai /etc/apache2/sites-available /etc/localtime /etc/timezone
+    chown -R www-data:www-data /opt/kimai /etc/apache2/sites-available /etc/localtime /etc/timezone && \
+    composer require --working-dir=/opt/kimai zendframework/zend-ldap
 
 WORKDIR /opt/kimai
 ADD startup.sh /startup.sh
