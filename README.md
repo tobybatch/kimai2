@@ -102,6 +102,12 @@ And then you can override the kimai things you need to in the local.yml
 
 ```yaml
 kimai:
+    defaults:
+        customer:
+            timezone: Europe/London
+            country: GB
+            currency: GBP
+
     timesheet:
         mode: duration_only
 
