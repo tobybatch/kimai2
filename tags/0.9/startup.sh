@@ -68,7 +68,9 @@ if [ -z "$TABLE_COUNT" ]; then
 fi
 
 # Migrations are idempotent
-/opt/kimai/bin/console -n doctrine:migrations:version --add --all
+echo Running DB Migrations...
+/opt/kimai/bin/console -n -vv doctrine:migrations:migrate --allow-no-migration
+echo Migrations done
 
 # If we have a start up/seed sql file run that.
 for initfile in /var/tmp/init-sql/*; do

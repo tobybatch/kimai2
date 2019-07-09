@@ -86,6 +86,56 @@ volumes:
   mysql
 ```
 
+To customise the image you can mout a local.yml into it:
+
+```yaml
+version: '3'
+services:
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=kimai
+      - MYSQL_USER=kimai
+      - MYSQL_PASSWORD=kimai
+      - MYSQL_ROOT_PASSWORD=changeme
+    volumes:
+        - mysql:/var/lib/mysql
+    command: --default-storage-engine innodb --secure-file-priv=/var/tmp/
+    restart: always
+
+  kimai:
+    image: kimai/kimai2:1.0
+    environment:
+        APP_ENV: prod
+        APP_SECRET: IBt9MSlk7Onbtn3JYJQ3cJmKZTcJIOOfNSeNpRZB9083DZ2Z
+        DATABASE_URL: mysql://kimai:kimai@mysql/kimai
+        MAILER_FROM: kimai@neontribe.co.uk
+        MAILER_URL: "smtp://kimai:kimai@postfix:25/?timeout=60"
+    volumes:
+        - ./local.yaml:/opt/kimai/config/packages/local.yaml
+    depends_on:
+        - mysql
+    ports:
+        - 9010:8001
+    restart: always
+
+  postfix:
+    image: catatnight/postfix
+    environment:
+      maildomain: neontribe.co.uk
+      smtp_user: kimai:kimai
+    restart: unless-stopped
+    restart: always
+
+volumes:
+  mysql:
+```
+
+And here is a sample yaml file to override a set of values:
+
+local.yaml
+
 ### Runtime args
 
 **Database Passwords**

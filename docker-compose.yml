@@ -14,7 +14,7 @@ services:
     restart: always
 
   kimai:
-    image: kimai/kimai2:prod
+    image: kimai/kimai2:1.0.1
     environment:
         - APP_ENV=prod
         # These are added to override the the DB URL from env when checking the DB status during start up.

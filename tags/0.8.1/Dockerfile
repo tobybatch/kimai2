@@ -22,7 +22,9 @@ RUN chown -R www-data:www-data /opt/kimai/var && \
       /etc/timezone && \
     echo "Listen 8001" > /etc/apache2/ports.conf && \
     a2enmod rewrite && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
+    apt autoremove && apt autoclean && rm -rf /var/lib/apt/lists/*
+
 
 ADD startup.sh /startup.sh
 ADD url_parse.php /url_parse.php
