@@ -58,32 +58,119 @@ docker run -ti -p 8001:8001 --name kimai2 \
 version: '3'
 services:
 
-  mydb:
-    image: mysql:5.6
+  mysql:
+    image: mysql:5.7
     environment:
       - MYSQL_DATABASE=kimai
-      - MYSQL_USER=kimaiu
-      - MYSQL_PASSWORD=kimaip
+      - MYSQL_USER=kimai
+      - MYSQL_PASSWORD=kimai
       - MYSQL_ROOT_PASSWORD=changeme
     volumes:
         - mysql:/var/lib/mysql
-    command: --default-storage-engine innodb
+    command: --default-storage-engine innodb --secure-file-priv=/var/tmp/
     restart: always
 
   kimai:
-    image: kimai/kimai2:0.9
+    image: kimai/kimai2:1.0
     environment:
-        - APP_ENV=prod
-        # These are added to override the the DB URL from env when checking the DB status during start up.
-        - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
+        APP_ENV: prod
+        APP_SECRET: some-thing-really-secret
+        DATABASE_URL: mysql://kimai:kimai@mysql/kimai
+        MAILER_FROM: kimai@neontribe.co.uk
+        MAILER_URL: "smtp://kimai:kimai@postfix:25/?timeout=60"
+    volumes:
+        - ./local.yaml:/opt/kimai/config/packages/local.yaml
     depends_on:
-        - mydb
+        - mysql
     ports:
-        - 8001:8001
+        - 9010:8001
+    restart: always
+
+  postfix:
+    image: catatnight/postfix
+    environment:
+      maildomain: neontribe.co.uk
+      smtp_user: kimai:kimai
+    restart: unless-stopped
     restart: always
 
 volumes:
-  mysql
+  mysql:
+```
+
+And then you can override the kimai things you need to in the local.yml
+
+```yaml
+kimai:
+    defaults:
+        customer:
+            timezone: Europe/London
+            country: GB
+            currency: GBP
+
+    timesheet:
+        mode: duration_only
+
+    ldap:
+        # more infos about the connection params can be found at:
+        # https://docs.zendframework.com/zend-ldap/api/
+        # https://www.kimai.org/documentation/ldap.html
+        connection:
+            host: 10.0.21.5
+            #port: 389
+            #useSsl: false
+            #useStartTls: false
+            username: cn=admin,dc=neontribe,dc=net
+            password: 55hTh151sr3ally53cr3t
+            #accountFilterFormat: (&(objectClass=inetOrgPerson)(uid=%s))
+            #bindRequiresDn: true
+            optReferrals: false
+            #allowEmptyPassword: false
+            #tryUsernameSplit:
+            #networkTimeout:
+            #accountCanonicalForm: 3
+            #accountDomainName: HOST
+            #accountDomainNameShort: HOST
+
+        user:
+            baseDn: ou=users,dc=neontribe,dc=net
+            usernameAttribute: uid
+            # filter: (&(objectClass=inetOrgPerson))
+            #attributesFilter: (objectClass=Person)
+            attributes:
+                - { ldap_attr: "uid", user_method: setUsername }
+                - { ldap_attr: "mail", user_method: setEmail }
+                - { ldap_attr: cn, user_method: setAlias }
+        role:
+            baseDn: ou=groups,dc=neontribe,dc=net
+            filter: (&(objectClass=posixGroup))
+            usernameAttribute: memberUid
+            nameAttribute: cn
+            userDnAttribute: dn
+            groups:
+                - { ldap_value: kimai-teamleader, role: ROLE_TEAMLEAD }
+                - { ldap_value: kimai-admin, role: ROLE_ADMIN }
+                - { ldap_value: kimai_superadmin, role: ROLE_SUPERADMIN }
+
+    # Remove local passwords
+    user:
+        registration: false
+        password_reset: false
+    permissions:
+        roles:
+            ROLE_USER: ['!password_own_profile']
+            ROLE_TEAMLEAD: ['!password_own_profile']
+            ROLE_ADMIN: ['!password_own_profile']
+
+security:
+    providers:
+        chain_provider:
+            chain:
+                providers: [kimai_ldap]
+    firewalls:
+        secured_area:
+            kimai_ldap: ~
+
 ```
 
 To customise the image you can mout a local.yml into it:
