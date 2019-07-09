@@ -4,3 +4,4 @@ mysql
 tests/bats.log
 tests/bats_*
 travis.log
+build.log
