@@ -65,6 +65,7 @@ if [ -z "$TABLE_COUNT" ]; then
     # We can't find the users table.  We'll usae this to guess we don't have a schema installed.
     # Is there a better way of doing this?
     /opt/kimai/bin/console -n doctrine:schema:create
+    /opt/kimai/bin/console doctrine:migrations:version --add --all -n
 fi
 
 # Migrations are idempotent
