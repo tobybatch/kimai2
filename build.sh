@@ -1,29 +1,23 @@
 #!/bin/bash
 
-function buildimage {
-  echo "Builing $1..."
-  docker build -t $@ 2>&1 > build.log
-  STATUS=$?
-  if [ "$STATUS" != 0 ]; then
-    echo "Error building $1 image ($STATUS)"
-    tail -n 10 build.log
-    exit $STATUS
-  fi
-}
+STACKS="apache-debian fpm-debian fpm-alpine"
+WORKDIR=$(dirname $0)
+BUILDLOG=$WORKDIR/logs/build-$(date +"%Y%m%d-%H%M").log
 
-buildimage kimai/kimai2_base --rm base
-docker push kimai/kimai2_base 2>&1 >> build.log
+# The earlier tags of kimai needed specific build instructions.  We don't auto build thise.
+NUMBER_OF_TAGS_TO_DISCARD=14
 
-EXIT=0
-for x in $(ls tags); do
-  TAG=$x
-  buildimage kimai/kimai2:$x --build-arg TAG=$x tags/$x
-  docker push kimai/kimai2:$x 2>&1 >> build.log
+# Below here should not need changing
+ALLTAGS=$(git ls-remote --tags --refs https://github.com/kevinpapst/kimai2.git | awk --field-separator="/" '{print $3}')
+TAGS=$(echo $ALLTAGS | awk -v START=$NUMBER_OF_TAGS_TO_DISCARD '{for(i=START;i<=NF;++i)print $i}')
+
+for TAG in master $TAGS; do
+  for STACK in $STACKS; do
+    echo -n "Building kimai/kimai2:$STACK-$TAG... "
+    docker build -t kimai/kimai2:$STACK-$TAG --build-arg TAG=$TAG --rm $WORKDIR/build/$STACK > $BUILDLOG
+    echo Done.
+    echo -n "Pushing kimai/kimai2:$STACK-$TAG..."
+    echo docker push kimai/kimai2:$STACK-$TAG
+    echo Done.
+  done
 done
-
-docker tag kimai/kimai2:${TAG} kimai/kimai2:latest
-docker push kimai/kimai2:latest 2>&1 >> build.log
-
-buildimage kimai/kimai2:dev .
-docker push kimai/kimai2 2>&1 >> build.log
-

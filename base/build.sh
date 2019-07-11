@@ -6,7 +6,7 @@ BUILDLOG=$WORKINGDIR/../logs/build-$(date +"%Y%m%d-%H%M").log
 cd $WORKINGDIR
 for x in $(find */*); do
   TAG=$(dirname $x);
-  IMG=kimai2/kimai2_base:$TAG
+  IMG=kimai/kimai2_base:$TAG
   echo Building $TAG ...
   docker build --rm -t $IMG $TAG
   docker push $IMG

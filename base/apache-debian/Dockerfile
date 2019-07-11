@@ -9,6 +9,7 @@ RUN apt update && \
         libldap2-dev \
         libldb-dev \
         libpng-dev \
+        libzip-dev \
         mysql-client \
         unzip \
         wget \

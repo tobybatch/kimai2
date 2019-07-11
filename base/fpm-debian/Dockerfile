@@ -9,6 +9,7 @@ RUN apt update && \
         libldap2-dev \
         libldb-dev \
         libpng-dev \
+        libzip-dev \
         mysql-client \
         unzip \
         wget \
@@ -30,4 +31,3 @@ RUN apt update && \
     apt remove -y wget && \
     apt -y autoremove && \
     apt clean
-
