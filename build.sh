@@ -11,6 +11,8 @@ NUMBER_OF_TAGS_TO_DISCARD=14
 ALLTAGS=$(git ls-remote --tags --refs https://github.com/kevinpapst/kimai2.git | awk --field-separator="/" '{print $3}')
 TAGS=$(echo $ALLTAGS | awk -v START=$NUMBER_OF_TAGS_TO_DISCARD '{for(i=START;i<=NF;++i)print $i}')
 
+echo -e "\nBuilding tags master $TAGS\n"
+
 for TAG in master $TAGS; do
   for STACK in $STACKS; do
     echo -n "Building kimai/kimai2:$STACK-$TAG... "
