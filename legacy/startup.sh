@@ -97,5 +97,10 @@ done
 /opt/kimai/bin/console cache:clear --env=prod
 /opt/kimai/bin/console cache:warmup --env=prod
 
+if [ ! -z "$ADMINPASS" ] && [ ! -a "$ADMINMAIL"]; then
+  /opt/kimai/bin/console kimai:create-user superadmin $ADMINMAIL ROLE_SUPER_ADMIN $ADMINPASS
+fi
+
+
 # Start listening
 /usr/sbin/apache2ctl -D FOREGROUND

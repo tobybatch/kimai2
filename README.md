@@ -8,6 +8,10 @@ Docker hub hosts a number of tagged releases, starting with 0.8.  These are all 
 
 In addition there a dev image that is built for development / quick test purposes. 
 
+## Why no NGINX?
+
+This image uses apache because apache can run php as a module.  Nginx can't run php, it needs to pass the php request to a fast cgi process.  Dockers are supposed to be single thread processes and to run nginx you need at leat two, then probably some sysinit deamon, then a logger gets added.
+
 ## Development docker
 
 ### Building
@@ -78,6 +82,8 @@ services:
         DATABASE_URL: mysql://kimai:kimai@mysql/kimai
         MAILER_FROM: kimai@neontribe.co.uk
         MAILER_URL: "smtp://kimai:kimai@postfix:25/?timeout=60"
+        ADMINMAIL: kimai@neontribe.co.uk
+        ADMINPASS: changeme
     volumes:
         - ./local.yaml:/opt/kimai/config/packages/local.yaml
     depends_on:
@@ -240,10 +246,14 @@ You can override settings at run time, e.g.:
         -e TRUSTED_PROXIES=192.0.0.1 \
         -e TRUSTED_HOSTS=localhost \
         -e DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai \ # | DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
+        -e ADMINMAIL=kimai@neontribe.co.uk \
+        -e ADMINPASS=changeme \
         -e MAILER_URL=smtp://user:pass@host:port/?timeout=60&encryption=ssl&auth_mode=login \
         kimai/kimai2:0.9
 
 #### Create admin user:
+
+If both the environment variables ```ADMINPASS``` and ```ADMINMAIL``` are set then a user name ```superadmin``` will be created on start up.  If this is not used then this command will create the user:
 
     docker-compose exec kimai bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
 

@@ -16,10 +16,10 @@ echo -e "\nBuilding tags master $TAGS\n"
 for TAG in master $TAGS; do
   for STACK in $STACKS; do
     echo -n "Building kimai/kimai2:$STACK-$TAG... "
-    docker build -t kimai/kimai2:$STACK-$TAG --build-arg TAG=$TAG --rm $WORKDIR/build/$STACK > $BUILDLOG
+    docker build -t kimai/kimai2:$STACK-$TAG --build-arg TAG=$TAG --rm $WORKDIR/build/$STACK >> $BUILDLOG
     echo Done.
     echo -n "Pushing kimai/kimai2:$STACK-$TAG..."
-    echo docker push kimai/kimai2:$STACK-$TAG
+    docker push kimai/kimai2:$STACK-$TAG >> $BUILDLOG
     echo Done.
   done
 done
