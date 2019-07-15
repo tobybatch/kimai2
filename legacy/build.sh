@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source $(dirname $0)/../.env
+
 WORKINGDIR=$(dirname $0)
 BUILDLOG=$WORKINGDIR/../logs/build-$(date +"%Y%m%d-%H%M").log
 
@@ -17,8 +19,8 @@ function buildimage {
 buildimage kimai/kimai2_base --rm $WORKINGDIR/base
 docker push kimai/kimai2_base 2>&1 >> $BUILDLOG
 
-TAGS="0.8 0.8.1 0.9 1.0 1.0.1" 
-for TAG in $TAGS; do
+LEGACY_TAGS="0.8 0.8.1 0.9 1.0 1.0.1" 
+for TAG in $LEGACY_TAGS; do
   buildimage kimai/kimai2:$TAG --build-arg TAG=$TAG $WORKINGDIR
   docker push kimai/kimai2:$TAG 2>&1 >> $BUILDLOG
 done
