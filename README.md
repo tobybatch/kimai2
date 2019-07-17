@@ -15,13 +15,13 @@ docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SU
 
  * [Legacy Images](docs/legacy.md) (Kimai release tags <= 1.0.1)
  * Dev docker -  has no overridable env variables
- * [Master and images tagged at greater than 1.0.1](docs/runtime-config.md#Local overrides)
+ * [Master and images tagged at greater than 1.0.1](docs/runtime-config.md#local-overrides)
 
 ## Using docker-compose and NGINX
 
 Example docker-compose files.
 
-## Overriding default settings
+## [Overriding default settings]r(docs/runtime-config.md#environment-variables)
 
 You can alter settings by using local.yaml.  This will need to be mounted into the image.
 
