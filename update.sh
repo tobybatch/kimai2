@@ -4,6 +4,7 @@ STACKS="apache-debian fpm-debian fpm-alpine"
 WORKDIR=$(dirname $0)
 
 for STACK in $STACKS; do
+  rm -rf build/$STACK
   mkdir -p build/$STACK
 done
 

@@ -1,8 +1,14 @@
 build_image() {
+  if [ "NA" == "$2" [; then
+    echo "docker build --rm -t $1 $3" >> /tmp/build.log
+  else
+    echo "docker build --rm -t $1 --build-arg TAG=$2 $3" >> /tmp/build.log
+  fi
   docker build --rm -t $1 --build-arg TAG=$2 $3
 }
 
 unit_tests() {
+  echo "docker run -d --rm -p 0:8001 --name kimai_test $1" >> /tmp/build.log
   docker run -d --rm -p 0:8001 --name kimai_test $1
   while [ 1 != "$RUNNING" ]; do
     sleep 1
