@@ -52,6 +52,8 @@ services:
 
 ## Apache/debian docker with mysql db
 
+All files [here](https://github.com/tobybatch/kimai2/tree/master/docker-compose/apache-debian)
+
 ```yaml
 version: '3'
 services:
@@ -93,7 +95,7 @@ services:
 
 ## NGINX/FPM/debian docker with mysql db
 
-All files [here]()
+All files [here](https://github.com/tobybatch/kimai2/tree/master/docker-compose/nginx)
 
 ```yaml
 version: '3'
@@ -134,7 +136,7 @@ services:
 
 ## Apache/debian docker with mysql db in a different locale
 
-All files [here]()
+All files [here](https://github.com/tobybatch/kimai2/tree/master/docker-compose/apache-debian-uk)
 
 ```yaml
 version: '3'
@@ -178,7 +180,7 @@ services:
 
 ## Apache/debian docker with mysql db in a different locale and LDAP auth
 
-All files [here]().  You can log in as tony_teamlead or anna_admin with the password kitten.
+All files [here](https://github.com/tobybatch/kimai2/tree/master/docker-compose/apache-debian-uk-ldap).  You can log in as tony_teamlead or anna_admin with the password kitten.
 
 ```yaml
 version: '3'

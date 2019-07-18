@@ -6,57 +6,66 @@ We provide a set of docker images for the [Kimai v2](https://github.com/kevinpap
 
 ## Quick start
 
+### Evaluate
+
+Run a throw away instamce of kimai for evauation ot testing,  This is built against the master branch of the kevinpapst/kimai2 project and runs against a sqlite database inside the container using the built in php server.  When stopped all trace of the docker will disapear.  If you run the lines below you can hit kimai at http://localhost:8001 and log in with admin / admin.  The test users listed in [the develop section](https://www.kimai.org/documentation/installation.html) also exist.
+
 ```bash
 docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:dev
 docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
+docker exec kimai2 bin/console kimai:reset-dev
 ```
 
-## Environment options
+### Production
 
- * [Legacy Images](docs/legacy.md) (Kimai release tags <= 1.0.1)
- * Dev docker -  has no overridable env variables
- * [Master and images tagged at greater than 1.0.1](docs/runtime-config.md)
+Run a production kimai with persistent database in a seperate mysql conatiner. The best way of doing this is with a docker compose file. you can hit kimai at http://localhost:8001 and log in with superadmin / pass123.
 
-## Using docker-compose and NGINX
+```yaml
+version: '3'
+services:
 
-Example docker-compose files.
+  mydb:
+    image: mysql:5.6
+    environment:
+      - MYSQL_DATABASE=kimai
+      - MYSQL_USER=kimaiu
+      - MYSQL_PASSWORD=kimaip
+      - MYSQL_ROOT_PASSWORD=changeme
+    volumes:
+        - ./mysql:/var/lib/mysql
+    command: --default-storage-engine innodb
+    restart: always
 
-## Overriding default settings
+  kimai:
+    image: kimai/kimai2:apache-debian-master
+    environment:
+        - APP_ENV=prod
+        - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
+        - ADMINMAIL=kimai@example.com
+        - ADMINPASS=pass123
+    depends_on:
+        - mydb
+    ports:
+        - 8001:8001
+    restart: always
 
-You can alter settings by using [local.yaml](docs/runtime-config.md#local-overrides).  This will need to be mounted into the image.
+  postfix:
+    image: catatnight/postfix
+    environment:
+      maildomain: neontribe.co.uk
+      smtp_user: kimai:kimai
+    restart: unless-stopped
+    restart: always
 
-    docker run -ti -p 8001:80001 -v $(pwd)/local.yaml:/opt/kimai/config/packages/local.yaml kimai/kimai2:master
+```
 
-## Images
+## Other options
 
-### Legacy images
+- [Legacy images](docs/legacy.md) Versions of the docker <= 1.0.1 are no longer supported and uses outdated config.
+- [Runtime config](docs/runtime-config.md) Setting such as DB conections and other secrets can be set using environment variables.
+- [Local overides](docs/local-overrides.md) To change how Kimai, locale, durations settings etc a local overrides file can be used.
+- [Docker compose files](docs/docker-compose.md) Different configs are provided to demonstrate different stacks and set ups.
 
-The tags 0.8 to 1.0.1 are all built to run in apache with either sqlite or mysql.  These images use a slightly structure to the later images.
+## Dockerhub and images
 
-### Base images
-
-Post tag 1.0.1 different target stacks are included.  There is a bas eimage for each of the target stacks that include all the php pre-requisits for each stack.
-
-### Dev image
-
-The dev image is intended for testing or evaluation.  It is self conatained and runs against a sqlite DB.  It can be built with:
-
-     docker build -t kimai/kimai2:dev --rm .
-
-And started with an admin/admin super user:
-
-    docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:dev
-    docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
-
-### apache-debian
-
-This image is built on debian and uses apache to serve the app.
-
-### fpm-debian
-
-This image is built on debian and uses FPM to server the site. It will require some sort of reverse proxy to handle the web requests.
-
-### fpm-alpine
-
-This image is built on alpine to provide a smaller image and uses FPM to server the site. It will require some sort of reverse proxy to handle the web requests.
-
+More details on different images and how they are built is in the [dockerhub page](https://cloud.docker.com/u/kimai/repository/docker/kimai/kimai2)
