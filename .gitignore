@@ -6,4 +6,4 @@ tests/bats_*
 travis.log
 build.log
 *.swp
-logs/
+logs
