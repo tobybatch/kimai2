@@ -21,7 +21,7 @@ for TAG in master $TAGS; do
     docker build -t kimai/kimai2:$DISTRO-$TAG --build-arg TAG=$TAG --rm $WORKDIR/build/$DISTRO
     echo Done.
     echo -n "Pushing kimai/kimai2:$DISTRO-$TAG..."
-    # docker push kimai/kimai2:$DISTRO-$TAG
+    docker push kimai/kimai2:$DISTRO-$TAG
     echo Done.
   done
 done
