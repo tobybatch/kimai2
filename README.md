@@ -15,7 +15,7 @@ docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SU
 
  * [Legacy Images](docs/legacy.md) (Kimai release tags <= 1.0.1)
  * Dev docker -  has no overridable env variables
- * [Master and images tagged at greater than 1.0.1](docs/runtime-config.md#environment-variables)
+ * [Master and images tagged at greater than 1.0.1](docs/runtime-config.md)
 
 ## Using docker-compose and NGINX
 

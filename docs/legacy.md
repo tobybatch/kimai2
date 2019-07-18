@@ -82,8 +82,6 @@ services:
         DATABASE_URL: mysql://kimai:kimai@mysql/kimai
         MAILER_FROM: kimai@neontribe.co.uk
         MAILER_URL: "smtp://kimai:kimai@postfix:25/?timeout=60"
-        ADMINMAIL: kimai@neontribe.co.uk
-        ADMINPASS: changeme
     volumes:
         - ./local.yaml:/opt/kimai/config/packages/local.yaml
     depends_on:
