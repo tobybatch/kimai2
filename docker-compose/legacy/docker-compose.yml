@@ -1,0 +1,36 @@
+version: '3'
+services:
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=kimai
+      - MYSQL_USER=kimai
+      - MYSQL_PASSWORD=kimai
+      - MYSQL_ROOT_PASSWORD=changeme
+    volumes:
+        - ./mysql:/var/lib/mysql
+    command: --default-storage-engine innodb --secure-file-priv=/var/tmp/
+    restart: always
+
+  kimai:
+    image: kimai/kimai2:1.0
+    environment:
+      - APP_ENV=prod
+      - APP_SECRET=some-thing-really-secret
+      - DATABASE_URL=mysql://kimai:kimai@mysql/kimai
+      - MAILER_FROM=kimai@neontribe.co.uk
+      - MAILER_URL="smtp://kimai:kimai@postfix:25/?timeout=60"
+    depends_on:
+        - mysql
+    ports:
+        - 8001:8001
+    restart: always
+
+  postfix:
+    image: catatnight/postfix
+    environment:
+      maildomain: neontribe.co.uk
+      smtp_user: kimai:kimai
+    restart: unless-stopped
+    restart: always

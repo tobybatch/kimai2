@@ -1,0 +1,8 @@
+kimai:
+    defaults:
+        customer:
+            timezone: Europe/London
+            country: GB
+            currency: GBP
+
+

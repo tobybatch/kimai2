@@ -1,0 +1,71 @@
+kimai:
+    timesheet:
+        mode: duration_only
+
+
+    defaults:
+        customer:
+            timezone: Europe/London
+            country: GB
+            currency: GBP
+
+    ldap:
+        # more infos about the connection params can be found at:
+        # https://docs.zendframework.com/zend-ldap/api/
+        # https://www.kimai.org/documentation/ldap.html
+        connection:
+            host: ldap
+            #port: 389
+            #useSsl: false
+            #useStartTls: false
+            username: cn=admin,dc=example,dc=com
+            password: changeme
+            #accountFilterFormat: (&(objectClass=inetOrgPerson)(uid=%s))
+            #bindRequiresDn: true
+            optReferrals: false
+            #allowEmptyPassword: false
+            #tryUsernameSplit:
+            #networkTimeout:
+            #accountCanonicalForm: 3
+            #accountDomainName: HOST
+            #accountDomainNameShort: HOST
+
+        user:
+            baseDn: ou=users,dc=example,dc=com
+            usernameAttribute: uid
+            # filter: (&(objectClass=inetOrgPerson))
+            #attributesFilter: (objectClass=Person)
+            attributes:
+                - { ldap_attr: "uid", user_method: setUsername }
+                - { ldap_attr: "mail", user_method: setEmail }
+                - { ldap_attr: cn, user_method: setAlias }
+        role:
+            baseDn: ou=groups,dc=example,dc=com
+            filter: (&(objectClass=posixGroup))
+            usernameAttribute: uid
+            nameAttribute: cn
+            userDnAttribute: memberUid
+            groups:
+                - { ldap_value: kimai-teamleader, role: ROLE_TEAMLEAD }
+                - { ldap_value: kimai-admin, role: ROLE_ADMIN }
+                - { ldap_value: kimai-superadmin, role: ROLE_SUPERADMIN }
+
+    # Remove local passwords
+    user:
+        registration: false
+        password_reset: false
+    permissions:
+        roles:
+            ROLE_USER: ['!password_own_profile']
+            ROLE_TEAMLEAD: ['!password_own_profile']
+            ROLE_ADMIN: ['!password_own_profile']
+
+security:
+    providers:
+        chain_provider:
+            chain:
+                providers: [kimai_ldap]
+    firewalls:
+        secured_area:
+            kimai_ldap: ~
+

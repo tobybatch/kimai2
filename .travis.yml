@@ -11,5 +11,6 @@ services:
 - docker
 script:
 - echo "$DOCKER_PASSWORD" | docker login  --username "$DOCKER_USERNAME" --password-stdin
+- ./update.sh
 - ./build.sh
 - ./test.sh

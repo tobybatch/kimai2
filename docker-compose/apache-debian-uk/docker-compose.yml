@@ -9,21 +9,29 @@ services:
       - MYSQL_PASSWORD=kimaip
       - MYSQL_ROOT_PASSWORD=changeme
     volumes:
-        - mysql:/var/lib/mysql
+        - ./mysql:/var/lib/mysql
     command: --default-storage-engine innodb
     restart: always
 
   kimai:
-    image: kimai/kimai2:1.0.1
+    image: kimai/kimai2:apache-debian-master
     environment:
         - APP_ENV=prod
-        # These are added to override the the DB URL from env when checking the DB status during start up.
         - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
+        - ADMINMAIL=kimai@example.com
+        - ADMINPASS=pass123
+    volumes:
+        - ./local.yaml:/opt/kimai/config/packages/local.yaml
     depends_on:
         - mydb
     ports:
         - 8001:8001
     restart: always
 
-volumes:
-  mysql:
+  postfix:
+    image: catatnight/postfix
+    environment:
+      maildomain: neontribe.co.uk
+      smtp_user: kimai:kimai
+    restart: unless-stopped
+    restart: always
