@@ -4,6 +4,13 @@ Here are some example docker compose files.
 
 ## Simple legacy docker with mysql DB
 
+All files [here](https://github.com/tobybatch/kimai2/tree/master/docker-compose/legacy)
+
+```bash
+docker compose up -d
+docker-compose exec kimai bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
+```
+
 ```yaml
 version: '3'
 services:
@@ -16,7 +23,7 @@ services:
       - MYSQL_PASSWORD=kimai
       - MYSQL_ROOT_PASSWORD=changeme
     volumes:
-        - mysql:/var/lib/mysql
+        - ./mysql:/var/lib/mysql
     command: --default-storage-engine innodb --secure-file-priv=/var/tmp/
     restart: always
 
@@ -41,9 +48,6 @@ services:
       smtp_user: kimai:kimai
     restart: unless-stopped
     restart: always
-
-volumes:
-  mysql:
 ```
 
 ## Apache/debian docker with mysql db
@@ -60,16 +64,17 @@ services:
       - MYSQL_PASSWORD=kimaip
       - MYSQL_ROOT_PASSWORD=changeme
     volumes:
-        - mysql:/var/lib/mysql
+        - ./mysql:/var/lib/mysql
     command: --default-storage-engine innodb
     restart: always
 
   kimai:
-    image: kimai/kimai2:master
+    image: kimai/kimai2:apache-debian-master
     environment:
         - APP_ENV=prod
         - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
-        = MAILER_URL="smtp://kimai:kimai@postfix:25/?timeout=60"
+        - ADMINMAIL=kimai@example.com
+        - ADMINPASS=pass123
     depends_on:
         - mydb
     ports:
@@ -83,9 +88,7 @@ services:
       smtp_user: kimai:kimai
     restart: unless-stopped
     restart: always
-    
-volumes:
-  mysql:
+
 ```
 
 ## NGINX/FPM/debian docker with mysql db
@@ -96,7 +99,7 @@ All files [here]()
 version: '3'
 services:
 
-  mydb_nginx:
+  mydb:
     image: mysql:5.6
     environment:
       - MYSQL_DATABASE=kimai
@@ -104,43 +107,29 @@ services:
       - MYSQL_PASSWORD=kimaip
       - MYSQL_ROOT_PASSWORD=changeme
     volumes:
-        - mysql_nginx:/var/lib/mysql
+        - ./mysql:/var/lib/mysql
     command: --default-storage-engine innodb
     restart: always
 
   nginx:
     image: nginx:latest
     ports:
-        - 8002:80
+        - 8001:80
     volumes:
-      - codebase:/opt/shared_kimai
-      - ./assets/nginx_site.conf:/etc/nginx/conf.d/default.conf
+      - ./codebase:/opt/shared_kimai
+      - ./nginx_site.conf:/etc/nginx/conf.d/default.conf
 
   kimai_fpm:
     image: kimai/kimai2:fpm-alpine-master
     environment:
         - APP_ENV=dev
         - TRUSTED_HOSTS=localhost
-        - DATABASE_URL=mysql://kimaiu:kimaip@mydb_nginx/kimai
-        MAILER_URL: "smtp://kimai:kimai@postfix:25/?timeout=60"
+        - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
         - ADMINMAIL=kimai@example.com
         - ADMINPASS=pass123
     volumes:
-      - codebase:/opt/shared_kimai
+      - ./codebase:/opt/shared_kimai
     entrypoint: /nginx-startup.sh
-
-  postfix:
-    image: catatnight/postfix
-    environment:
-      maildomain: neontribe.co.uk
-      smtp_user: kimai:kimai
-    restart: unless-stopped
-    restart: always
-
-volumes:
-  mysql_nginx:
-  codebase:
-
 ```
 
 ## Apache/debian docker with mysql db in a different locale
@@ -159,16 +148,61 @@ services:
       - MYSQL_PASSWORD=kimaip
       - MYSQL_ROOT_PASSWORD=changeme
     volumes:
-        - mysql:/var/lib/mysql
+        - ./mysql:/var/lib/mysql
     command: --default-storage-engine innodb
     restart: always
 
   kimai:
-    image: kimai/kimai2:1.0.1
+    image: kimai/kimai2:apache-debian-master
     environment:
         - APP_ENV=prod
         - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
-        MAILER_URL: "smtp://kimai:kimai@postfix:25/?timeout=60"
+        - ADMINMAIL=kimai@example.com
+        - ADMINPASS=pass123
+    volumes:
+        - ./local.yaml:/opt/kimai/config/packages/local.yaml
+    depends_on:
+        - mydb
+    ports:
+        - 8001:8001
+    restart: always
+
+  postfix:
+    image: catatnight/postfix
+    environment:
+      maildomain: neontribe.co.uk
+      smtp_user: kimai:kimai
+    restart: unless-stopped
+    restart: always
+```
+
+## Apache/debian docker with mysql db in a different locale and LDAP auth
+
+All files [here]().  You can log in as tony_teamlead or anna_admin with the password kitten.
+
+```yaml
+version: '3'
+services:
+
+  mydb:
+    image: mysql:5.6
+    environment:
+      - MYSQL_DATABASE=kimai
+      - MYSQL_USER=kimaiu
+      - MYSQL_PASSWORD=kimaip
+      - MYSQL_ROOT_PASSWORD=changeme
+    volumes:
+        - ./mysql:/var/lib/mysql
+    command: --default-storage-engine innodb
+    restart: always
+
+  kimai:
+    image: kimai/kimai2:apache-debian-master
+    environment:
+        - APP_ENV=prod
+        - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
+        - ADMINMAIL=kimai@example.com
+        - ADMINPASS=pass123
     volumes:
         - ./local.yaml:/opt/kimai/config/packages/local.yaml
     depends_on:
@@ -185,14 +219,19 @@ services:
     restart: unless-stopped
     restart: always
 
-volumes:
-  mysql:
+  ldap:
+    image: osixia/openldap:1.2.2
+    environment:
+      LDAP_ORGANISATION: Example Comms
+      LDAP_DOMAIN: example.com
+      LDAP_ADMIN_PASSWORD: changeme
+      LDAP_BASE_DN: dc=example,dc=com
+    volumes:
+        - ./export.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif
+    ports:
+        - 389:389
+    hostname: ldap
+    command: --copy-service
+    restart: always
 
-```
-
-## Apache/debian docker with mysql db in a different locale and LDAP auth
-
-All files [here]()
-
-```yaml
 ```

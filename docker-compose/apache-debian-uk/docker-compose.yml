@@ -9,54 +9,29 @@ services:
       - MYSQL_PASSWORD=kimaip
       - MYSQL_ROOT_PASSWORD=changeme
     volumes:
-        - mysql:/var/lib/mysql
+        - ./mysql:/var/lib/mysql
     command: --default-storage-engine innodb
     restart: always
 
   kimai:
-    image: kimai/kimai2:1.0.1
+    image: kimai/kimai2:apache-debian-master
     environment:
         - APP_ENV=prod
         - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
+        - ADMINMAIL=kimai@example.com
+        - ADMINPASS=pass123
+    volumes:
+        - ./local.yaml:/opt/kimai/config/packages/local.yaml
     depends_on:
         - mydb
     ports:
         - 8001:8001
     restart: always
 
-  mydb_nginx:
-    image: mysql:5.6
+  postfix:
+    image: catatnight/postfix
     environment:
-      - MYSQL_DATABASE=kimai
-      - MYSQL_USER=kimaiu
-      - MYSQL_PASSWORD=kimaip
-      - MYSQL_ROOT_PASSWORD=changeme
-    volumes:
-        - mysql_nginx:/var/lib/mysql
-    command: --default-storage-engine innodb
+      maildomain: neontribe.co.uk
+      smtp_user: kimai:kimai
+    restart: unless-stopped
     restart: always
-
-  nginx:
-    image: nginx:latest
-    ports:
-        - 8002:80
-    volumes:
-      - codebase:/opt/shared_kimai
-      - ./assets/nginx_site.conf:/etc/nginx/conf.d/default.conf
-
-  kimai_fpm:
-    image: kimai/kimai2:fpm-alpine-master
-    environment:
-        - APP_ENV=dev
-        - TRUSTED_HOSTS=localhost
-        - DATABASE_URL=mysql://kimaiu:kimaip@mydb_nginx/kimai
-        - ADMINMAIL=kimai@example.com
-        - ADMINPASS=pass123
-    volumes:
-      - codebase:/opt/shared_kimai
-    entrypoint: /nginx-startup.sh
-
-volumes:
-  mysql:
-  mysql_nginx:
-  codebase:
