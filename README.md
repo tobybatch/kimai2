@@ -18,7 +18,7 @@ docker exec kimai2 bin/console kimai:reset-dev
 
 ### Production
 
-Run a production kimai with persistent database in a seperate mysql conatiner. The best way of doing this is with a docker compose file. you can hit kimai at http://localhost:8001 and log in with superadmin / pass123.
+Run a production kimai with persistent database in a seperate mysql conatiner. The best way of doing this is with a docker compose file. you can hit kimai at http://localhost:8001 and log in with superadmin / changeme123.
 
 ```yaml
 version: '3'
@@ -42,7 +42,7 @@ services:
         - APP_ENV=prod
         - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
         - ADMINMAIL=kimai@example.com
-        - ADMINPASS=pass123
+        - ADMINPASS=changeme123
     depends_on:
         - mydb
     ports:

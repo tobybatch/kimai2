@@ -19,7 +19,7 @@ services:
         - APP_ENV=prod
         - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
         - ADMINMAIL=kimai@example.com
-        - ADMINPASS=pass123
+        - ADMINPASS=changeme123
     depends_on:
         - mydb
     ports:

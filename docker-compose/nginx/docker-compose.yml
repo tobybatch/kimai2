@@ -28,7 +28,7 @@ services:
         - TRUSTED_HOSTS=localhost
         - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
         - ADMINMAIL=kimai@example.com
-        - ADMINPASS=pass123
+        - ADMINPASS=changeme123
     volumes:
       - ./codebase:/opt/shared_kimai
     entrypoint: /nginx-startup.sh

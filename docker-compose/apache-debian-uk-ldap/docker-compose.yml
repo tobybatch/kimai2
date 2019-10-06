@@ -19,7 +19,7 @@ services:
         - APP_ENV=prod
         - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
         - ADMINMAIL=kimai@example.com
-        - ADMINPASS=pass123
+        - ADMINPASS=changeme123
     volumes:
         - ./local.yaml:/opt/kimai/config/packages/local.yaml
     depends_on:
