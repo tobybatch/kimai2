@@ -6,8 +6,9 @@ USER root
 ARG TZ=Europe/London
 ARG TAG=1.0.1
 
-RUN git clone --branch ${TAG} https://github.com/kevinpapst/kimai2.git /opt/kimai && \
-    composer install --working-dir=/opt/kimai --dev --optimize-autoloader && \
+RUN curl https://github.com/kevinpapst/kimai2/releases/download/${TAG}/kimai-release-${TAG}.zip --output kimai.zip
+RUN unzip -d /opt/kimai kimai.zip
+RUN composer install --working-dir=/opt/kimai --dev --optimize-autoloader && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     composer require --working-dir=/opt/kimai zendframework/zend-ldap && \
     chown -R www-data:www-data /opt /etc/localtime /etc/timezone && \
