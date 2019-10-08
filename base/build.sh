@@ -1,15 +1,14 @@
-#!/bin/bash
+#!/bin/bash -e
 
 WORKINGDIR=$(dirname $0)
-BUILDLOG=$WORKINGDIR/../logs/build-$(date +"%Y%m%d-%H%M").log
 
 cd $WORKINGDIR
 for x in $(find */*); do
   TAG=$(dirname $x);
   IMG=kimai/kimai2_base:$TAG
-  echo Building $TAG ...
-  docker build --rm -t $IMG $TAG
-  docker push $IMG
+  echo -e "\n### Building $TAG ... (docker build --rm -t $IMG $TAG) ..."
+  docker build --rm -t $IMG $TAG > /dev/null
+  docker push $IMG > /dev/null
 done
 
 cd - > /dev/null

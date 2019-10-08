@@ -4,20 +4,21 @@ LABEL maintainer="tobias@neontribe.co.uk"
 # The FPM image will need to me root to fix some poerms at runtime
 USER root
 ARG TZ=Europe/London
-ARG TAG=1.0.1
+ARG TAG=1.4
 
-RUN curl https://github.com/kevinpapst/kimai2/releases/download/${TAG}/kimai-release-${TAG}.zip --output kimai.zip
-RUN unzip -d /opt/kimai kimai.zip
-RUN composer install --working-dir=/opt/kimai --dev --optimize-autoloader && \
+RUN git clone --branch ${TAG} https://github.com/kevinpapst/kimai2.git /opt/kimai && \
+    composer install --working-dir=/opt/kimai --dev --optimize-autoloader && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     composer require --working-dir=/opt/kimai zendframework/zend-ldap && \
     chown -R www-data:www-data /opt /etc/localtime /etc/timezone && \
-	touch /use_fpm
+    touch /use_fpm
 
 WORKDIR /opt/kimai
 ADD startup.sh /startup.sh
 ADD nginx-startup.sh /nginx-startup.sh
 ADD url_parse.php /url_parse.php
+
+USER www-data
 
 ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
 ENV MAILER_FROM=kimai@example.com

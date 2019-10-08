@@ -3,12 +3,11 @@ LABEL maintainer="tobias@neontribe.co.uk"
 
 USER root
 ARG TZ=Europe/London
-ARG TAG=1.0.1
+ARG TAG=1.4
 
 ADD 000-default.conf /etc/apache2/sites-available/000-default.conf
-RUN curl https://github.com/kevinpapst/kimai2/releases/download/${TAG}/kimai-release-${TAG}.zip --output kimai.zip
-RUN unzip -d /opt/kimai kimai.zip
-RUN composer install --working-dir=/opt/kimai --dev --optimize-autoloader && \
+RUN git clone --branch ${TAG} https://github.com/kevinpapst/kimai2.git /opt/kimai && \
+    composer install --working-dir=/opt/kimai --dev --optimize-autoloader && \
     touch .env && \
     echo "Listen 8001" > /etc/apache2/ports.conf && \
     a2enmod rewrite && \

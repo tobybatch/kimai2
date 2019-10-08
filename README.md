@@ -59,6 +59,16 @@ services:
 
 ```
 
+## Permissions
+
+If you are mounting the code base into the container (```-v $PWD/kimai:/opt/kimai```) then you will need to fix the permissions on the var folder.
+
+    docker exec --user root CONTAINER_NAME chown -R www-data:www-data /opt/kimai/var
+
+or
+
+    docker-compose --user root exec CONTAINER_NAME chown -R www-data:www-data /opt/kimai/var
+
 ## Other options
 
 - [Legacy images](docs/legacy.md) Versions of the docker <= 1.0.1 are no longer supported and uses outdated config.

@@ -2,19 +2,24 @@ FROM php:7.3.6-fpm-alpine3.10
 
 RUN apk --no-cache add \
         bash \
+        freetype \
+        freetype-dev \
+        g++ \
         git \
         haveged \
+        icu-dev \
         ldb \
-        freetype-dev \
+        libjpeg-turbo \
         libjpeg-turbo-dev \
+        libpng \
         libpng-dev \
-        g++ \
+        libwebp-dev \
+        libxpm-dev \
+        libzip-dev \
         mysql-client \
+        openldap-dev \
         unzip \
         wget \
-        icu-dev \
-        openldap-dev \
-        libzip-dev \
         zip && \
     EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)" && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
@@ -23,6 +28,15 @@ RUN apk --no-cache add \
     php composer-setup.php --quiet && \
     rm composer-setup.php && \
     mv /var/www/html/composer.phar /usr/bin/composer && \
+    docker-php-ext-configure gd \
+       --enable-gd-native-ttf \
+       --with-freetype-dir \
+       --with-gd \
+       --with-jpeg-dir \
+       --with-png-dir \
+       --with-webp-dir \
+       --with-xpm-dir \
+       --with-zlib-dir && \
     docker-php-ext-install \
         gd \
         intl \

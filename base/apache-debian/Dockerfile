@@ -4,11 +4,15 @@ RUN apt update && \
     apt install -y --allow-unauthenticated \
         git \
         haveged \
+        libfreetype6-dev \
         libicu-dev \
         libjpeg-dev \
+        libjpeg62-turbo-dev \
         libldap2-dev \
         libldb-dev \
         libpng-dev \
+        libwebp-dev \
+        libxpm-dev \
         libzip-dev \
         mysql-client \
         unzip \
@@ -22,6 +26,15 @@ RUN apt update && \
     php composer-setup.php --quiet && \
     rm composer-setup.php && \
     mv /var/www/html/composer.phar /usr/bin/composer && \
+    docker-php-ext-configure gd \
+       --enable-gd-native-ttf \
+       --with-freetype-dir \
+       --with-gd \
+       --with-jpeg-dir \
+       --with-png-dir \
+       --with-webp-dir \
+       --with-xpm-dir \
+       --with-zlib-dir && \
     docker-php-ext-install \
         gd \
         intl \
