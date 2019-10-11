@@ -31,10 +31,9 @@ ENV TRUSTED_HOSTS=false
 ENV MAILER_URL=null://localhost
 ENV ADMINPASS=
 ENV ADMINMAIL=
+ENV TZ=$TZ
 
 EXPOSE 8001
-
-ENV TZ=Europe/London
 
 ENTRYPOINT /startup.sh
 
