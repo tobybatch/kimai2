@@ -2,7 +2,6 @@ FROM kimai/kimai2_base:apache-debian
 LABEL maintainer="tobias@neontribe.co.uk"
 LABEL maintainer="bastian@schroll-software.de"
 
-USER root
 ARG TZ=Europe/London
 ARG TAG=1.4
 
