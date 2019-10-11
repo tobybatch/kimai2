@@ -1,11 +1,12 @@
 FROM kimai/kimai2_base:apache-debian
 LABEL maintainer="tobias@neontribe.co.uk"
+LABEL maintainer="bastian@schroll-software.de"
 
 USER root
 ARG TZ=Europe/London
 ARG TAG=1.4
 
-ADD 000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN git clone --branch ${TAG} https://github.com/kevinpapst/kimai2.git /opt/kimai && \
     composer install --working-dir=/opt/kimai --dev --optimize-autoloader && \
     touch .env && \
@@ -16,9 +17,8 @@ RUN git clone --branch ${TAG} https://github.com/kevinpapst/kimai2.git /opt/kima
     chown -R www-data:www-data /opt /etc/apache2/sites-available /etc/localtime /etc/timezone && \
 	touch /use_apache
 
-WORKDIR /opt/kimai
-ADD startup.sh /startup.sh
-ADD url_parse.php /url_parse.php
+COPY startup.sh /startup.sh
+COPY url_parse.php /url_parse.php
 
 USER www-data
 

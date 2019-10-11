@@ -12,9 +12,8 @@ RUN git clone --branch ${TAG} https://github.com/kevinpapst/kimai2.git /opt/kima
     chown -R www-data:www-data /opt /etc/localtime /etc/timezone && \
     touch /use_fpm
 
-WORKDIR /opt/kimai
-ADD startup.sh /startup.sh
-ADD url_parse.php /url_parse.php
+COPY startup.sh /startup.sh
+COPY url_parse.php /url_parse.php
 
 USER www-data
 
@@ -34,3 +33,4 @@ EXPOSE 8001
 ENTRYPOINT /startup.sh
 
 # vim: syntax=dockerfile ts=4 sw=4 sts=4 sr noet
+
