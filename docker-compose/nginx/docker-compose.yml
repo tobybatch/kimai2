@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:latest
+    image: nginx:alpine
     ports:
         - 8001:80
     volumes:
