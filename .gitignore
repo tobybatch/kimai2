@@ -7,3 +7,4 @@ travis.log
 build.log
 *.swp
 logs
+build
