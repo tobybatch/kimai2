@@ -4,11 +4,9 @@ WORKDIR=$(dirname $0)
 source $WORKDIR/.env
 
 echo ">>> Pushing base images"
-for x in $(find */*); do
-  TAG=$(dirname $x);
-  IMG=kimai/kimai2_base:$TAG
-  docker push $IMG $TAG
-done
+docker push kimai/kimai2_base:fpm-debian
+docker push kimai/kimai2_base:fpm-alpine
+docker push kimai/kimai2_base:apache-debian
 
 
 echo ">>> Pushing development image"
