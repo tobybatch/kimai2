@@ -2,8 +2,15 @@
 
 echo $KIMAI
 
-
 function waitForDB() {
+  # Parse sql connection data
+  # todo: port is not used atm
+  DB_TYPE=$(awk -F '[/:@]' '{print $1}' <<< $DATABASE_URL)
+  DB_USER=$(awk -F '[/:@]' '{print $4}' <<< $DATABASE_URL)
+  DB_PASS=$(awk -F '[/:@]' '{print $5}' <<< $DATABASE_URL)
+  DB_HOST=$(awk -F '[/:@]' '{print $6}' <<< $DATABASE_URL)
+  DB_BASE=$(awk -F '[/:@]' '{print $7}' <<< $DATABASE_URL)
+
   # If we use mysql wait until its online
   if [[ $DB_TYPE == "mysql" ]]; then
       echo "Using Mysql DB"
@@ -47,7 +54,7 @@ function handleStartup() {
 
 function runServer() {
   if [ -e /use_apache ]; then 
-    exec /usr/sbin/apache2ctl -D FOREGROUND
+    /usr/sbin/apache2ctl -D FOREGROUND
   elif [ -e /use_fpm ]; then 
     exec php-fpm
   else
@@ -55,23 +62,7 @@ function runServer() {
   fi
 }
 
-
-###########################
-# SQL stuff
-###########################
-
-# Parse sql connection data
-# todo: port is not used atm
-DB_TYPE=$(awk -F '[/:@]' '{print $1}' <<< $DATABASE_URL)
-DB_USER=$(awk -F '[/:@]' '{print $4}' <<< $DATABASE_URL)
-DB_PASS=$(awk -F '[/:@]' '{print $5}' <<< $DATABASE_URL)
-DB_HOST=$(awk -F '[/:@]' '{print $6}' <<< $DATABASE_URL)
-DB_BASE=$(awk -F '[/:@]' '{print $7}' <<< $DATABASE_URL)
-
 waitForDB
 handleStartup
 runServer
-
 exit
-
-
