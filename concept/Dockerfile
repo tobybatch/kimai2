@@ -129,7 +129,6 @@ RUN apt-get update && \
         libfreetype6 && \
     echo "Listen 8001" > /etc/apache2/ports.conf && \
     a2enmod rewrite && \
-    chown -R www-data:www-data /etc/apache2/sites-available && \
     touch /use_apache
 
 
@@ -150,7 +149,7 @@ ENV TZ=${TZ}
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
     # make composer home dir
     mkdir /composer  && \
-    chown -R www-data:www-data /composer /etc/localtime /etc/timezone
+    chown -R www-data:www-data /composer
 
 # drop root permissions
 USER www-data
