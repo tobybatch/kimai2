@@ -108,7 +108,8 @@ RUN apk add --no-cache \
         icu \
         libpng \
         libzip \
-        freetype
+        freetype && \
+    touch /use_fpm
 
 
 
@@ -117,14 +118,19 @@ RUN apk add --no-cache \
 ###########################
 
 FROM php:7.3.10-apache-buster AS apache-debian-base
-RUN apt-get update
-RUN apt-get install -y \
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+RUN apt-get update && \
+    apt-get install -y \
         bash \
         haveged \
         libicu63 \
         libpng16-16 \
         libzip4 \
-        libfreetype6
+        libfreetype6 && \
+    echo "Listen 8001" > /etc/apache2/ports.conf && \
+    a2enmod rewrite && \
+    chown -R www-data:www-data /etc/apache2/sites-available && \
+    touch /use_apache
 
 
 
@@ -142,9 +148,9 @@ ENV KIMAI=${KIMAI}
 ARG TZ=Europe/Berlin
 ENV TZ=${TZ}
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
-    mkdir /composer_cache  && \
-    chown -R www-data:www-data /composer /etc/localtime /etc/timezone && \
-    touch /use_fpm
+    # make composer home dir
+    mkdir /composer  && \
+    chown -R www-data:www-data /composer /etc/localtime /etc/timezone
 
 # drop root permissions
 USER www-data
@@ -180,6 +186,8 @@ ENV ADMINPASS=
 ENV ADMINMAIL=
 
 EXPOSE 8001
+
+VOLUME [ "/opt/kimai/public/avatars" ]
 
 ENTRYPOINT /startup.sh
 
