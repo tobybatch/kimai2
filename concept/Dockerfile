@@ -15,7 +15,7 @@ ARG BASE="fpm-alpine"
 
 # full kimai source
 FROM alpine:3.10 AS git-dev
-ARG KIMAI="1.4.1"
+ARG KIMAI="1.4.2"
 RUN apk add --no-cache git && \
     git clone --depth 1 --branch ${KIMAI} https://github.com/kevinpapst/kimai2.git /opt/kimai
 
@@ -141,7 +141,7 @@ FROM ${BASE}-base AS base
 LABEL maintainer="tobias@neontribe.co.uk"
 LABEL maintainer="bastian@schroll-software.de"
 
-ARG KIMAI="1.4.1"
+ARG KIMAI="1.4.2"
 ENV KIMAI=${KIMAI}
 
 ARG TZ=Europe/Berlin
@@ -162,18 +162,19 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --from=composer --chown=www-data:www-data /opt/kimai/vendor /opt/kimai/vendor
 
 # copy php extensions
-# PHP extension gd
-COPY --from=php-ext-gd /usr/local/etc/php/conf.d/docker-php-ext-gd.ini /usr/local/etc/php/conf.d/docker-php-ext-gd.ini
-COPY --from=php-ext-gd /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so
-# PHP extension intl
-COPY --from=php-ext-intl /usr/local/etc/php/conf.d/docker-php-ext-intl.ini /usr/local/etc/php/conf.d/docker-php-ext-intl.ini
-COPY --from=php-ext-intl /usr/local/lib/php/extensions/no-debug-non-zts-20180731/intl.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/intl.so
+
 # PHP extension pdo_mysql
 COPY --from=php-ext-pdo_mysql /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini
 COPY --from=php-ext-pdo_mysql /usr/local/lib/php/extensions/no-debug-non-zts-20180731/pdo_mysql.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/pdo_mysql.so
 # PHP extension zip
 COPY --from=php-ext-zip /usr/local/etc/php/conf.d/docker-php-ext-zip.ini /usr/local/etc/php/conf.d/docker-php-ext-zip.ini
 COPY --from=php-ext-zip /usr/local/lib/php/extensions/no-debug-non-zts-20180731/zip.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/zip.so
+# PHP extension gd
+COPY --from=php-ext-gd /usr/local/etc/php/conf.d/docker-php-ext-gd.ini /usr/local/etc/php/conf.d/docker-php-ext-gd.ini
+COPY --from=php-ext-gd /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so
+# PHP extension intl
+COPY --from=php-ext-intl /usr/local/etc/php/conf.d/docker-php-ext-intl.ini /usr/local/etc/php/conf.d/docker-php-ext-intl.ini
+COPY --from=php-ext-intl /usr/local/lib/php/extensions/no-debug-non-zts-20180731/intl.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/intl.so
 
 ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
 ENV APP_SECRET=change_this_to_something_unique
