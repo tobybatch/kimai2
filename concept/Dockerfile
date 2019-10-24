@@ -111,6 +111,8 @@ RUN apk add --no-cache \
         freetype && \
     touch /use_fpm
 
+EXPOSE 9000
+
 
 
 ###########################
@@ -130,6 +132,8 @@ RUN apt-get update && \
     echo "Listen 8001" > /etc/apache2/ports.conf && \
     a2enmod rewrite && \
     touch /use_apache
+
+EXPOSE 8001
 
 
 
@@ -184,8 +188,6 @@ ENV MAILER_FROM=kimai@example.com
 ENV MAILER_URL=null://localhost
 ENV ADMINPASS=
 ENV ADMINMAIL=
-
-EXPOSE 8001
 
 VOLUME [ "/opt/kimai/public/avatars" ]
 
