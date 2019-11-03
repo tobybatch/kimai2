@@ -48,6 +48,7 @@ services:
         - ADMINPASS=changemeplease
     volumes:
       - kimai:/opt/kimai
+      - kimai_var:/opt/kimai/var
     restart: unless-stopped
     depends_on:
       - sql_db
