@@ -189,7 +189,7 @@ ENV MAILER_URL=null://localhost
 ENV ADMINPASS=
 ENV ADMINMAIL=
 
-VOLUME [ "/opt/kimai/public/avatars" ]
+VOLUME [ "/opt/kimai/var" ]
 
 ENTRYPOINT /startup.sh
 
