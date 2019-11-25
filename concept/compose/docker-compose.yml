@@ -39,7 +39,7 @@ services:
 
   kimai_fpm:
     # todo change to real image if ready
-    image: test
+    image: kimai
     environment:
         - APP_ENV=prod
         - TRUSTED_HOSTS=localhost
