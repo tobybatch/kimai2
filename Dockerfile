@@ -7,6 +7,7 @@
 
 # Source base [fpm-alpine/apache-debian]
 ARG BASE="fpm-alpine"
+ARG VER="prod"
 
 
 ###########################
@@ -207,7 +208,6 @@ COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --optimize-autoloader && \
     composer clearcache
-ENV APP_ENV=dev
 
 # production build
 FROM base AS prod
@@ -217,4 +217,6 @@ COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
     composer clearcache
-ENV APP_ENV=prod
+
+FROM ${VER}
+ENV APP_ENV=${VER}

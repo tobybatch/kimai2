@@ -1,0 +1,22 @@
+version: '3.5'
+services:
+
+    # Apache with sqlite, the dev/evaluate option
+    kimai:
+        image: kimai/kimai2:apache-debian-1.5-dev
+        environment:
+            - APP_ENV=dev
+            - TRUSTED_HOSTS=localhost
+            - ADMINMAIL=admin@kimai.local
+            - ADMINPASS=changemeplease
+        volumes:
+            - /opt/kimai/var
+        ports:
+            - 8001:8001
+        restart: unless-stopped
+        healthcheck:
+            test: wget --spider http://nginx || exit 1
+            interval: 20s
+            start_period: 10s
+            timeout: 10s
+            retries: 3

@@ -1,0 +1,25 @@
+# example composer file for the fpm-alpine image
+version: '3.5'
+services:
+
+    kimai:
+        environment:
+            - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
+
+    sqldb:
+        image: mysql:5.7
+        environment:
+            - MYSQL_DATABASE=kimai
+            - MYSQL_USER=kimaiuser
+            - MYSQL_PASSWORD=kimaipassword
+            - MYSQL_ROOT_PASSWORD=changemeplease
+        volumes:
+            - /var/lib/mysql
+        command: --default-storage-engine innodb 
+        restart: unless-stopped
+        healthcheck:
+            test: mysqladmin -pchangemeplease ping -h localhost
+            interval: 20s
+            start_period: 10s
+            timeout: 10s
+            retries: 3
