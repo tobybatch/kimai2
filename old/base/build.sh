@@ -10,7 +10,7 @@ for x in $(find */*); do
   TAG=$(dirname $x);
   IMG=kimai/kimai2_base:$TAG
   echo -n "        Building $TAG ... (docker build --rm -t $IMG $TAG) ... "
-  docker build --rm -t $IMG $TAG > $LOGNAME
+  DOCKER_BUILDKIT=1 docker build --rm -t $IMG $TAG > $LOGNAME
   echo Done.
 done
 

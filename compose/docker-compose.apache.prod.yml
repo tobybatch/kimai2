@@ -1,0 +1,8 @@
+version: '3.5'
+services:
+
+    # Apache with sqlite, the dev/evaluate option
+    kimai:
+        image: kimai/kimai2:apache-debian-1.5-prod
+        environment:
+            - APP_ENV=prod

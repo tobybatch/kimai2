@@ -1,0 +1,11 @@
+# example composer file for the fpm-alpine image
+version: '3.5'
+services:
+
+    kimai:
+        image: kimai/kimai2:fpm-alpine-1.5-dev
+        volumes:
+            - fpm-kimai:/opt/kimai
+
+volumes:
+    fpm-kimai:

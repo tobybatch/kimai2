@@ -1,10 +1,1 @@
-docker
-tests/kimai2_*
-mysql
-tests/bats.log
-tests/bats_*
-travis.log
-build.log
-*.swp
-logs
-build
+build-tree.png

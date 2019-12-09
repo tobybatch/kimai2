@@ -9,7 +9,7 @@ echo ">>> Building base images"
 $WORKDIR/base/build.sh
 
 echo ">>> Building developpment image"
-docker build -t kimai/kimai2:dev $WORKDIR > $LOGDIR/dev.log
+DOCKER_BUILDKIT=1 docker build -t kimai/kimai2:dev $WORKDIR > $LOGDIR/dev.log
 
 # No need to rebuild every time
 # echo "Building legacy images"
@@ -22,7 +22,7 @@ for TAG in master $TAGS; do
   for DISTRO in $DISTROS; do
     TAGNAME=$DISTRO-$TAG
     echo -en "        Building kimai/kimai2:$TAGNAME ... "
-    docker build \
+    DOCKER_BUILDKIT=1 docker build \
       -t kimai/kimai2:$TAGNAME \
       --build-arg TAG=$TAG $WORKDIR/build/$DISTRO \
       > $WORKDIR/logs/$TAGNAME.log > $LOGDIR/$DISTRO.log

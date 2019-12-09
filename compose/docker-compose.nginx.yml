@@ -1,0 +1,29 @@
+# example composer file for the fpm-alpine image
+version: '3.5'
+services:
+
+    kimai:
+        volumes:
+            - fpm-var:/opt/kimai/var
+    
+    nginx:
+        build: .
+        ports:
+            - 8002:80
+        volumes:
+            - ./nginx_site.conf:/etc/nginx/conf.d/default.conf
+        restart: unless-stopped
+        depends_on:
+            - kimai
+        volumes:
+            - fpm-kimai:/opt/kimai
+            - fpm-var:/opt/kimai/var
+        healthcheck:
+            test:  wget --spider http://nginx/health || exit 1
+            interval: 20s
+            start_period: 10s
+            timeout: 10s
+            retries: 3
+
+volumes:
+    fpm-var:
