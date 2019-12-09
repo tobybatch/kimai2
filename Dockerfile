@@ -154,7 +154,7 @@ ENV TZ=${TZ}
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
     # make composer home dir
     mkdir /composer  && \
-    chown -R www-data:www-data /composer /opt/kimai
+    chown -R www-data:www-data /composer
 
 # drop root permissions
 USER www-data
@@ -204,19 +204,27 @@ ENTRYPOINT /startup.sh
 FROM base AS dev
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
+# For some reason building with builf kit breaks here unless we do it as root: "copy(./.env): failed to open stream: Permission denied"
+USER root
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --optimize-autoloader && \
-    composer clearcache
+    composer clearcache && \
+    chown -R www-data:www-data /opt/kimai
+USER www-data
 
 # production build
 FROM base AS prod
 # copy kimai production source
 COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
+# For some reason building with builf kit breaks here unless we do it as root: "copy(./.env): failed to open stream: Permission denied"
+USER root
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
-    composer clearcache
+    composer clearcache && \
+    chown -R www-data:www-data /opt/kimai
+USER www-data
 
 FROM ${VER}
 ENV APP_ENV=${VER}
