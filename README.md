@@ -4,6 +4,10 @@
 
 We provide a set of docker images for the [Kimai v2](https://github.com/kevinpapst/kimai2) project.
 
+## Updgrading
+
+The newer kimai instances cache images in the var directory (/opt/kimai/var).  This folder will need to be preserved and mounted into newer builds.  The docker compose file below will handle that but if you didn't save those file you will need to do that manually.
+
 ## Quick start
 
 ### Evaluate
@@ -11,7 +15,7 @@ We provide a set of docker images for the [Kimai v2](https://github.com/kevinpap
 Run a throw away instamce of kimai for evauation ot testing,  This is built against the master branch of the kevinpapst/kimai2 project and runs against a sqlite database inside the container using the built in php server.  When stopped all trace of the docker will disapear.  If you run the lines below you can hit kimai at http://localhost:8001 and log in with admin / admin.  The test users listed in [the develop section](https://www.kimai.org/documentation/installation.html) also exist.
 
 ```bash
-docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:dev
+docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:apache-debian-master-prod
 docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
 docker exec kimai2 bin/console kimai:reset-dev
 ```
@@ -21,33 +25,62 @@ docker exec kimai2 bin/console kimai:reset-dev
 Run a production kimai with persistent database in a seperate mysql conatiner. The best way of doing this is with a docker compose file. you can hit kimai at http://localhost:8001 and log in with superadmin / changeme123.
 
 ```yaml
-version: '3'
+version: '3.5'
 services:
 
-  mydb:
-    image: mysql:5.6
+  sqldb:
+    image: mysql:5.7
     environment:
       - MYSQL_DATABASE=kimai
-      - MYSQL_USER=kimaiu
-      - MYSQL_PASSWORD=kimaip
-      - MYSQL_ROOT_PASSWORD=changeme
+      - MYSQL_USER=kimaiuser
+      - MYSQL_PASSWORD=kimaipassword
+      - MYSQL_ROOT_PASSWORD=changemeplease
     volumes:
-        - ./mysql:/var/lib/mysql
+      - /var/lib/mysql
     command: --default-storage-engine innodb
-    restart: always
+    restart: unless-stopped
+    healthcheck:
+      test: mysqladmin -pchangemeplease ping -h localhost
+      interval: 20s
+      start_period: 10s
+      timeout: 10s
+      retries: 3 
+
+  nginx:
+    build: compose
+    ports:
+      - 8001:80
+    volumes:
+      - ./nginx_site.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+    depends_on:
+      - kimai
+    volumes:
+      - public:/opt/kimai/public
+    healthcheck:
+      test:  wget --spider http://nginx/health || exit 1 
+      interval: 20s
+      start_period: 10s
+      timeout: 10s
+      retries: 3 
 
   kimai:
-    image: kimai/kimai2:apache-debian-master
+    image: kimai/kimai2:fpm-alpine-1.5-prod
     environment:
-        - APP_ENV=prod
-        - DATABASE_URL=mysql://kimaiu:kimaip@mydb/kimai
-        - ADMINMAIL=kimai@example.com
-        - ADMINPASS=changeme123
-    depends_on:
-        - mydb
-    ports:
-        - 8001:8001
-    restart: always
+      - APP_ENV=prod
+      - TRUSTED_HOSTS=localhost
+      - ADMINMAIL=admin@kimai.local
+      - ADMINPASS=changemeplease
+    volumes:
+      - public:/opt/kimai/public
+      - var:/opt/kimai/var
+    restart: unless-stopped
+    healthcheck:
+      test: wget --spider http://nginx || exit 1
+      interval: 20s
+      start_period: 10s
+      timeout: 10s
+      retries: 3
 
   postfix:
     image: catatnight/postfix
@@ -56,6 +89,10 @@ services:
       smtp_user: kimai:kimai
     restart: unless-stopped
     restart: always
+
+volumes:
+    var:
+    public:
 
 ```
 
@@ -69,13 +106,4 @@ or
 
     docker-compose --user root exec CONTAINER_NAME chown -R www-data:www-data /opt/kimai/var
 
-## Other options
 
-- [Legacy images](docs/legacy.md) Versions of the docker <= 1.0.1 are no longer supported and uses outdated config.
-- [Runtime config](docs/runtime-config.md) Setting such as DB conections and other secrets can be set using environment variables.
-- [Local overides](docs/local-overrides.md) To change how Kimai, locale, durations settings etc a local overrides file can be used.
-- [Docker compose files](docs/docker-compose.md) Different configs are provided to demonstrate different stacks and set ups.
-
-## Dockerhub and images
-
-More details on different images and how they are built is in the [dockerhub page](https://cloud.docker.com/u/kimai/repository/docker/kimai/kimai2)
