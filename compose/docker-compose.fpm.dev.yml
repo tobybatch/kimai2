@@ -4,3 +4,8 @@ services:
 
     kimai:
         image: kimai/kimai2:fpm-alpine-1.5-dev
+        volumes:
+            - fpm-kimai:/opt/kimai
+
+volumes:
+    fpm-kimai:

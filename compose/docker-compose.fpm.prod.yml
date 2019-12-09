@@ -4,3 +4,9 @@ services:
 
     kimai:
         image: kimai/kimai2:fpm-alpine-1.5-prod
+        environment:
+            - APP_ENV=prod
+
+volumes:
+    fpm-kimai:
+

@@ -1,6 +1,8 @@
 #!/bin/bash 
 
-export KIMAI=1.5
+if [ -z "$KIMAI" ]; then
+    export KIMAI=1.5
+fi
 export TZ=Europe/London
 export DOCKER_BUILDKIT=1
 
