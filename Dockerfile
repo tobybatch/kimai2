@@ -154,7 +154,7 @@ ENV TZ=${TZ}
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
     # make composer home dir
     mkdir /composer  && \
-    chown -R www-data:www-data /composer
+    chown -R www-data:www-data /composer /opt/kimai
 
 # drop root permissions
 USER www-data
