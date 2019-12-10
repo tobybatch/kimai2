@@ -1,7 +1,5 @@
 # Kimai Dockers
 
-[![Build Status](https://travis-ci.org/tobybatch/kimai2.svg?branch=master)](https://travis-ci.org/tobybatch/kimai2)
-
 We provide a set of docker images for the [Kimai v2](https://github.com/kevinpapst/kimai2) project.
 
 ## Updgrading
