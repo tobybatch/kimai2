@@ -5,6 +5,12 @@ services:
     kimai:
         volumes:
             - fpm-var:/opt/kimai/var
+        healthcheck:
+            test: wget --spider http://nginx || exit 1
+            interval: 20s
+            start_period: 10s
+            timeout: 10s
+            retries: 3
     
     nginx:
         build: .
