@@ -14,8 +14,8 @@ Run a throw away instamce of kimai for evauation ot testing,  This is built agai
 
 ```bash
 docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:apache-debian-master-prod
-docker exec kimai2 bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
-docker exec kimai2 bin/console kimai:reset-dev
+docker exec kimai2 /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN adminsecret
+docker exec kimai2 /opt/kimai/bin/console kimai:reset-dev
 ```
 
 ### Production
