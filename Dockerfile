@@ -7,8 +7,6 @@
 
 # Source base [fpm-alpine/apache-debian]
 ARG BASE="fpm-alpine"
-ARG VER="prod"
-
 
 ###########################
 # Shared tools
@@ -156,9 +154,6 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     mkdir /composer  && \
     chown -R www-data:www-data /composer
 
-# drop root permissions
-USER www-data
-
 # copy startup script
 COPY startup.sh /startup.sh
 
@@ -204,8 +199,6 @@ ENTRYPOINT /startup.sh
 FROM base AS dev
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
-# For some reason building with builf kit breaks here unless we do it as root: "copy(./.env): failed to open stream: Permission denied"
-USER root
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --optimize-autoloader && \
@@ -217,14 +210,9 @@ USER www-data
 FROM base AS prod
 # copy kimai production source
 COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
-# For some reason building with builf kit breaks here unless we do it as root: "copy(./.env): failed to open stream: Permission denied"
-USER root
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
     composer clearcache && \
     chown -R www-data:www-data /opt/kimai
 USER www-data
-
-FROM ${VER}
-ENV APP_ENV=${VER}
