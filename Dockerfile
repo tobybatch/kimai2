@@ -39,37 +39,41 @@ RUN mkdir /opt/kimai && \
 #fpm alpine php extension base
 FROM php:7.3.10-fpm-alpine3.10 AS fpm-alpine-php-ext-base
 RUN apk add --no-cache \
-    # gd
-    libpng-dev \
-    freetype-dev \
-    # icu
-    icu-dev \
-    # zip
-    libzip-dev \
     # build-tools
-    m4 \
-    perl \
     autoconf \
     dpkg \
     dpkg-dev \
-    libmagic \
     file \
-    make \
-    re2c \
-    libgomp \
-    libatomic \
-    mpfr3 \
-    mpc1 \
+    g++ \
     gcc \
-    musl-dev \
+    libatomic \
     libc-dev \
-    g++
+    libgomp \
+    libmagic \
+    m4 \
+    make \
+    mpc1 \
+    mpfr3 \
+    musl-dev \
+    perl \
+    re2c \
+    # gd
+    freetype-dev \
+    libpng-dev \
+    # icu
+    icu-dev \
+    # ldap
+    icu-dev \
+    openldap-dev \
+    # zip
+    libzip-dev
 
 
 # apache debian php extension base
 FROM php:7.3.10-apache-buster AS apache-debian-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
+        libldap2-dev \
         libicu-dev \
         libpng-dev \
         libzip-dev \
@@ -94,8 +98,9 @@ RUN docker-php-ext-install -j$(nproc) pdo_mysql
 FROM ${BASE}-php-ext-base AS php-ext-zip
 RUN docker-php-ext-install -j$(nproc) zip
 
-
-
+# php extension zip
+FROM ${BASE}-php-ext-base AS php-ext-ldap
+RUN docker-php-ext-install -j$(nproc) ldap
 
 ###########################
 # fpm-alpine base build
@@ -180,6 +185,9 @@ COPY --from=php-ext-gd /usr/local/lib/php/extensions/no-debug-non-zts-20180731/g
 # PHP extension intl
 COPY --from=php-ext-intl /usr/local/etc/php/conf.d/docker-php-ext-intl.ini /usr/local/etc/php/conf.d/docker-php-ext-intl.ini
 COPY --from=php-ext-intl /usr/local/lib/php/extensions/no-debug-non-zts-20180731/intl.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/intl.so
+# PHP extension ldap
+COPY --from=php-ext-ldap /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini
+COPY --from=php-ext-ldap /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so
 
 ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
 ENV APP_SECRET=change_this_to_something_unique
