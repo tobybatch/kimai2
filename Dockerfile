@@ -63,7 +63,6 @@ RUN apk add --no-cache \
     # icu
     icu-dev \
     # ldap
-    icu-dev \
     openldap-dev \
     # zip
     libzip-dev
@@ -98,7 +97,7 @@ RUN docker-php-ext-install -j$(nproc) pdo_mysql
 FROM ${BASE}-php-ext-base AS php-ext-zip
 RUN docker-php-ext-install -j$(nproc) zip
 
-# php extension zip
+# php extension ldap
 FROM ${BASE}-php-ext-base AS php-ext-ldap
 RUN docker-php-ext-install -j$(nproc) ldap
 
