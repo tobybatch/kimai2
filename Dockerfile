@@ -79,27 +79,27 @@ RUN apt-get install -y \
         libfreetype6-dev
 
 
-# php extension gd
+# php extension gd - 13.86s
 FROM ${BASE}-php-ext-base AS php-ext-gd
 RUN docker-php-ext-configure gd \
         --with-freetype-dir && \
     docker-php-ext-install -j$(nproc) gd
 
-# php extension intl
+# php extension intl : 15.26s
 FROM ${BASE}-php-ext-base AS php-ext-intl
 RUN docker-php-ext-install -j$(nproc) intl
 
-# php extension pdo_mysql
+# php extension ldap : 8.45s
+FROM ${BASE}-php-ext-base AS php-ext-ldap
+RUN docker-php-ext-install -j$(nproc) ldap
+
+# php extension pdo_mysql : 6.14s
 FROM ${BASE}-php-ext-base AS php-ext-pdo_mysql
 RUN docker-php-ext-install -j$(nproc) pdo_mysql
 
-# php extension zip
+# php extension zip : 8.18s
 FROM ${BASE}-php-ext-base AS php-ext-zip
 RUN docker-php-ext-install -j$(nproc) zip
-
-# php extension ldap
-FROM ${BASE}-php-ext-base AS php-ext-ldap
-RUN docker-php-ext-install -j$(nproc) ldap
 
 ###########################
 # fpm-alpine base build
@@ -178,15 +178,15 @@ COPY --from=php-ext-pdo_mysql /usr/local/lib/php/extensions/no-debug-non-zts-201
 # PHP extension zip
 COPY --from=php-ext-zip /usr/local/etc/php/conf.d/docker-php-ext-zip.ini /usr/local/etc/php/conf.d/docker-php-ext-zip.ini
 COPY --from=php-ext-zip /usr/local/lib/php/extensions/no-debug-non-zts-20180731/zip.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/zip.so
+# PHP extension ldap
+COPY --from=php-ext-ldap /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini
+COPY --from=php-ext-ldap /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so
 # PHP extension gd
 COPY --from=php-ext-gd /usr/local/etc/php/conf.d/docker-php-ext-gd.ini /usr/local/etc/php/conf.d/docker-php-ext-gd.ini
 COPY --from=php-ext-gd /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so
 # PHP extension intl
 COPY --from=php-ext-intl /usr/local/etc/php/conf.d/docker-php-ext-intl.ini /usr/local/etc/php/conf.d/docker-php-ext-intl.ini
 COPY --from=php-ext-intl /usr/local/lib/php/extensions/no-debug-non-zts-20180731/intl.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/intl.so
-# PHP extension ldap
-COPY --from=php-ext-ldap /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini
-COPY --from=php-ext-ldap /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so
 
 ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
 ENV APP_SECRET=change_this_to_something_unique
