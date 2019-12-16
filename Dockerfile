@@ -7,8 +7,6 @@
 
 # Source base [fpm-alpine/apache-debian]
 ARG BASE="fpm-alpine"
-ARG VER="prod"
-
 
 ###########################
 # Shared tools
@@ -39,63 +37,67 @@ RUN mkdir /opt/kimai && \
 #fpm alpine php extension base
 FROM php:7.3.10-fpm-alpine3.10 AS fpm-alpine-php-ext-base
 RUN apk add --no-cache \
-    # gd
-    libpng-dev \
-    freetype-dev \
-    # icu
-    icu-dev \
-    # zip
-    libzip-dev \
     # build-tools
-    m4 \
-    perl \
     autoconf \
     dpkg \
     dpkg-dev \
-    libmagic \
     file \
-    make \
-    re2c \
-    libgomp \
-    libatomic \
-    mpfr3 \
-    mpc1 \
+    g++ \
     gcc \
-    musl-dev \
+    libatomic \
     libc-dev \
-    g++
+    libgomp \
+    libmagic \
+    m4 \
+    make \
+    mpc1 \
+    mpfr3 \
+    musl-dev \
+    perl \
+    re2c \
+    # gd
+    freetype-dev \
+    libpng-dev \
+    # icu
+    icu-dev \
+    # ldap
+    openldap-dev \
+    # zip
+    libzip-dev
 
 
 # apache debian php extension base
 FROM php:7.3.10-apache-buster AS apache-debian-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
+        libldap2-dev \
         libicu-dev \
         libpng-dev \
         libzip-dev \
         libfreetype6-dev
 
 
-# php extension gd
+# php extension gd - 13.86s
 FROM ${BASE}-php-ext-base AS php-ext-gd
 RUN docker-php-ext-configure gd \
         --with-freetype-dir && \
     docker-php-ext-install -j$(nproc) gd
 
-# php extension intl
+# php extension intl : 15.26s
 FROM ${BASE}-php-ext-base AS php-ext-intl
 RUN docker-php-ext-install -j$(nproc) intl
 
-# php extension pdo_mysql
+# php extension ldap : 8.45s
+FROM ${BASE}-php-ext-base AS php-ext-ldap
+RUN docker-php-ext-install -j$(nproc) ldap
+
+# php extension pdo_mysql : 6.14s
 FROM ${BASE}-php-ext-base AS php-ext-pdo_mysql
 RUN docker-php-ext-install -j$(nproc) pdo_mysql
 
-# php extension zip
+# php extension zip : 8.18s
 FROM ${BASE}-php-ext-base AS php-ext-zip
 RUN docker-php-ext-install -j$(nproc) zip
-
-
-
 
 ###########################
 # fpm-alpine base build
@@ -156,9 +158,6 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     mkdir /composer  && \
     chown -R www-data:www-data /composer
 
-# drop root permissions
-USER www-data
-
 # copy startup script
 COPY startup.sh /startup.sh
 
@@ -174,6 +173,9 @@ COPY --from=php-ext-pdo_mysql /usr/local/lib/php/extensions/no-debug-non-zts-201
 # PHP extension zip
 COPY --from=php-ext-zip /usr/local/etc/php/conf.d/docker-php-ext-zip.ini /usr/local/etc/php/conf.d/docker-php-ext-zip.ini
 COPY --from=php-ext-zip /usr/local/lib/php/extensions/no-debug-non-zts-20180731/zip.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/zip.so
+# PHP extension ldap
+COPY --from=php-ext-ldap /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini
+COPY --from=php-ext-ldap /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so
 # PHP extension gd
 COPY --from=php-ext-gd /usr/local/etc/php/conf.d/docker-php-ext-gd.ini /usr/local/etc/php/conf.d/docker-php-ext-gd.ini
 COPY --from=php-ext-gd /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so
@@ -204,8 +206,6 @@ ENTRYPOINT /startup.sh
 FROM base AS dev
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
-# For some reason building with builf kit breaks here unless we do it as root: "copy(./.env): failed to open stream: Permission denied"
-USER root
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --optimize-autoloader && \
@@ -217,14 +217,9 @@ USER www-data
 FROM base AS prod
 # copy kimai production source
 COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
-# For some reason building with builf kit breaks here unless we do it as root: "copy(./.env): failed to open stream: Permission denied"
-USER root
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
     composer clearcache && \
     chown -R www-data:www-data /opt/kimai
 USER www-data
-
-FROM ${VER}
-ENV APP_ENV=${VER}
