@@ -62,6 +62,7 @@ RUN apk add --no-cache \
     icu-dev \
     # ldap
     openldap-dev \
+    libldap \
     # zip
     libzip-dev
 
