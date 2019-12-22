@@ -91,7 +91,6 @@ RUN docker-php-ext-install -j$(nproc) intl
 # php extension ldap : 8.45s
 FROM ${BASE}-php-ext-base AS php-ext-ldap
 RUN docker-php-ext-configure ldap && \
-        # --with-libdir=lib/x86_64-linux-gnu && \ 
     docker-php-ext-install -j$(nproc) ldap
 
 # php extension pdo_mysql : 6.14s
@@ -181,13 +180,6 @@ COPY --from=php-ext-zip /usr/local/lib/php/extensions/no-debug-non-zts-20180731/
 # PHP extension ldap
 COPY --from=php-ext-ldap /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini
 COPY --from=php-ext-ldap /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so
-# COPY --from=php-ext-ldap /usr/lib/libldap*                 /usr/lib/
-# COPY --from=php-ext-ldap /usr/lib/liblber*                 /usr/lib/
-# COPY --from=php-ext-ldap /usr/lib/openldap*                /usr/lib/
-# COPY --from=php-ext-ldap /usr/include/ldap*                /usr/include/
-# COPY --from=php-ext-ldap /usr/include/openldap.h           /usr/include/openldap.h
-# COPY --from=php-ext-ldap /etc/openldap/ldap.conf           /etc/openldap/ldap.conf
-# COPY --from=php-ext-ldap /usr/lib/libsasl2*                /usr/lib/
 # PHP extension gd
 COPY --from=php-ext-gd /usr/local/etc/php/conf.d/docker-php-ext-gd.ini /usr/local/etc/php/conf.d/docker-php-ext-gd.ini
 COPY --from=php-ext-gd /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so
