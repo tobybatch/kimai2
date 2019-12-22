@@ -1,0 +1,11 @@
+version: '3.5'
+services:
+
+    kimai:
+        volumes:
+            - ./local.yaml:/opt/kimai/config/packages/local.yaml
+
+              #ldap:
+              #image: osixia/openldap:1.2.2
+              #ports:
+              #- 389:389

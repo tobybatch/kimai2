@@ -1,0 +1,18 @@
+kimai:
+    ldap:
+        connection:
+            host: ldap
+        user:
+            baseDn: ou=users, dc=example,dc=org
+        role:
+            baseDn: ou=groups, dc=example,dc=org
+
+security:
+    providers:
+        chain_provider:
+            chain:
+                providers: [kimai_ldap]
+    firewalls:
+        secured_area:
+            kimai_ldap: ~
+
