@@ -110,11 +110,13 @@ RUN docker-php-ext-install -j$(nproc) zip
 FROM php:7.3.10-fpm-alpine3.10 AS fpm-alpine-base
 RUN apk add --no-cache \
         bash \
+        freetype \
         haveged \
         icu \
+        libldap \
         libpng \
         libzip \
-        freetype && \
+        openldap-dev && \
     touch /use_fpm
 
 EXPOSE 9000
@@ -179,6 +181,13 @@ COPY --from=php-ext-zip /usr/local/lib/php/extensions/no-debug-non-zts-20180731/
 # PHP extension ldap
 COPY --from=php-ext-ldap /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini
 COPY --from=php-ext-ldap /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so
+# COPY --from=php-ext-ldap /usr/lib/libldap*                 /usr/lib/
+# COPY --from=php-ext-ldap /usr/lib/liblber*                 /usr/lib/
+# COPY --from=php-ext-ldap /usr/lib/openldap*                /usr/lib/
+# COPY --from=php-ext-ldap /usr/include/ldap*                /usr/include/
+# COPY --from=php-ext-ldap /usr/include/openldap.h           /usr/include/openldap.h
+# COPY --from=php-ext-ldap /etc/openldap/ldap.conf           /etc/openldap/ldap.conf
+# COPY --from=php-ext-ldap /usr/lib/libsasl2*                /usr/lib/
 # PHP extension gd
 COPY --from=php-ext-gd /usr/local/etc/php/conf.d/docker-php-ext-gd.ini /usr/local/etc/php/conf.d/docker-php-ext-gd.ini
 COPY --from=php-ext-gd /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so

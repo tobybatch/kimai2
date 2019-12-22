@@ -35,3 +35,10 @@
 
     docker-compose -f docker-compose.base.yml -f docker-compose.fpm.prod.yml -f docker-compose.nginx.yml -f docker-compose.mysql.yml up
 
+## Apache/Kimai dev/sqlite/LDAP
+
+    docker-compose -f docker-compose.base.yml -f docker-compose.apache.dev.yml -f docker-compose.ldap.yml up
+
+## FPM/Kimai dev/sqlite/LDAP
+
+    docker-compose -f docker-compose.base.yml -f docker-compose.fpm.dev.yml -f docker-compose.nginx.yml -f docker-compose.ldap.yml up
