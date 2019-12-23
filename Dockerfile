@@ -115,7 +115,7 @@ RUN apk add --no-cache \
         libldap \
         libpng \
         libzip \
-        openldap-dev && \
+        openldap && \
     touch /use_fpm
 
 EXPOSE 9000
