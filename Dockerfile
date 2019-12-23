@@ -114,8 +114,7 @@ RUN apk add --no-cache \
         icu \
         libldap \
         libpng \
-        libzip \
-        openldap && \
+        libzip && \
     touch /use_fpm
 
 EXPOSE 9000
