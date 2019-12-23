@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
     kimai:
-        image: kimai/kimai2:fpm-alpine-1.5-dev
+        image: kimai/kimai2:fpm-alpine-$KIMAI-dev
         volumes:
             - fpm-kimai:/opt/kimai
 
