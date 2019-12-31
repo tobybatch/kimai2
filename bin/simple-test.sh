@@ -40,7 +40,7 @@ function test_container {
     
     URL=$1
     cmd=$(make_cmd "${@:2}")
-    echo -e ${COL_GREEN}${@:2}${COL_RESET} starting...
+    echo -e ${COL_GREEN}${KIMAI} ${@:2}${COL_RESET} starting...
     $cmd 2>&1 > /dev/null
     STATUS=$(isready $URL)
     if [ "$STATUS" == "FAILED" ]; then
