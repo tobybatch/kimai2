@@ -1,0 +1,18 @@
+version: 1
+
+# Entry 3: uid=billy,dc=example,dc=org
+dn: uid=billy,dc=example,dc=org
+cn: billy
+gecos: Billy User
+gidnumber: 14564100
+homedirectory: /home/billy
+loginshell: /bin/bash
+mail: billy@example.org
+objectclass: top
+objectclass: posixAccount
+objectclass: inetOrgPerson
+sn: 3
+uid: billy
+uidnumber: 14583102
+# password123
+userpassword: {SSHA}5et/8Jrdgo55zIIM8fiVw6GEv4bRoBFx
