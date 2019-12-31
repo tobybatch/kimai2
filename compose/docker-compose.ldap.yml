@@ -4,3 +4,11 @@ services:
     kimai:
         volumes:
             - ./local.yaml:/opt/kimai/config/packages/local.yaml
+
+    ldap:
+        image: osixia/openldap:1.3.0
+        ports:
+            - 389:389
+        volumes:
+            - ./ldap-seed.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif
+        command: --copy-service

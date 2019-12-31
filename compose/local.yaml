@@ -3,9 +3,9 @@ kimai:
         connection:
             host: ldap
         user:
-            baseDn: ou=users, dc=example,dc=org
+            baseDn: dc=example,dc=org
         role:
-            baseDn: ou=groups, dc=example,dc=org
+            baseDn: dc=example,dc=org
 
 security:
     providers:
