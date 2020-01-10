@@ -225,7 +225,6 @@ COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
-    composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
     composer clearcache && \
     composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai
