@@ -117,4 +117,7 @@ function make_cmd {
     echo $cmd
 }
 
-main
+for KIMAI in $KIMAIS; do 
+    export KIMAI
+    main
+done

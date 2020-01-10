@@ -2,10 +2,12 @@ kimai:
     ldap:
         connection:
             host: ldap
+            username: cn=admin,dc=example,dc=org
+            password: password123
         user:
-            baseDn: dc=example,dc=org
+            baseDn: ou=users,dc=example,dc=org
         role:
-            baseDn: dc=example,dc=org
+            baseDn: ou=groups,dc=example,dc=org
 
 security:
     providers:
