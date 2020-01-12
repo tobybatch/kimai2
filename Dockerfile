@@ -196,7 +196,6 @@ ENV ADMINPASS=
 ENV ADMINMAIL=
 
 VOLUME [ "/opt/kimai/var" ]
-WORKDIR /opt/kimai
 
 ENTRYPOINT /startup.sh
 
