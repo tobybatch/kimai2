@@ -1,0 +1,52 @@
+version: 1
+
+# Entry 3: ou=groups,dc=example,dc=org
+dn: ou=groups,dc=example,dc=org
+objectclass: organizationalUnit
+objectclass: top
+ou: groups
+
+# Entry 4: cn=staff,ou=groups,dc=example,dc=org
+dn: cn=staff,ou=groups,dc=example,dc=org
+cn: staff
+gidnumber: 500
+objectclass: posixGroup
+objectclass: top
+
+# Entry 5: ou=users,dc=example,dc=org
+dn: ou=users,dc=example,dc=org
+objectclass: organizationalUnit
+objectclass: top
+ou: users
+
+# Entry 6: cn=Lenny ldap,ou=users,dc=example,dc=org
+dn: cn=Lenny ldap,ou=users,dc=example,dc=org
+cn: Lenny ldap
+gidnumber: 500
+givenname: Lenny
+homedirectory: /home/users/lenny
+loginshell: /bin/sh
+mail: lenny@example.com
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: top
+sn: ldap
+uid: lenny
+uidnumber: 1000
+userpassword: {MD5}SCyBHaXVtLxtSX/6mEkeOA==
+
+# Entry 7: uid=billy,dc=example,dc=org
+dn: uid=billy,dc=example,dc=org
+cn: billy
+gecos: Billy User
+gidnumber: 14564100
+homedirectory: /home/billy
+loginshell: /bin/bash
+mail: billy@example.org
+objectclass: top
+objectclass: posixAccount
+objectclass: inetOrgPerson
+sn: 3
+uid: billy
+uidnumber: 14583102
+userpassword: {SSHA}5et/8Jrdgo55zIIM8fiVw6GEv4bRoBFx

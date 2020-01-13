@@ -90,7 +90,8 @@ RUN docker-php-ext-install -j$(nproc) intl
 
 # php extension ldap : 8.45s
 FROM ${BASE}-php-ext-base AS php-ext-ldap
-RUN docker-php-ext-install -j$(nproc) ldap
+RUN docker-php-ext-configure ldap && \
+    docker-php-ext-install -j$(nproc) ldap
 
 # php extension pdo_mysql : 6.14s
 FROM ${BASE}-php-ext-base AS php-ext-pdo_mysql
@@ -108,11 +109,12 @@ RUN docker-php-ext-install -j$(nproc) zip
 FROM php:7.3.10-fpm-alpine3.10 AS fpm-alpine-base
 RUN apk add --no-cache \
         bash \
+        freetype \
         haveged \
         icu \
+        libldap \
         libpng \
-        libzip \
-        freetype && \
+        libzip && \
     touch /use_fpm
 
 EXPOSE 9000
@@ -211,6 +213,7 @@ COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --optimize-autoloader && \
     composer clearcache && \
+    composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai
 USER www-data
 
@@ -222,5 +225,6 @@ COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
     composer clearcache && \
+    composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai
 USER www-data

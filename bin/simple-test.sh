@@ -23,6 +23,8 @@ function main {
     test_container http://localhost:8002 base fpm.prod nginx
     test_container http://localhost:8002 base fpm.dev nginx mysql
     test_container http://localhost:8002 base fpm.prod nginx mysql
+    test_container http://localhost:8001 base apache.dev ldap
+    test_container http://localhost:8002 base fpm.dev nginx ldap
 
     finally
 }
@@ -115,4 +117,7 @@ function make_cmd {
     echo $cmd
 }
 
-main
+for KIMAI in $KIMAIS; do 
+    export KIMAI
+    main
+done
