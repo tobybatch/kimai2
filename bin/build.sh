@@ -2,6 +2,9 @@
 
 function usage {
     echo
+    echo "VERSIONS is a space delimited list of branches and or tags."
+    echo "e.g. 1.7 fixes/foo"
+    echo
     echo " -t The timezone, e.g. Europe/London"
     echo " -c Use the docker cache, default behaviour is to add --nocache"
     echo " -h Show help"
