@@ -10,17 +10,17 @@ The newer kimai instances cache images in the var directory (/opt/kimai/var).  T
 
 ### Evaluate
 
-Run a throw away instamce of kimai for evauation ot testing,  This is built against the master branch of the kevinpapst/kimai2 project and runs against a sqlite database inside the container using the built in php server.  When stopped all trace of the docker will disapear.  If you run the lines below you can hit kimai at http://localhost:8001 and log in with admin / admin.  The test users listed in [the develop section](https://www.kimai.org/documentation/installation.html) also exist.
+Run a throw away instance of kimai for evaluation ot testing,  This is built against the master branch of the kevinpapst/kimai2 project and runs against a sqlite database inside the container using the built in php server.  When stopped all trace of the docker will disappear.  If you run the lines below you can hit kimai at http://localhost:8001 and log in with admin / admin.  The test users listed in [the develop section](https://www.kimai.org/documentation/installation.html) also exist.
 
 ```bash
 docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:apache-debian-master-prod
-docker exec kimai2 /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN adminsecret
 docker exec kimai2 /opt/kimai/bin/console kimai:reset-dev
+docker exec kimai2 /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
 ```
 
 ### Production
 
-Run a production kimai with persistent database in a seperate mysql conatiner. The best way of doing this is with a docker compose file. you can hit kimai at http://localhost:8001 and log in with superadmin / changeme123.
+Run a production kimai with persistent database in a seperate mysql container. The best way of doing this is with a docker compose file. you can hit kimai at http://localhost:8001 and log in with superadmin / changemeplease.
 
 ```yaml
 version: '3.5'
@@ -83,7 +83,7 @@ services:
   postfix:
     image: catatnight/postfix
     environment:
-      maildomain: neontribe.co.uk
+      maildomain: kimai.local
       smtp_user: kimai:kimai
     restart: unless-stopped
     restart: always
