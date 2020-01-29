@@ -33,21 +33,6 @@ function handleStartup() {
       /opt/kimai/bin/console kimai:create-user superadmin $ADMINMAIL ROLE_SUPER_ADMIN $ADMINPASS
     fi
     echo $KIMAI > /opt/kimai/installed
-
-  # # installed - but false version
-  # elif ! [ $(cat /opt/kimai/installed) == $KIMAI ]; then
-  #   echo "other Kimai2 version detected - try to migrate"
-  #   echo $KIMAI
-  #   cat /opt/kimai/installed
-  #   # todo fetch new kimai source GIT
-  #   cd /opt/kimai
-  #   #git fetch --tags
-  #   #git checkout $KIMAI
-  #   composer install --working-dir=/opt/kimai --optimize-autoloader
-  #   bin/console cache:clear --env=prod
-  #   bin/console cache:warmup --env=prod
-  #   bin/console doctrine:migrations:migrate
-  #   echo $KIMAI > /opt/kimai/installed
   fi
   echo "Kimai2 ready"
 }

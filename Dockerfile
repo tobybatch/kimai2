@@ -188,8 +188,9 @@ COPY --from=php-ext-intl /usr/local/lib/php/extensions/no-debug-non-zts-20180731
 
 ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
 ENV APP_SECRET=change_this_to_something_unique
-ENV TRUSTED_PROXIES=false
-ENV TRUSTED_HOSTS=false
+# The default container name for nginx is nginx
+ENV TRUSTED_PROXIES=nginx,localhost,127.0.0.1
+ENV TRUSTED_HOSTS=nginx,localhost,127.0.0.1
 ENV MAILER_FROM=kimai@example.com
 ENV MAILER_URL=null://localhost
 ENV ADMINPASS=
