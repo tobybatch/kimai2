@@ -122,7 +122,7 @@ MAILER_URL=null://localhost
 
 Start up values:
 
-If set then then these values will try and create a new admin user.
+If set then these values will try and create a new admin user.
 
 ```
 ADMINPASS=
