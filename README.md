@@ -71,6 +71,8 @@ services:
     volumes:
       - public:/opt/kimai/public
       - var:/opt/kimai/var
+      # - ./ldap.conf:/etc/openldap/ldap.conf:z
+      # - ./ROOT-CA.pem:/etc/ssl/certs/ROOT-CA.pem:z
     restart: unless-stopped
     healthcheck:
       test: wget --spider http://nginx || exit 1
