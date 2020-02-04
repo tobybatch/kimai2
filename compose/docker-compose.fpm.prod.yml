@@ -6,6 +6,8 @@ services:
         image: kimai/kimai2:fpm-alpine-$KIMAI-prod
         environment:
             - APP_ENV=prod
+        volumes:
+            - fpm-kimai:/opt/kimai
 
 volumes:
     fpm-kimai:
