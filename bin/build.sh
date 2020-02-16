@@ -25,11 +25,12 @@ while getopts "t:ch" options; do
 done
 
 shift $((OPTIND-1))
-export KIMAIS=$@
 
-echo $KIMAIS
+if [ ! -z "$1" ] && [ -z "$KIMAIS" ]; then
+    KIMAIS=$@
+fi
 
-for KIMAI in $KIMAIS master; do
+for KIMAI in $KIMAIS; do
     for STAGE_NAME in dev prod; do
         for BASE in apache-debian fpm-alpine; do
             docker build $NOCACHE -t kimai/kimai2:${BASE}-${KIMAI}-${STAGE_NAME} --build-arg KIMAI=${KIMAI} --build-arg BASE=${BASE} --target=${STAGE_NAME} $(dirname $0)/..
