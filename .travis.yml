@@ -5,7 +5,7 @@ services:
 
 before_install:
     - gem install bundler
-    - ./bin/build.sh -b "apache-debian fpm-alpine" -s "dev prod" -c master
+    - ./bin/build.sh -b "apache-debian fpm-alpine" -s "dev prod" -k -c master
 
 script:
   - ./bin/simple-test.sh master
