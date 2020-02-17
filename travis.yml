@@ -1,0 +1,15 @@
+language: python
+python:
+  - 2.7
+  - 3.5
+
+services:
+  - docker
+
+install:
+  - ./bin/build.sh -b "apache-debian fpm-alpine" -s "dev prod" -c master
+
+script:
+  - ./bin/simple-test.sh master
+  - ./bin/push.sh master
+
