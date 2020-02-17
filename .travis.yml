@@ -8,6 +8,6 @@ before_install:
     - ./bin/build.sh -b "apache-debian fpm-alpine" -s "dev prod" -k -c $TRAVIS_BRANCH
 
 script:
-  - ./bin/simple-test.sh master
-  - ./bin/push.sh master
+  - ./bin/simple-test.sh $TRAVIS_BRANCH
+  - ./bin/push.sh $TRAVIS_BRANCH
 
