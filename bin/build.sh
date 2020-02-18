@@ -40,8 +40,9 @@ echo $KIMAIS
 for KIMAI in $KIMAIS master; do
     for STAGE_NAME in $STAGES; do
         for BASE in $BASES; do
-            echo "Building kimai/kimai2:${BASE}-${KIMAI}-${STAGE_NAME}"
+            set -x
             docker build $NOCACHE -t kimai/kimai2:${BASE}-${KIMAI}-${STAGE_NAME} --build-arg KIMAI=${KIMAI} --build-arg BASE=${BASE} --build-arg TZ=${TZ} --target=${STAGE_NAME} $(dirname $0)/..
+            set +x
         done
     done
 done
