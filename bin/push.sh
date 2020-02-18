@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 if [ ! -z "$1" ] && [ -z "$KIMAIS" ]; then
     KIMAIS=$@
