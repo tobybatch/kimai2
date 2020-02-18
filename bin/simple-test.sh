@@ -41,6 +41,7 @@ function test_container {
     URL=$1
     cmd=$(make_cmd "${@:2}")
     echo -e ${COL_GREEN}${KIMAI} ${@:2}${COL_RESET} starting...
+    echo $cmd
     $cmd 2>&1 > /dev/null
     STATUS=$(isready $URL)
     if [ "$STATUS" == "FAILED" ]; then
@@ -116,6 +117,10 @@ function make_cmd {
     cmd="$cmd up -d"
     echo $cmd
 }
+
+if [ ! -z "$1" ] && [ -z "$KIMAIS" ]; then
+    KIMAIS=$@
+fi
 
 for KIMAI in $KIMAIS; do 
     export KIMAI

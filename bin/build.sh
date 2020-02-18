@@ -35,9 +35,11 @@ done
 shift $((OPTIND-1))
 export KIMAIS=$@
 
-echo $KIMAIS
+if [ ! -z "$1" ] && [ -z "$KIMAIS" ]; then
+    KIMAIS=$@
+fi
 
-for KIMAI in $KIMAIS master; do
+for KIMAI in $KIMAIS; do
     for STAGE_NAME in $STAGES; do
         for BASE in $BASES; do
             docker build $NOCACHE -t kimai/kimai2:${BASE}-${KIMAI}-${STAGE_NAME} --build-arg KIMAI=${KIMAI} --build-arg BASE=${BASE} --build-arg TZ=${TZ} --target=${STAGE_NAME} $(dirname $0)/..
