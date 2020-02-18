@@ -35,9 +35,11 @@ done
 shift $((OPTIND-1))
 export KIMAIS=$@
 
-echo $KIMAIS
+if [ ! -z "$1" ] && [ -z "$KIMAIS" ]; then
+    KIMAIS=$@
+fi
 
-for KIMAI in $KIMAIS master; do
+for KIMAI in $KIMAIS; do
     for STAGE_NAME in $STAGES; do
         for BASE in $BASES; do
             set -x
