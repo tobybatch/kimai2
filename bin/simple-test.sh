@@ -42,10 +42,11 @@ function test_container {
     cmd=$(make_cmd "${@:2}")
     echo -e ${COL_GREEN}${KIMAI} ${@:2}${COL_RESET} starting...
     echo $cmd
-    $cmd 2>&1 > /dev/null
+    $cmd up -d 2>&1 > /dev/null
     STATUS=$(isready $URL)
     if [ "$STATUS" == "FAILED" ]; then
         echo -e ${COL_RED}Failed:${COL_RESET} $cmd
+        echo $cmd logs
         finally 1
     fi
     # TODO add some function tests
@@ -114,7 +115,6 @@ function make_cmd {
     for x in $@; do
         cmd="$cmd -f $COMPOSEDIR/docker-compose.$x.yml"
     done
-    cmd="$cmd up -d"
     echo $cmd
 }
 
