@@ -77,6 +77,7 @@ RUN apt-get install -y \
         libicu-dev \
         libpng-dev \
         libzip-dev \
+        libxslt1-dev \
         libfreetype6-dev
 
 
@@ -143,6 +144,7 @@ RUN apt-get update && \
         libicu63 \
         libpng16-16 \
         libzip4 \
+        libxslt1.1 \
         libfreetype6 && \
     echo "Listen 8001" > /etc/apache2/ports.conf && \
     a2enmod rewrite && \
