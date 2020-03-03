@@ -64,7 +64,9 @@ RUN apk add --no-cache \
     openldap-dev \
     libldap \
     # zip
-    libzip-dev
+    libzip-dev \
+    # xsl
+    libxslt-dev
 
 
 # apache debian php extension base
@@ -101,6 +103,12 @@ RUN docker-php-ext-install -j$(nproc) pdo_mysql
 FROM ${BASE}-php-ext-base AS php-ext-zip
 RUN docker-php-ext-install -j$(nproc) zip
 
+# php extension xsl : ?.?? s
+FROM ${BASE}-php-ext-base AS php-ext-xsl
+RUN docker-php-ext-install -j$(nproc) xsl
+
+
+
 ###########################
 # fpm-alpine base build
 ###########################
@@ -114,7 +122,8 @@ RUN apk add --no-cache \
         icu \
         libldap \
         libpng \
-        libzip && \
+        libzip \
+        libxslt-dev && \
     touch /use_fpm
 
 EXPOSE 9000
@@ -170,6 +179,9 @@ COPY --from=composer --chown=www-data:www-data /opt/kimai/vendor /opt/kimai/vend
 
 # copy php extensions
 
+# PHP extension xsl
+COPY --from=php-ext-xsl /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini
+COPY --from=php-ext-xsl /usr/local/lib/php/extensions/no-debug-non-zts-20180731/xsl.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/xsl.so
 # PHP extension pdo_mysql
 COPY --from=php-ext-pdo_mysql /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini
 COPY --from=php-ext-pdo_mysql /usr/local/lib/php/extensions/no-debug-non-zts-20180731/pdo_mysql.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/pdo_mysql.so
