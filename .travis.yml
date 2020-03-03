@@ -9,5 +9,6 @@ before_install:
 
 script:
   - docker run --rm --entrypoint "/opt/kimai/bin/console" kimai/kimai2:fpm-alpine-master-prod
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - ./bin/push.sh master
 
