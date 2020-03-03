@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 BASEDIR=$(realpath $(dirname $0)/..)
 COMPOSEDIR="$BASEDIR/compose"
