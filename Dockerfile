@@ -14,7 +14,7 @@ ARG BASE="fpm-alpine"
 
 # full kimai source
 FROM alpine:3.10 AS git-dev
-ARG KIMAI="1.6"
+ARG KIMAI="1.8"
 RUN apk add --no-cache git && \
     git clone --depth 1 --branch ${KIMAI} https://github.com/kevinpapst/kimai2.git /opt/kimai
 
@@ -64,7 +64,9 @@ RUN apk add --no-cache \
     openldap-dev \
     libldap \
     # zip
-    libzip-dev
+    libzip-dev \
+    # xsl
+    libxslt-dev
 
 
 # apache debian php extension base
@@ -75,6 +77,7 @@ RUN apt-get install -y \
         libicu-dev \
         libpng-dev \
         libzip-dev \
+        libxslt1-dev \
         libfreetype6-dev
 
 
@@ -101,6 +104,12 @@ RUN docker-php-ext-install -j$(nproc) pdo_mysql
 FROM ${BASE}-php-ext-base AS php-ext-zip
 RUN docker-php-ext-install -j$(nproc) zip
 
+# php extension xsl : ?.?? s
+FROM ${BASE}-php-ext-base AS php-ext-xsl
+RUN docker-php-ext-install -j$(nproc) xsl
+
+
+
 ###########################
 # fpm-alpine base build
 ###########################
@@ -114,7 +123,8 @@ RUN apk add --no-cache \
         icu \
         libldap \
         libpng \
-        libzip && \
+        libzip \
+        libxslt-dev && \
     touch /use_fpm
 
 EXPOSE 9000
@@ -134,6 +144,7 @@ RUN apt-get update && \
         libicu63 \
         libpng16-16 \
         libzip4 \
+        libxslt1.1 \
         libfreetype6 && \
     echo "Listen 8001" > /etc/apache2/ports.conf && \
     a2enmod rewrite && \
@@ -151,7 +162,7 @@ FROM ${BASE}-base AS base
 LABEL maintainer="tobias@neontribe.co.uk"
 LABEL maintainer="bastian@schroll-software.de"
 
-ARG KIMAI="1.6"
+ARG KIMAI="1.8"
 ENV KIMAI=${KIMAI}
 
 ARG TZ=Europe/Berlin
@@ -170,6 +181,9 @@ COPY --from=composer --chown=www-data:www-data /opt/kimai/vendor /opt/kimai/vend
 
 # copy php extensions
 
+# PHP extension xsl
+COPY --from=php-ext-xsl /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini
+COPY --from=php-ext-xsl /usr/local/lib/php/extensions/no-debug-non-zts-20180731/xsl.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/xsl.so
 # PHP extension pdo_mysql
 COPY --from=php-ext-pdo_mysql /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini
 COPY --from=php-ext-pdo_mysql /usr/local/lib/php/extensions/no-debug-non-zts-20180731/pdo_mysql.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/pdo_mysql.so
