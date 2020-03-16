@@ -15,10 +15,6 @@ jobs:
                 stage: dev prod
                 base: apache-debian fpm-alpine
 
-
-        # TODO set KIMAI to equal tag or branch name
-                kimai: `echo "${github.ref}" | sed -e 's,.*/\(.*\),\1,'`
-
         steps:
           - name: Checkout master
             uses: actions/checkout@V2
