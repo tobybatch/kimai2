@@ -12,8 +12,8 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                stage: dev prod
-                base: apache-debian fpm-alpine
+                stage: [dev, prod]
+                base: [apache-debian, fpm-alpine]
 
         steps:
           - name: Checkout master
