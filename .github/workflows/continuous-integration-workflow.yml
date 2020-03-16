@@ -22,10 +22,11 @@ jobs:
           - name: Build and publish image
             env:
                 DOCKER_BUILDKIT: 1
-                KIMAI: $(echo "${github.ref}" | sed -e 's,.*/\(.*\),\1,')
+                # KIMAI: $(echo "${github.ref}" | sed -e 's,.*/\(.*\),\1,')
             shell: bash
             run: |
-                docker build -t kimai/kimai2:${matrix.base}-${KIMAI}-${matrix.stage} --build-arg KIMAI=${KIMAI} --build-arg BASE=${matrix.base} --build-arg TZ= Europe/London--target=${matrix.stage} .
+                # docker build -t kimai/kimai2:${matrix.base}-${KIMAI}-${matrix.stage} --build-arg KIMAI=${KIMAI} --build-arg BASE=${matrix.base} --build-arg TZ= Europe/London--target=${matrix.stage} .
+                docker build -t kimai/kimai2:${matrix.base}-test-${matrix.stage} --build-arg KIMAI=test --build-arg BASE=${matrix.base} --build-arg TZ= Europe/London--target=${matrix.stage} .
 
 
                 # dockerHubUser: YOUR_USER_HERE
