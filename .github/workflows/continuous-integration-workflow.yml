@@ -1,23 +1,36 @@
-name: Greet Everyone
-# This workflow is triggered on pushes to the repository.
+name: Build and push
 on: [push]
+    #push:
+    #branches:
+    #- master
+    #tags:
+    #- v*
 
 jobs:
-  build:
-    # Job name is Greeting
-    name: Greeting
-    # This job runs on Linux
-    runs-on: ubuntu-latest
-    steps:
-      # This step uses GitHub's hello-world-javascript-action: https://github.com/actions/hello-world-javascript-action
-      - name: Hello world
-        uses: actions/hello-world-javascript-action@v1
-        with:
-          who-to-greet: 'Mona the Octocat'
-        id: hello
-      # This step prints an output (time) from the previous step's action.
-      - name: Echo the greeting's time
-        # run: echo 'The time was ${{ steps.hello.outputs.time }}. GW=${{GITHUB_WORKFLOW}} GEN=${{GITHUB_EVENT_NAME}} GR=${{GITHUB_REF}}'
-        run: echo ${{github.ref}} ${XXX} $(echo "${{github.ref}}" | sed -e 's,.*/\(.*\),\1,')
-        env:
-            XXX: $(echo "${{github.ref}}" | sed -e 's,.*/\(.*\),\1,')
+    build:
+        name: Build kimai docker, ${{ matrix.stage }} and ${{ matrix.base }}
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                stage: dev prod
+                base: apache-debian fpm-alpine
+
+
+        # TODO set KIMAI to equal tag or branch name
+                kimai: `echo "${github.ref}" | sed -e 's,.*/\(.*\),\1,'`
+
+        steps:
+          - name: Checkout master
+            uses: actions/checkout@V2
+
+          - name: Build and publish image
+            env:
+                DOCKER_BUILDKIT: 1
+                KIMAI: echo "${github.ref}" | sed -e 's,.*/\(.*\),\1,'
+            shell: bash
+            run: |
+                docker build -t kimai/kimai2:${matrix.base}-$(echo "${{github.ref}}" | sed -e 's,.*/\(.*\),\1,')-${matrix.stage} --build-arg KIMAI=$(echo "${{github.ref}}" | sed -e 's,.*/\(.*\),\1,') --build-arg BASE=${matrix.base} --build-arg TZ= Europe/London--target=${matrix.stage} .
+
+
+                # dockerHubUser: YOUR_USER_HERE
+                # dockerHubPassword: YOUR_PASSWORD_HERE
