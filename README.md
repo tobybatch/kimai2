@@ -57,12 +57,11 @@ services:
     ports:
       - 8001:80
     volumes:
-      - ./nginx_site.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx_site.conf:/etc/nginx/conf.d/default.conf:ro
+      - public:/opt/kimai/public:ro
     restart: unless-stopped
     depends_on:
       - kimai
-    volumes:
-      - public:/opt/kimai/public
     healthcheck:
       test:  wget --spider http://nginx/health || exit 1
       interval: 20s
@@ -89,7 +88,7 @@ services:
       retries: 3
 
   postfix:
-    image: catatnight/postfix
+    image: catatnight/postfix:latest
     environment:
       maildomain: kimai.local
       smtp_user: kimai:kimai
