@@ -1,6 +1,10 @@
 #!/bin/bash
 
-for KIMAI in $@; do
+if [ ! -z "$1" ] && [ -z "$KIMAIS" ]; then
+    KIMAIS=$@
+fi
+
+for KIMAI in $KIMAIS; do
     docker push kimai/kimai2:apache-debian-$KIMAI-dev
     docker push kimai/kimai2:fpm-alpine-$KIMAI-dev
     docker push kimai/kimai2:apache-debian-$KIMAI-prod
