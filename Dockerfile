@@ -229,7 +229,8 @@ RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --optimize-autoloader && \
     composer clearcache && \
     composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
-    chown -R www-data:www-data /opt/kimai
+    chown -R www-data:www-data /opt/kimai && \
+    sed "s/128M/256M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini
 USER www-data
 
 # production build
