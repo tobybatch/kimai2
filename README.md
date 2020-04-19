@@ -15,13 +15,14 @@ The docker compose file below will handle that but if you didn't save those file
 Run a throw away instance of kimai for evaluation or testing.
 This is built against the master branch of the kevinpapst/kimai2 project and runs against a sqlite database inside the container using the built in php server.
 When stopped all trace of the docker will disappear.
-If you run the lines below you can hit kimai at `http://localhost:8001` and log in with `admin` / `admin`.
+If you run the lines below you can hit kimai at `http://localhost:8001` and log in with `admin` / `changemeplease`
 The test users listed in [the develop section](https://www.kimai.org/documentation/installation.html) also exist.
 
 ```bash
-docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:apache-debian-master-prod
+docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2:apache-debian-1.8-dev
+docker exec kimai2 rm /opt/kimai/var/data/kimai.sqlite
 docker exec kimai2 /opt/kimai/bin/console kimai:reset-dev
-docker exec kimai2 /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN admin
+docker exec kimai2 /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN changemeplease
 ```
 
 ### Production
@@ -57,12 +58,11 @@ services:
     ports:
       - 8001:80
     volumes:
-      - ./nginx_site.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx_site.conf:/etc/nginx/conf.d/default.conf:ro
+      - public:/opt/kimai/public:ro
     restart: unless-stopped
     depends_on:
       - kimai
-    volumes:
-      - public:/opt/kimai/public
     healthcheck:
       test:  wget --spider http://nginx/health || exit 1
       interval: 20s
@@ -71,7 +71,7 @@ services:
       retries: 3
 
   kimai:
-    image: kimai/kimai2:fpm-alpine-1.5-prod
+    image: kimai/kimai2:fpm-alpine-1.8-prod
     environment:
       - APP_ENV=prod
       - TRUSTED_HOSTS=localhost
@@ -80,6 +80,8 @@ services:
     volumes:
       - public:/opt/kimai/public
       - var:/opt/kimai/var
+      # - ./ldap.conf:/etc/openldap/ldap.conf:z
+      # - ./ROOT-CA.pem:/etc/ssl/certs/ROOT-CA.pem:z
     restart: unless-stopped
     healthcheck:
       test: wget --spider http://nginx || exit 1
@@ -89,7 +91,7 @@ services:
       retries: 3
 
   postfix:
-    image: catatnight/postfix
+    image: catatnight/postfix:latest
     environment:
       maildomain: kimai.local
       smtp_user: kimai:kimai

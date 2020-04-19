@@ -13,7 +13,7 @@ ARG BASE="fpm-alpine"
 ###########################
 
 # full kimai source
-FROM alpine:3.10 AS git-dev
+FROM alpine:3.11 AS git-dev
 ARG KIMAI="1.8"
 RUN apk add --no-cache git && \
     git clone --depth 1 --branch ${KIMAI} https://github.com/kevinpapst/kimai2.git /opt/kimai
@@ -35,7 +35,7 @@ RUN mkdir /opt/kimai && \
 ###########################
 
 #fpm alpine php extension base
-FROM php:7.3.10-fpm-alpine3.10 AS fpm-alpine-php-ext-base
+FROM php:7.4.4-fpm-alpine3.11 AS fpm-alpine-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -51,7 +51,7 @@ RUN apk add --no-cache \
     m4 \
     make \
     mpc1 \
-    mpfr3 \
+    mpfr4 \
     musl-dev \
     perl \
     re2c \
@@ -70,7 +70,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:7.3.10-apache-buster AS apache-debian-php-ext-base
+FROM php:7.4.4-apache-buster AS apache-debian-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \
@@ -84,7 +84,7 @@ RUN apt-get install -y \
 # php extension gd - 13.86s
 FROM ${BASE}-php-ext-base AS php-ext-gd
 RUN docker-php-ext-configure gd \
-        --with-freetype-dir && \
+        --with-freetype && \
     docker-php-ext-install -j$(nproc) gd
 
 # php extension intl : 15.26s
@@ -115,7 +115,7 @@ RUN docker-php-ext-install -j$(nproc) xsl
 ###########################
 
 # fpm-alpine base build
-FROM php:7.3.10-fpm-alpine3.10 AS fpm-alpine-base
+FROM php:7.4.4-fpm-alpine3.11 AS fpm-alpine-base
 RUN apk add --no-cache \
         bash \
         freetype \
@@ -135,7 +135,7 @@ EXPOSE 9000
 # apache-debian base build
 ###########################
 
-FROM php:7.3.10-apache-buster AS apache-debian-base
+FROM php:7.4.4-apache-buster AS apache-debian-base
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN apt-get update && \
     apt-get install -y \
@@ -183,22 +183,22 @@ COPY --from=composer --chown=www-data:www-data /opt/kimai/vendor /opt/kimai/vend
 
 # PHP extension xsl
 COPY --from=php-ext-xsl /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini
-COPY --from=php-ext-xsl /usr/local/lib/php/extensions/no-debug-non-zts-20180731/xsl.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/xsl.so
+COPY --from=php-ext-xsl /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so
 # PHP extension pdo_mysql
 COPY --from=php-ext-pdo_mysql /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini
-COPY --from=php-ext-pdo_mysql /usr/local/lib/php/extensions/no-debug-non-zts-20180731/pdo_mysql.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/pdo_mysql.so
+COPY --from=php-ext-pdo_mysql /usr/local/lib/php/extensions/no-debug-non-zts-20190902/pdo_mysql.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/pdo_mysql.so
 # PHP extension zip
 COPY --from=php-ext-zip /usr/local/etc/php/conf.d/docker-php-ext-zip.ini /usr/local/etc/php/conf.d/docker-php-ext-zip.ini
-COPY --from=php-ext-zip /usr/local/lib/php/extensions/no-debug-non-zts-20180731/zip.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/zip.so
+COPY --from=php-ext-zip /usr/local/lib/php/extensions/no-debug-non-zts-20190902/zip.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/zip.so
 # PHP extension ldap
 COPY --from=php-ext-ldap /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini
-COPY --from=php-ext-ldap /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ldap.so
+COPY --from=php-ext-ldap /usr/local/lib/php/extensions/no-debug-non-zts-20190902/ldap.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/ldap.so
 # PHP extension gd
 COPY --from=php-ext-gd /usr/local/etc/php/conf.d/docker-php-ext-gd.ini /usr/local/etc/php/conf.d/docker-php-ext-gd.ini
-COPY --from=php-ext-gd /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/gd.so
+COPY --from=php-ext-gd /usr/local/lib/php/extensions/no-debug-non-zts-20190902/gd.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/gd.so
 # PHP extension intl
 COPY --from=php-ext-intl /usr/local/etc/php/conf.d/docker-php-ext-intl.ini /usr/local/etc/php/conf.d/docker-php-ext-intl.ini
-COPY --from=php-ext-intl /usr/local/lib/php/extensions/no-debug-non-zts-20180731/intl.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/intl.so
+COPY --from=php-ext-intl /usr/local/lib/php/extensions/no-debug-non-zts-20190902/intl.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/intl.so
 
 ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
 ENV APP_SECRET=change_this_to_something_unique
@@ -229,7 +229,8 @@ RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --optimize-autoloader && \
     composer clearcache && \
     composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
-    chown -R www-data:www-data /opt/kimai
+    chown -R www-data:www-data /opt/kimai && \
+    sed "s/128M/256M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini
 USER www-data
 
 # production build
