@@ -96,7 +96,6 @@ services:
       maildomain: kimai.local
       smtp_user: kimai:kimai
     restart: unless-stopped
-    restart: always
 
 volumes:
     var:
