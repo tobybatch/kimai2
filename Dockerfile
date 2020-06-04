@@ -224,7 +224,6 @@ ENTRYPOINT /startup.sh
 FROM base AS dev
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
-ADD monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --optimize-autoloader && \
@@ -239,7 +238,6 @@ USER www-data
 FROM base AS prod
 # copy kimai production source
 COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
-ADD monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
