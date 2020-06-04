@@ -224,6 +224,7 @@ ENTRYPOINT /startup.sh
 FROM base AS dev
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
+ADD monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --optimize-autoloader && \
@@ -231,16 +232,19 @@ RUN export COMPOSER_HOME=/composer && \
     composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai && \
     sed "s/128M/256M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini
+ENV APP_ENV=dev
 USER www-data
 
 # production build
 FROM base AS prod
 # copy kimai production source
 COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
+ADD monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
     composer clearcache && \
     composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai
+ENV APP_ENV=prod
 USER www-data

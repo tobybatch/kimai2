@@ -32,12 +32,31 @@ function handleStartup() {
     if [ ! -z "$ADMINPASS" ] && [ ! -a "$ADMINMAIL" ]; then
       /opt/kimai/bin/console kimai:create-user superadmin $ADMINMAIL ROLE_SUPER_ADMIN $ADMINPASS
     fi
+    # I think kimai:install overwrites the monolog config
+    if [ "$APP_ENV" == "dev" ]; then
+      cat <<EOF > /opt/kimai/config/packages/dev/monolog.yaml
+monolog:
+  handlers:
+    main:
+      type: error_log
+      level: debug
+EOF
+    else 
+      cat <<EOF > /opt/kimai/config/packages/prod/monolog.yaml
+monolog:
+  handlers:
+    main:
+      type: error_log
+      level: error
+EOF
+    fi
     echo $KIMAI > /opt/kimai/installed
   fi
   echo "Kimai2 ready"
 }
 
 function runServer() {
+  /opt/kimai/bin/console cache:clear --env=$APP_ENV
   if [ -e /use_apache ]; then 
     /usr/sbin/apache2ctl -D FOREGROUND
   elif [ -e /use_fpm ]; then 
