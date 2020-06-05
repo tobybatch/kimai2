@@ -56,7 +56,7 @@ EOF
 }
 
 function runServer() {
-  /opt/kimai/bin/console cache:clear --env=$APP_ENV
+  /opt/kimai/bin/console kimai:reload --env=$APP_ENV
   if [ -e /use_apache ]; then 
     /usr/sbin/apache2ctl -D FOREGROUND
   elif [ -e /use_fpm ]; then 
