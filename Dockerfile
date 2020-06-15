@@ -231,6 +231,8 @@ RUN export COMPOSER_HOME=/composer && \
     composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai && \
     sed "s/128M/256M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini
+COPY monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
+ENV APP_ENV=dev
 USER www-data
 
 # production build
@@ -243,4 +245,6 @@ RUN export COMPOSER_HOME=/composer && \
     composer clearcache && \
     composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai
+COPY monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
+ENV APP_ENV=prod
 USER www-data
