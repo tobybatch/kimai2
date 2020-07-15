@@ -231,7 +231,9 @@ RUN export COMPOSER_HOME=/composer && \
     composer clearcache && \
     composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai && \
-    sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini
+    sed "s/128M/256M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini && \
+    sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini && \
+    sed "s/env php/env -S php -c /opt/kimai/php-cli.ini/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini
 ENV APP_ENV=dev
 USER www-data
 
@@ -245,6 +247,7 @@ RUN export COMPOSER_HOME=/composer && \
     composer install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
     composer clearcache && \
     composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
+    cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     chown -R www-data:www-data /opt/kimai
 ENV APP_ENV=prod
 USER www-data
