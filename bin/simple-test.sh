@@ -2,7 +2,7 @@
 
 BASEDIR=$(realpath $(dirname $0)/..)
 COMPOSEDIR="$BASEDIR/compose"
-SLEEP_COUNT=6
+SLEEP_COUNT=10
 SLEEP_DURATION=5
 
 ESC_SEQ="\x1b["
@@ -15,16 +15,16 @@ function main {
     cleanup all
     cleanup volumes
 
-    test_container http://localhost:8001 base apache.dev
-    test_container http://localhost:8001 base apache.dev apache.prod
-    test_container http://localhost:8001 base apache.dev mysql
-    test_container http://localhost:8001 base apache.dev apache.prod mysql
-    test_container http://localhost:8002 base fpm.dev nginx
-    test_container http://localhost:8002 base fpm.prod nginx
-    test_container http://localhost:8002 base fpm.dev nginx mysql
-    test_container http://localhost:8002 base fpm.prod nginx mysql
-    test_container http://localhost:8001 base apache.dev ldap
-    test_container http://localhost:8002 base fpm.dev nginx ldap
+    test_container http://localhost:8001/en/login base apache.dev
+    test_container http://localhost:8001/en/login base apache.dev apache.prod
+    test_container http://localhost:8001/en/login base apache.dev mysql
+    test_container http://localhost:8001/en/login base apache.dev apache.prod mysql
+    test_container http://localhost:8002/en/login base fpm.dev nginx
+    test_container http://localhost:8002/en/login base fpm.prod nginx
+    test_container http://localhost:8002/en/login base fpm.dev nginx mysql
+    test_container http://localhost:8002/en/login base fpm.prod nginx mysql
+    test_container http://localhost:8001/en/login base apache.dev ldap
+    test_container http://localhost:8002/en/login base fpm.dev nginx ldap
 
     finally
 }
