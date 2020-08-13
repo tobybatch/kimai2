@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -e
 
 function usage {
     echo
@@ -39,9 +39,14 @@ if [ ! -z "$1" ] && [ -z "$KIMAIS" ]; then
     KIMAIS=$@
 fi
 
+echo "Building, $KIMAIS for $STAGES and $BASES"
+
 for KIMAI in $KIMAIS; do
     for STAGE_NAME in $STAGES; do
         for BASE in $BASES; do
+            echo "*************************************"
+            echo "* Building $KIMAI for $STAGE_NAME and $BASE"
+            echo "*************************************"
             docker build $NOCACHE -t kimai/kimai2:${BASE}-${KIMAI}-${STAGE_NAME} --build-arg KIMAI=${KIMAI} --build-arg BASE=${BASE} --build-arg TZ=${TZ} --target=${STAGE_NAME} $(dirname $0)/..
         done
     done
