@@ -124,10 +124,18 @@ RUN apk add --no-cache \
         libldap \
         libpng \
         libzip \
-        libxslt-dev && \
+        libxslt-dev \
+        fcgi && \
     touch /use_fpm
 
 EXPOSE 9000
+
+HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
+    CMD \
+    SCRIPT_NAME=/ping \
+    SCRIPT_FILENAME=/ping \
+    REQUEST_METHOD=GET \
+    cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1
 
 
 
