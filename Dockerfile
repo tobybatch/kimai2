@@ -24,7 +24,7 @@ WORKDIR /opt/kimai
 RUN rm -r tests
 
 # composer with prestissimo (faster deps install)
-FROM composer:1.9 AS composer
+FROM composer:1.10 AS composer
 RUN mkdir /opt/kimai && \
     composer require --working-dir=/opt/kimai hirak/prestissimo
 
