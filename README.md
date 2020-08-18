@@ -58,7 +58,7 @@ services:
     ports:
       - 8001:80
     volumes:
-      - ./nginx_site.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx_site.conf:/etc/nginx/conf.d/default.conf
       - public:/opt/kimai/public:ro
     restart: unless-stopped
     depends_on:
