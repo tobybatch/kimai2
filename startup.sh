@@ -9,7 +9,7 @@ function waitForDB() {
   DB_USER=$(awk -F '[/:@]' '{print $4}' <<< $DATABASE_URL)
   DB_PASS=$(awk -F '[/:@]' '{print $5}' <<< $DATABASE_URL)
   DB_HOST=$(awk -F '[/:@]' '{print $6}' <<< $DATABASE_URL)
-  DB_BASE=$(awk -F '[/:@]' '{print $7}' <<< $DATABASE_URL)
+  DB_BASE=$(awk -F '[/?]' '{print $4}' <<< $DATABASE_URL)
 
   # If we use mysql wait until its online
   if [[ $DB_TYPE == "mysql" ]]; then
