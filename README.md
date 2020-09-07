@@ -4,7 +4,7 @@ We provide a set of docker images for the [Kimai v2](https://github.com/kevinpap
 
 ## Quick start
 
-Run the latest released version of Kimai in production mode using a bundled sqlite DB:
+Run the latest master version of Kimai in production mode using a bundled sqlite DB:
 
     docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2
 
