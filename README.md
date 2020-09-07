@@ -16,13 +16,13 @@ This docker transient and will disappear when you stop the container.
 
 ## Documentaion
 
- * Starting a dev instance
- * Using docker-compose
- * All runtime arguments
- * Building it yourself
-   * Build arguments
- * Troubleshooting
-   * NGINX and proxying
-   * Fixing permissions
-   * 500 Server errors
-   * Older versions
+ * [Starting a dev instance](docs/dev-instance.md#dev-instances)
+ * [Using docker-compose](docs/docker-compose.md#docker-compose)
+ * [All runtime arguments](docs/runtime-args.md#runtime-arguments)
+ * [Building it yourself](docs/build.md#building-the-kimai-docker)
+   * [Build arguments](docs/build.md#build-arguments)
+ * [Troubleshooting](docs/troubleshooting.md#troubleshooting)
+   * [NGINX and proxying](docs/troubleshooting.md#nginx-and-proxying)
+   * [Fixing permissions](docs/troubleshooting.md#permissions)
+   * [500 Server errors](docs/troubleshooting.md#500-server-errors)
+   * [Older versions](docs/troubleshooting.md#older-version)
