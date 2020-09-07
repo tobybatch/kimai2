@@ -24,4 +24,5 @@ This docker transient and will disappear when you stop the container.
  * Troubleshooting
    * NGINX and proxying
    * Fixing permissions
+   * 500 Server errors
    * Older versions
