@@ -50,12 +50,6 @@ services:
       # - ./ldap.conf:/etc/openldap/ldap.conf:z
       # - ./ROOT-CA.pem:/etc/ssl/certs/ROOT-CA.pem:z
     restart: unless-stopped
-    healthcheck:
-      test: wget --spider http://nginx || exit 1
-      interval: 20s
-      start_period: 10s
-      timeout: 10s
-      retries: 3
 
   postfix:
     image: catatnight/postfix:latest

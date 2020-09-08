@@ -6,7 +6,7 @@ We provide a set of docker images for the [Kimai v2](https://github.com/kevinpap
 
 Run the latest master version of Kimai in production mode using a bundled DB.  **This is not suitable for production use**:
 
-    docker run --rm -ti -p 8001:8001 --name kimai2 kimai/kimai2
+    docker run --rm -ti -p 8001:8001 --name kimai kimai/kimai2
 
 Create an admin user in the new running docker:
 
