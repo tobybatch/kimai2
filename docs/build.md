@@ -1,11 +1,11 @@
 # Building the Kimai Docker
 
-The same docker file is used to build all the tagged images and is configured by combination of build arguments and 
+The same docker file is used to build all the tagged images and is configured by combination of build arguments and
 targets.
 
 ## Targets
 
-The docker file has many staging targets but two functional builds are `prod` and `dev` which correspond to the 
+The docker file has many staging targets but two functional builds are `prod` and `dev` which correspond to the
 prod and development environments as outlined in the Kimai documentation.  The default is `prod`
 
     docker build --target=prod .
@@ -25,7 +25,7 @@ The Apache/Debian image is bigger (~940mb) but does not require a second contain
 image for development, tests or evaluation.
 
 The FPM image is smaller (~640mb) but requires a web server to provide the http services.  Use this image in production
-and see the [docker-compose](docker-compose.md) page for setting up a http server.   
+and see the [docker-compose](docker-compose.md) page for setting up a http server.
 
 ### KIMAI
 

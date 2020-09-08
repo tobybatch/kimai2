@@ -14,7 +14,7 @@ Create an admin user in the new running docker:
 
 This docker transient and will disappear when you stop the container.
 
-## Documentaion
+## Documentation
 
  * [Starting a dev instance](docs/dev-instance.md#dev-instances)
  * [Using docker-compose](docs/docker-compose.md#docker-compose)
