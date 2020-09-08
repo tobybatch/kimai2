@@ -6,7 +6,7 @@ While outside the direct responsibility of this project we get a lot of issues r
 NGINX into the FPM container.
 
 Note that you will need to set the name of your NGINX container to be in the list of TRUSTED_HOSTS when you start the 
-kimai container.
+Kimai container.
 
 ## Permissions
 

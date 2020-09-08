@@ -5,7 +5,7 @@ targets.
 
 ## Targets
 
-The docker file has many intermiadary targets but two functional builds are `prod` and `dev` which correspond to the 
+The docker file has many staging targets but two functional builds are `prod` and `dev` which correspond to the 
 prod and development environments as outlined in the Kimai documentation.  The default is `prod`
 
     docker build --target=prod .
@@ -25,11 +25,11 @@ The Apache/Debian image is bigger (~940mb) but does not require a second contain
 image for development, tests or evaluation.
 
 The FPM image is smaller (~640mb) but requires a web server to provide the http services.  Use this image in production
-and see the [docer-compose](docker-compose.md) page for setting up a http server.   
+and see the [docker-compose](docker-compose.md) page for setting up a http server.   
 
 ### KIMAI
 
-This allows over releases of Kimai to be built.  You can specify anything would be passed to a git clone command.
+This allows over releases of Kimai to be built.  You can specify anything that would be passed to a git clone command.
 
   * A tag or release, e.g. `KIMAI=10.0.2`
   * A branch name, e.g. `KIMAI=master`
