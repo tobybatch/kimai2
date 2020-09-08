@@ -10,7 +10,7 @@ Run the latest master version of Kimai in production mode using a bundled DB.  *
 
 Create an admin user in the new running docker:
 
-    docker exec kimai2 /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN
+    docker exec kimai /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN
 
 This docker transient and will disappear when you stop the container.
 
