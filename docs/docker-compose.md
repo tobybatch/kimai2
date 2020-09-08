@@ -1,3 +1,10 @@
+# Docker compose
+
+Run a production Kimai with a persistent database in a separate mysql container.
+
+You can hit kimai at `http://localhost:8001` and log in with `superadmin` / `changemeplease`.
+
+```yaml
 version: '3.5'
 services:
 
@@ -24,7 +31,7 @@ services:
     ports:
       - 8001:80
     volumes:
-      - ./compose/nginx_site.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx_site.conf:/etc/nginx/conf.d/default.conf:ro
       - public:/opt/kimai/public:ro
     restart: unless-stopped
     depends_on:
@@ -37,13 +44,12 @@ services:
       retries: 3
 
   kimai:
-    image: kimai/kimai2
+    image: kimai/kimai2:fpm-alpine-1.8-prod
     environment:
       - APP_ENV=prod
-      - TRUSTED_HOSTS=localhost
+      - TRUSTED_HOSTS=localhost,nginx,${HOSTNAME}
       - ADMINMAIL=admin@kimai.local
       - ADMINPASS=changemeplease
-      - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
     volumes:
       - public:/opt/kimai/public
       - var:/opt/kimai/var
@@ -54,10 +60,11 @@ services:
   postfix:
     image: catatnight/postfix:latest
     environment:
-      maildomain: neontribe.co.uk
+      maildomain: kimai.local
       smtp_user: kimai:kimai
     restart: unless-stopped
 
 volumes:
     var:
     public:
+```
