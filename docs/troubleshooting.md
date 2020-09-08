@@ -25,11 +25,11 @@ docker-compose --user root exec CONTAINER_NAME chown -R www-data:www-data /opt/k
 ## 500 Server errors
 
 Around 4/5 of the bugs raised are related to the TRUSTED_HOSTS value.  If you get a 500 then check that the 
-TRUSTED_HOSTS environment variable is set to either your hostname or the hostname of your proxy server (nginx etc).  In
+`TRUSTED_HOSTS` environment variable is set to either your hostname or the hostname of your proxy server (nginx etc).  In
 the docker-compose environment that is the container name of the nginx container.
 
 ## Older version
 
 While we do backport bug fixes we only thoroughly test them against the latest release of Kimai.  We keep the older 
-tags available for those who do not wish to upgrade but If you have a bug then first try pulling the latest tag and 
-trying again before raising an issue.
+tags available for those who do not wish to upgrade, but if you encounter a bug then first retest after pulling the latest tag 
+before raising an issue.
