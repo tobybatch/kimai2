@@ -23,10 +23,8 @@ function main {
     test_container http://localhost:8002/en/login base fpm.prod nginx
     test_container http://localhost:8002/en/login base fpm.dev nginx mysql
     test_container http://localhost:8002/en/login base fpm.prod nginx mysql
-    test_container http://localhost:8001/en/login base apache.dev ldap
-    test_container http://localhost:8002/en/login base fpm.dev nginx ldap
 
-    finally
+    finally 0
 }
 
 function finally {
