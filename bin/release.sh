@@ -4,10 +4,10 @@ function usage {
     echo
     echo "Builds all the images for the specified kimai tag and then tags them and pushes"
     echo "them:"
-    echo "  fpm-alpine-1.10.2-prod, latest, latest-prod"
-    echo "  fpm-alpine-1.10.2-dev"
-    echo "  apache-debian-1.10.2-prod"
-    echo "  apache-debian-1.10.2-dev, latest-dev"
+    echo "  fpm-alpine-X.Y.z-prod, latest, latest-prod"
+    echo "  fpm-alpine-X.Y.z-dev"
+    echo "  apache-debian-X.Y.z-prod"
+    echo "  apache-debian-X.Y.z-dev, latest-dev"
 }
 
 USAGE="$0 TAG"
