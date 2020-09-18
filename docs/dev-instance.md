@@ -16,3 +16,19 @@ docker exec kimai2 rm /opt/kimai/var/data/kimai.sqlite
 docker exec kimai2 /opt/kimai/bin/console kimai:reset-dev
 docker exec kimai2 /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN changemeplease
 ```
+
+## The bleading edge
+
+The containers we support are based on stable releases from the repo at
+[https://github.com/kevinpapst/kimai2](https://github.com/kevinpapst/kimai2).
+If you want to run the latest code from the Kimai repo you will need to build
+your own image locally. You can do this from the root of the repo using this
+command to build the image:
+
+    docker build -t kimai-master --build-arg KIMAI=master .
+
+Then you may run start a container against that image:
+
+    docker run -ti --name kimai
+
+This is the FPM prod image. See here for other build details: [build.md](build.md)

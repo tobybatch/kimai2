@@ -4,9 +4,9 @@ We provide a set of docker images for the [Kimai v2](https://github.com/kevinpap
 
 ## Quick start
 
-Run the latest master version of Kimai in production mode using a bundled DB.  **This is not suitable for production use**:
+Run the latest build against tbe master branch of the Kimai repo using a bundled DB. **This is not suitable for production use**:
 
-    docker run --rm -ti -p 8001:8001 --name kimai kimai/kimai2
+    docker run --rm -ti -p 8001:8001 --name kimai kimai/kimai2:latest-dev
 
 Create an admin user in the new running docker:
 
@@ -16,13 +16,4 @@ This docker transient and will disappear when you stop the container.
 
 ## Documentation
 
- * [Starting a dev instance](docs/dev-instance.md#dev-instances)
- * [Using docker-compose](docs/docker-compose.md#docker-compose)
- * [All runtime arguments](docs/runtime-args.md#runtime-arguments)
- * [Building it yourself](docs/build.md#building-the-kimai-docker)
-   * [Build arguments](docs/build.md#build-arguments)
- * [Troubleshooting](docs/troubleshooting.md#troubleshooting)
-   * [NGINX and proxying](docs/troubleshooting.md#nginx-and-proxying)
-   * [Fixing permissions](docs/troubleshooting.md#permissions)
-   * [500 Server errors](docs/troubleshooting.md#500-server-errors)
-   * [Older versions](docs/troubleshooting.md#older-version)
+[https://tobybatch.github.io/kimai2/](https://tobybatch.github.io/kimai2/)
