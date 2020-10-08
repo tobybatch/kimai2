@@ -26,7 +26,7 @@ RUN rm -r tests
 # composer with prestissimo (faster deps install)
 FROM composer:1.10 AS composer
 RUN mkdir /opt/kimai && \
-    composer require --working-dir=/opt/kimai hirak/prestissimo
+    composer --no-ansi require --working-dir=/opt/kimai hirak/prestissimo
 
 
 
@@ -238,9 +238,9 @@ COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
 COPY monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
-    composer install --working-dir=/opt/kimai --optimize-autoloader && \
-    composer clearcache && \
-    composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
+    composer --no-ansi install --working-dir=/opt/kimai --optimize-autoloader && \
+    composer --no-ansi clearcache && \
+    composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai && \
     sed "s/128M/256M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini && \
     sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini && \
@@ -255,9 +255,9 @@ COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
 COPY monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
-    composer install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
-    composer clearcache && \
-    composer require --working-dir=/opt/kimai laminas/laminas-ldap && \
+    composer --no-ansi install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
+    composer --no-ansi clearcache && \
+    composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     chown -R www-data:www-data /opt/kimai
 ENV APP_ENV=prod
