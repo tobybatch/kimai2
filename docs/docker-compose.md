@@ -69,10 +69,10 @@ volumes:
     public:
 ```
 
-**You Must Use a Named Volume**
+**You must use a named volume**
 
 In order for the "public" folder to get copied correctly, this must be a "named" volume, not a folder path. You will get a 404 if you do. If you MUST use a folder path, this is what you must do:
 
 1. First, you need to change the volume map to `- ./my/folder:/opt/kimai/public2` (notice the "2" at the end)
-2. Now, `docker-compose up -d`, and then `docker-compose exec kimai bash` and inside that container `cd /opt/kimai`; cp -r public/* public2/; cp -r public/.htaccess public2`
+2. Now, `docker-compose up -d`, and then `docker-compose exec kimai bash` and inside that container `cd /opt/kimai; cp -r public/* public2/; cp -r public/.htaccess public2`
 3. Finally, change back the docker-compose to `- ./my/folder:/opt/kimai/public` (no more "2") and `docker-compose up -d`
