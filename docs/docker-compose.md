@@ -50,6 +50,7 @@ services:
       - TRUSTED_HOSTS=localhost,nginx,${HOSTNAME}
       - ADMINMAIL=admin@kimai.local
       - ADMINPASS=changemeplease
+      - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
     volumes:
       - public:/opt/kimai/public
       - var:/opt/kimai/var
