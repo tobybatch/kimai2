@@ -44,7 +44,7 @@ services:
       retries: 3
 
   kimai:
-    image: kimai/kimai2:fpm-alpine-1.8-prod
+    image: kimai/kimai2:fpm-alpine-1.10.2-prod
     environment:
       - APP_ENV=prod
       - TRUSTED_HOSTS=localhost,nginx,${HOSTNAME}
