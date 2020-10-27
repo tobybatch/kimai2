@@ -5,11 +5,23 @@ echo $KIMAI
 function waitForDB() {
   # Parse sql connection data
   # todo: port is not used atm
-  DB_TYPE=$(awk -F '[/:@]' '{print $1}' <<< $DATABASE_URL)
-  DB_USER=$(awk -F '[/:@]' '{print $4}' <<< $DATABASE_URL)
-  DB_PASS=$(awk -F '[/:@]' '{print $5}' <<< $DATABASE_URL)
-  DB_HOST=$(awk -F '[/:@]' '{print $6}' <<< $DATABASE_URL)
-  DB_BASE=$(awk -F '[/?]' '{print $4}' <<< $DATABASE_URL)
+  if [ ! -z "$DATABASE_URL" ]; then
+    DB_TYPE=$(awk -F '[/:@]' '{print $1}' <<< $DATABASE_URL)
+    DB_USER=$(awk -F '[/:@]' '{print $4}' <<< $DATABASE_URL)
+    DB_PASS=$(awk -F '[/:@]' '{print $5}' <<< $DATABASE_URL)
+    DB_HOST=$(awk -F '[/:@]' '{print $6}' <<< $DATABASE_URL)
+    DB_BASE=$(awk -F '[/?]' '{print $4}' <<< $DATABASE_URL)
+  else
+    DB_TYPE=${DB_TYPE:mysql}
+    if [ "$DB_TYPE" == "mysql" ]; then
+      export DATABASE_URL="${DB_TYPE}://${DB_USER:=kimai}:${DB_PASS:=kimai}@${DB_HOST:=sqldb}:${DB_PORT:=3306}/${DB_BASE:=kimai}"
+    elif [ "$DB_TYPE" == "sqlite" ]; then
+      export DATABASE_URL="${DB_TYPE}://${DB_BASE:=/%kernel.project_dir%/var/data/kimai.sqlite}"
+    else
+      echo "Unkown dtabase type, cannot proceed. [$DB_TYPE]"
+      exit 1
+    fi
+  fi
 
   # If we use mysql wait until its online
   if [[ $DB_TYPE == "mysql" ]]; then
