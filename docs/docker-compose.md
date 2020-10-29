@@ -64,10 +64,19 @@ services:
       maildomain: kimai.local
       smtp_user: kimai:kimai
     restart: unless-stopped
-
 volumes:
     var:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /.../kimai2/kimaidata/var_data <ABSOLUTE PATH to LOCAL DIRECTORY>
     public:
+      driver: local
+      driver_opts:
+        type: none
+        o: bind
+        device: /.../kimai2/kimaidata/public_data <ABSOLUTE PATH to LOCAL DIRECTORY>
 ```
 
 **You must use a named volume**
