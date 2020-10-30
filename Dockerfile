@@ -14,7 +14,7 @@ ARG BASE="fpm-alpine"
 
 # full kimai source
 FROM alpine:3.12 AS git-dev
-ARG KIMAI="1.8"
+ARG KIMAI="1.11.1"
 RUN apk add --no-cache git && \
     git clone --depth 1 --branch ${KIMAI} https://github.com/kevinpapst/kimai2.git /opt/kimai
 
@@ -23,10 +23,10 @@ FROM git-dev AS git-prod
 WORKDIR /opt/kimai
 RUN rm -r tests
 
-# composer with prestissimo (faster deps install)
-FROM composer:1.10 AS composer
+# composer
+FROM composer:2.0.3 AS composer
 RUN mkdir /opt/kimai && \
-    composer --no-ansi require --working-dir=/opt/kimai hirak/prestissimo
+    composer --no-ansi require --working-dir=/opt/kimai
 
 
 
@@ -173,7 +173,6 @@ FROM ${BASE}-base AS base
 LABEL maintainer="tobias@neontribe.co.uk"
 LABEL maintainer="bastian@schroll-software.de"
 
-ARG KIMAI="1.8"
 ENV KIMAI=${KIMAI}
 
 ARG TZ=Europe/Berlin
