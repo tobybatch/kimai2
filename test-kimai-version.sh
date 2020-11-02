@@ -1,10 +1,9 @@
 #!/bin/sh
 
-# An awk wizard can probably do this whole script in a single line ;)
-MAJVER=$(echo $KIMAI | awk -F "." '{print $1}')
-MINVER=$(echo $KIMAI | awk -F "." '{print $2}')
+# An reg wizard can probably do this without the cut command
+VER=$(echo $KIMAI | sed 's/[^0-9]//g' | cut -c1-3)
 
-if test "${MAJVER}" -eq "1" && test "${MINVER}" -lt 11
+if test "${VER}" -lt 111
 then
   echo "+--------------------------------------------------------------------------+"
   echo "| Kimai versions older than 1.11 require composer 1.x                      |"
