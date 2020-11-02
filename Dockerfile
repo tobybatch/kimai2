@@ -1,9 +1,9 @@
-#  _  ___                 _ ____  
-# | |/ (_)_ __ ___   __ _(_)___ \ 
+#  _  ___                 _ ____
+# | |/ (_)_ __ ___   __ _(_)___ \
 # | ' /| | '_ ` _ \ / _` | | __) |
-# | . \| | | | | | | (_| | |/ __/ 
+# | . \| | | | | | | (_| | |/ __/
 # |_|\_\_|_| |_| |_|\__,_|_|_____|
-#                                 
+#
 
 # Source base [fpm-alpine/apache-debian]
 ARG BASE="fpm-alpine"
@@ -220,6 +220,13 @@ ENV MAILER_FROM=kimai@example.com
 ENV MAILER_URL=null://localhost
 ENV ADMINPASS=
 ENV ADMINMAIL=
+ENV DB_TYPE=
+ENV DB_USER=
+ENV DB_PASS=
+ENV DB_HOST=
+ENV DB_PORT=
+ENV DB_BASE=
+
 
 VOLUME [ "/opt/kimai/var" ]
 
