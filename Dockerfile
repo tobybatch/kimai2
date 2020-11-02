@@ -15,6 +15,9 @@ ARG BASE="fpm-alpine"
 # full kimai source
 FROM alpine:3.12 AS git-dev
 ARG KIMAI="1.11.1"
+# I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
+ADD test-kimai-version.sh /test-kimai-version.sh
+RUN /test-kimai-version.sh
 RUN apk add --no-cache git && \
     git clone --depth 1 --branch ${KIMAI} https://github.com/kevinpapst/kimai2.git /opt/kimai
 
@@ -23,10 +26,10 @@ FROM git-dev AS git-prod
 WORKDIR /opt/kimai
 RUN rm -r tests
 
-# composer
-FROM composer:2.0.3 AS composer
+# composer with prestissimo (faster deps install)
+FROM composer:1.10 AS composer
 RUN mkdir /opt/kimai && \
-    composer --no-ansi require --working-dir=/opt/kimai
+    composer --no-ansi require --working-dir=/opt/kimai hirak/prestissimo
 
 
 
@@ -173,6 +176,7 @@ FROM ${BASE}-base AS base
 LABEL maintainer="tobias@neontribe.co.uk"
 LABEL maintainer="bastian@schroll-software.de"
 
+ARG KIMAI="1.8"
 ENV KIMAI=${KIMAI}
 
 ARG TZ=Europe/Berlin
