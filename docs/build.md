@@ -51,10 +51,10 @@ Build a prod, FPM image of Kimai 1.10.2, localised for the UK
     docker build --target=prod --build-arg KIMAI=10.0.2 --build-arg BASE=fpm-alpine --build-arg TZ=Europe/London .
 
 ## Extending the image
-  
-If the base image(s) that are here do not conatin an extension you need then you can base you own image from the ones built here.
 
-To keep the final image size down we recommend building the php extention in an intermediate image and then copying that extension into the new image.
+If the base image(s) that are here do not contain an extension you need then you can base you own image from the ones built here.
+
+To keep the final image size down we recommend building the php extension in an intermediate image and then copying that extension into the new image.
 
 e.g. to add xml/xls support to the apache/debian production image
 
