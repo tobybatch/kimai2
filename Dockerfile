@@ -14,7 +14,10 @@ ARG BASE="fpm-alpine"
 
 # full kimai source
 FROM alpine:3.12 AS git-dev
-ARG KIMAI="1.8"
+ARG KIMAI="1.11.1"
+# I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
+ADD test-kimai-version.sh /test-kimai-version.sh
+RUN /test-kimai-version.sh
 RUN apk add --no-cache git && \
     git clone --depth 1 --branch ${KIMAI} https://github.com/kevinpapst/kimai2.git /opt/kimai
 
