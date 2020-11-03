@@ -18,7 +18,7 @@ function waitForDB() {
     elif [ "$DB_TYPE" == "sqlite" ]; then
       export DATABASE_URL="${DB_TYPE}://${DB_BASE:=%kernel.project_dir%/var/data/kimai.sqlite}"
     else
-      echo "Unkown database type, cannot proceed. [$DB_TYPE]"
+      echo "Unkown database type, cannot proceed.  Expected one of: mysql, sqlite. Received: [$DB_TYPE]"
       exit 1
     fi
   fi
