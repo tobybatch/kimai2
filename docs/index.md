@@ -26,3 +26,7 @@ This docker transient and will disappear when you stop the container.
   * [Fixing permissions](troubleshooting.md#permissions)
   * [500 Server errors](troubleshooting.md#500-server-errors)
   * [Older versions](troubleshooting.md#older-version)
+
+## Helping out
+
+If you find a bug or have a feature request then create a tickets [here](https://github.com/tobybatch/kimai2/issues). We'd like to upgrade the dockerhub account to a rate free account and if you'd like to help with that then please donate via [https://www.paypal.com/paypalme/tobybatchuk](paypal).
