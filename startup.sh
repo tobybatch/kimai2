@@ -16,7 +16,7 @@ function waitForDB() {
     if [ "$DB_TYPE" == "mysql" ]; then
       export DATABASE_URL="${DB_TYPE}://${DB_USER:=kimai}:${DB_PASS:=kimai}@${DB_HOST:=sqldb}:${DB_PORT:=3306}/${DB_BASE:=kimai}"
     elif [ "$DB_TYPE" == "sqlite" ]; then
-      export DATABASE_URL="${DB_TYPE}://${DB_BASE:=/%kernel.project_dir%/var/data/kimai.sqlite}"
+      export DATABASE_URL="${DB_TYPE}://${DB_BASE:=%kernel.project_dir%/var/data/kimai.sqlite}"
     else
       echo "Unkown database type, cannot proceed. [$DB_TYPE]"
       exit 1
