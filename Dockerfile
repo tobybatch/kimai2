@@ -26,11 +26,8 @@ FROM git-dev AS git-prod
 WORKDIR /opt/kimai
 RUN rm -r tests
 
-# composer with prestissimo (faster deps install)
-FROM composer:1.10 AS composer
-RUN mkdir /opt/kimai && \
-    composer --no-ansi require --working-dir=/opt/kimai hirak/prestissimo
-
+# composer base image
+FROM composer:2.0.4 AS composer
 
 
 ###########################
@@ -190,7 +187,6 @@ COPY startup.sh /startup.sh
 
 # copy composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-COPY --from=composer --chown=www-data:www-data /opt/kimai/vendor /opt/kimai/vendor
 
 # copy php extensions
 
