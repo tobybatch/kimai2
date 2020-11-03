@@ -173,7 +173,7 @@ FROM ${BASE}-base AS base
 LABEL maintainer="tobias@neontribe.co.uk"
 LABEL maintainer="bastian@schroll-software.de"
 
-ARG KIMAI="1.11.1"
+ARG KIMAI="1.8"
 ENV KIMAI=${KIMAI}
 
 ARG TZ=Europe/Berlin
