@@ -49,3 +49,24 @@ Build a dev image of Kimai 1.10.1 that uses the apache bundled web server:
 Build a prod, FPM image of Kimai 1.10.2, localised for the UK
 
     docker build --target=prod --build-arg KIMAI=10.0.2 --build-arg BASE=fpm-alpine --build-arg TZ=Europe/London .
+
+## Extending the image
+
+If the base image(s) that are here do not contain an extension you need then you can base you own image from the ones built here.
+
+To keep the final image size down we recommend building the php extension in an intermediate image and then copying that extension into the new image.
+
+e.g. to add xml/xls support to the apache/debian production image
+
+```dockerfile
+FROM php:7.4.12-apache-buster  AS php-base
+RUN apt-get update
+RUN apt-get install -y libxslt-dev libxml2-dev libssl-dev
+RUN docker-php-ext-install -j$(nproc) xsl xml xmlrpc xmlwriter simplexml
+
+FROM kimai/kimai2:apache-debian-1.11-prod
+COPY --from=php-base /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini
+COPY --from=php-base /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so
+
+```
+
