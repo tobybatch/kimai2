@@ -49,8 +49,10 @@ function handleStartup() {
     if [ ! -z "$ADMINPASS" ] && [ ! -a "$ADMINMAIL" ]; then
       /opt/kimai/bin/console kimai:create-user superadmin $ADMINMAIL ROLE_SUPER_ADMIN $ADMINPASS
     fi
-    echo $KIMAI > /opt/kimai/installed
   fi
+  # Add this here so it's always available, it would be lost between conatiner restarts.
+  export KIMAI=$(/opt/kimai/bin/console kimai:version --short)
+  echo $KIMAI > /opt/kimai/installed
   echo "Kimai2 ready"
 }
 
