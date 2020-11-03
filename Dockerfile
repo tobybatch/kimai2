@@ -26,9 +26,8 @@ FROM git-dev AS git-prod
 WORKDIR /opt/kimai
 RUN rm -r tests
 
-# composer with prestissimo (faster deps install)
+# composer base image
 FROM composer:2.0.4 AS composer
-
 
 
 ###########################
@@ -174,7 +173,7 @@ FROM ${BASE}-base AS base
 LABEL maintainer="tobias@neontribe.co.uk"
 LABEL maintainer="bastian@schroll-software.de"
 
-ARG KIMAI="1.8"
+ARG KIMAI="1.11.1"
 ENV KIMAI=${KIMAI}
 
 ARG TZ=Europe/Berlin
