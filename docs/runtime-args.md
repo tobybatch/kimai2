@@ -36,6 +36,6 @@ If the ```DB_TYPE``` is mysql:
 
 If the ```DB_TYPE``` is sqlite:
 
- * ```DB_BASE``` defaults to ```%kernel.project_dir%/var/data/kimai.sqlite```
+ * ```DB_BASE``` defaults to ```%kernel.project_dir%/var/data/kimai.sqlite```, N.B. This should be the path from the root of image.
 
 Anything else and startup will fail.
