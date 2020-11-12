@@ -18,6 +18,7 @@ This docker transient and will disappear when you stop the container.
 
 * [Starting a dev instance](dev-instance.md#dev-instances)
 * [Using docker-compose](docker-compose.md#docker-compose)
+* [Updating the image](updating.md)
 * [All runtime arguments](runtime-args.md#runtime-arguments)
 * [Building it yourself](build.md#building-the-kimai-docker)
   * [Build arguments](build.md#build-arguments)

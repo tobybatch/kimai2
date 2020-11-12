@@ -58,6 +58,13 @@ services:
       smtp_user: kimai:kimai
     restart: unless-stopped
 
+#  autoupdate:
+#    image: kimai/kimai2
+#    volumes:
+#        - public:/public
+#        - ./bin/copy-public.sh:/copy-public.sh
+#    entrypoint: /copy-public.sh
+
 volumes:
     var:
     public:
