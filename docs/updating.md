@@ -1,6 +1,6 @@
 # Upgrading
 
-BACK UP EVEYTHING. The database, the mounted volumes, everything. Please. Pretty please.
+BACK UP EVERYTHING. The database, the mounted volumes, everything. Please. Pretty please.
 
 While this process (almost) always works there can be errors and we really don't want you to loose any data.
 
@@ -28,7 +28,7 @@ services:
     ...
 ```
 
-When the kimai image is updated and the container is restarted any new assets in the public directory are never included. These will be things like CSS files, images etc. To fix this you need to copy the newer files from a fresh image oved the top.
+When the kimai image is updated and the container is restarted any new assets in the public directory are never included. These will be things like CSS files, images and especially version specific javascript code! To fix this you need to copy the newer files from a fresh image over the top.
 
 ```bash
 me@myhost $ docker run --rm -ti -v kimai_public:/public --entrypoint /bin/bash kimai/kimai2
