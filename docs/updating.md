@@ -1,6 +1,6 @@
 # Upgrading
 
-BACK UP EVEYTHING. The database, the mounted volumes, everything. Please. Pretty please.
+BACK UP EVERYTHING. The database, the mounted volumes, everything. Please. Pretty please.
 
 While this process (almost) always works there can be errors and we really don't want you to loose any data.
 
