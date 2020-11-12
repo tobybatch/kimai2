@@ -10,7 +10,7 @@ Just change the tag name and restart the image.
 
 ## The fpm image
 
-The FPM image will need to be upgraded with a manual step. Because the FPM image will have a HTTP proxy (normally nginx) container serving the static assets the ```public``` directory is mounted into that nginx container. This is done via volumes:
+The FPM image will need to be upgraded with a manual step. Because the FPM image will have a HTTP proxy (normally nginx) container serving the static assets the `public` directory is mounted into that nginx container. This is done via volumes:
 
 ```yaml
 version: '3.5'
@@ -19,7 +19,7 @@ services:
         image: kimai/kimai2
         ...
         volumes:
-          - public:/opt/kimai/public
+            - public:/opt/kimai/public
         ...
     nginx:
         ...
@@ -58,8 +58,7 @@ autoupdate:
     volumes:
         - public:/public
         - ./bin/copy-public.sh:/copy-public.sh
-    entry-point: /copy-public.sh
-    restart: never
+    entrypoint: /copy-public.sh
 ```
 
 You'll still need to tell the running kimai to update it's assets:
