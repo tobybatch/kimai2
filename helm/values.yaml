@@ -1,0 +1,52 @@
+metadata:
+  applicationName: kimai
+
+default:
+  storageClass:
+
+images:
+  kimai:
+    name: kimai/kimai2
+    # This is generated automaticaly from kimai.version, kimai, flavor and kimai.environment.
+    # Do only change this if you know what you are doing!
+    tag: 
+  mysql:
+    name: mysql
+    tag: "5.7"
+
+kimai:
+  # -- Kimai version. This is used to determine, which tag shoukd be used for Kimai itself. If
+  # you change this, ensure, that the corresponding tag already exists at Docker Hub.
+  version: master
+  environment: prod
+  # -- flavor of the image that should be used. Only apachedebian is supported at the moment, so 
+  # do not change this.
+  flavor: apache-debian
+  nameOverride:
+  database:
+    type: mysql
+    databaseName: kimai
+    kimaiUser: kimai
+    kimaiPassword: kimai
+  initialization:
+    admin:
+      email: admin@kimai.local
+      password: changemeplease
+  pvc:
+    var:
+      size: 4Gi
+
+mysql:
+  enabled: true
+  nameOverride:
+  rootPassword: changemeplease
+  pvc:
+    data:
+      size: 4Gi
+
+ingress:
+  defaultDomain: local
+  kimai:
+    hostName:
+    domain:
+    tlsSecret: add-you-own-here
