@@ -38,11 +38,11 @@ spec:
               name: mysql
           resources:
             requests:
-              memory: 512Mi
-              cpu: 500m
+              memory: {{ .Values.mysql.resources.requests.memory }}
+              cpu: {{ .Values.mysql.resources.requests.cpu }}
             limits:
-              memory: 1Gi
-              cpu: 500m
+              memory: {{ .Values.mysql.resources.limits.memory }}
+              cpu: {{ .Values.mysql.resources.limits.cpu }}
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-data

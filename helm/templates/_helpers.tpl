@@ -16,18 +16,14 @@ Expand the name of the MySQL component.
 Create the database URL. For the time being, this supports only an integrated MySQL
 */}}
 {{- define "application.databaseUrl" -}}
-{{- if eq .Values.kimai.database.type "mysql" -}}
 mysql://{{ .Values.kimai.database.kimaiUser }}:{{ .Values.kimai.database.kimaiPassword }}@additional-{{ include "mysql.name" . }}/{{ .Values.kimai.database.databaseName }}
-{{- else -}}
-This is rubbish
-{{- end -}}
 {{- end }}
 
 {{/*
-Create the database URL. For the time being, this supports only an integrated MySQL
+Tag name for Kimai image
 */}}
 {{- define "kimai.imageTag" -}}
-{{ .Values.kimai.flavor }}-{{ .Values.kimai.version }}-{{ .Values.kimai.environment }}
+{{ .Values.kimai.flavor }}-{{ .Values.kimai.version }}-prod
 {{- end }}
 
 

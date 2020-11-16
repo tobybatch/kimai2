@@ -17,6 +17,9 @@ spec:
     http:
       paths:
       - path: /
+        pathType: ImplementationSpecific
         backend:
-          serviceName: core-{{ include "kimai.name" . }}
-          servicePort: kimai-http
+          service:
+            name: core-{{ include "kimai.name" . }}
+            port:
+              name: kimai-http

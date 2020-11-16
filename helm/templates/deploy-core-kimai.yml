@@ -39,11 +39,11 @@ spec:
               name: kimai
           resources:
             requests:
-              memory: 256Mi
-              cpu: 250m
+              memory: {{ .Values.kimai.resources.requests.memory }}
+              cpu: {{ .Values.kimai.resources.requests.cpu }}
             limits:
-              memory: 500Mi
-              cpu: 500m
+              memory: {{ .Values.kimai.resources.limits.memory }}
+              cpu: {{ .Values.kimai.resources.limits.cpu }}
           volumeMounts:
             - mountPath: /opt/kimai/var
               name: kimai-var
