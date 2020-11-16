@@ -17,3 +17,7 @@ This docker transient and will disappear when you stop the container.
 ## Documentation
 
 [https://tobybatch.github.io/kimai2/](https://tobybatch.github.io/kimai2/)
+
+## Helm chart for Kubernetes Deployment
+
+In order to allow an easy deployment on Kubernetes, there is also a Helm chart (https://helm.sh) available. The chart allows a parameterized deployment of Kimai on Kubernetes, using the Docker images also used for the standard dockr deployment. Since Kubernetes aims at a production use case, the Helm chart only allows the deployment with Apache and MySQL. More informartion about the chart and the configuration options are available in the [README](helm/README.md).
