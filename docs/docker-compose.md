@@ -20,7 +20,7 @@ services:
     command: --default-storage-engine innodb
     restart: unless-stopped
     healthcheck:
-      test: mysqladmin -pchangemeplease ping -h localhost
+      test: mysqladmin -p$$MYSQL_ROOT_PASSWORD ping -h localhost
       interval: 20s
       start_period: 10s
       timeout: 10s
