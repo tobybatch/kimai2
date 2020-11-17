@@ -1,5 +1,7 @@
 # kimai-helmchart
 
+In order to allow an easy deployment on Kubernetes, we provide a Helm chart (https://helm.sh). The chart allows a parameterized deployment of Kimai on Kubernetes, using the Docker images also used for the standard docker deployment. Since Kubernetes aims at a production use case, the Helm chart only allows the deployment with Apache and MySQL.
+
 # Chart Documentation
 
 {{ template "chart.deprecationWarning" . }}

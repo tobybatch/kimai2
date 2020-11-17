@@ -23,7 +23,7 @@ mysql://{{ .Values.kimai.database.kimaiUser }}:{{ .Values.kimai.database.kimaiPa
 Tag name for Kimai image
 */}}
 {{- define "kimai.imageTag" -}}
-{{ .Values.kimai.flavor }}-{{ .Values.kimai.version }}-prod
+apache-debian-{{ .Values.kimai.version }}-prod
 {{- end }}
 
 

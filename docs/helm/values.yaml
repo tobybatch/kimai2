@@ -13,12 +13,6 @@ default:
 
 # images used for the deployment of the application
 images:
-  kimai:
-    # -- image name for Kimai. Do not change!
-    name: kimai/kimai2
-    # -- This is generated automaticaly from kimai.version, kimai, flavor and kimai.environment.
-    # Do only change this if you know what you are doing!
-    tag: 
   mysql:
     # -- image name for MySQL
     name: mysql
@@ -27,12 +21,9 @@ images:
 
 kimai:
   # -- Kimai version. This is used to determine which tag should be used for Kimai itself. If
-  # you change this, ensure, that the corresponding tag already exists at Docker Hub.
+  # you change this, ensure, that the corresponding tag already exists at Docker Hub. The tag is formed following the pattern `apache-debian-<kimai.version>-prod`.
   version: master
-  # -- flavor of the image that should be used. Only apache/debian is supported at the moment, so 
-  # do not change this.
-  flavor: apache-debian
-  # -- possibility to override the name of the Kimai components
+  # -- possibility to override the name of the Kimai component
   nameOverride:
   # -- configuration of the database for Kimai
   database:
@@ -67,9 +58,6 @@ kimai:
 
 
 mysql:
-  # -- enable/disable the deployment of MySQL. If disabled, you must choose sqlite for
-  # kimai.database.type
-  enabled: true
   # -- possibility to override the name of the Kimai components
   nameOverride:
   # -- password for the MySQL root user
