@@ -1,6 +1,6 @@
 # kimai-helmchart
 
-In order to allow an easy deployment on Kubernetes, we provide a Helm chart (https://helm.sh). The chart allows a parameterized deployment of Kimai on Kubernetes, using the Docker images also used for the standard docker deployment. Since Kubernetes aims at a production use case, the Helm chart only allows the deployment with Apache and MySQL.
+In order to allow an easy deployment on Kubernetes, we provide a Helm chart (https://helm.sh). The chart allows a parameterized deployment of Kimai on Kubernetes, using the Docker images also used for the standard docker deployment. This Helm chart only allows the deployment with Apache and MySQL.
 
 # Chart Documentation
 
@@ -12,31 +12,31 @@ A Helm chart for Kubernetes
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| default.storageClass | string | `nil` | possibility to override the storage class. If left empty, your default storage class will be used |
-| images.mysql.name | string | `"mysql"` | image name for MySQL |
-| images.mysql.tag | string | `"5.7"` | image tag for MySQL |
-| ingress.defaultDomain | string | `"local"` | default domain for ingress definitions. Can be overridden by the component specific settings |
-| ingress.kimai.domain | string | `nil` | optional possibility to declare a specific domain for Kimai |
-| ingress.kimai.hostName | string | `nil` | host name for Kimai. Defaults to kimai |
-| ingress.kimai.tlsSecret | string | `"add-you-own-here"` | certificate for Kimai |
-| kimai.database | object | `{"databaseName":"kimai","kimaiPassword":"kimai","kimaiUser":"kimai"}` | configuration of the database for Kimai |
+| default.storageClass | string | `nil` | Possibility to override the storage class. If left empty, your default storage class will be used |
+| images.mysql.name | string | `"mysql"` | Image name for MySQL |
+| images.mysql.tag | string | `"5.7"` | Image tag for MySQL |
+| ingress.defaultDomain | string | `"local"` | Default domain for ingress definitions. Can be overridden by the component specific settings |
+| ingress.kimai.domain | string | `nil` | Optional possibility to declare a specific domain for Kimai |
+| ingress.kimai.hostName | string | `nil` | Host name for Kimai. Defaults to kimai |
+| ingress.kimai.tlsSecret | string | `"add-you-own-here"` | Certificate for Kimai |
+| kimai.database | object | `{"databaseName":"kimai","kimaiPassword":"kimai","kimaiUser":"kimai"}` | Configuration of the database for Kimai |
 | kimai.database.databaseName | string | `"kimai"` | MySQL database name for Kimai |
 | kimai.database.kimaiPassword | string | `"kimai"` | MySQL database password for Kimai |
 | kimai.database.kimaiUser | string | `"kimai"` | MySQL database user for Kimai |
-| kimai.initialization.admin.email | string | `"admin@kimai.local"` | email for the superadmin account |
-| kimai.initialization.admin.password | string | `"changemeplease"` | password for the superadmin account |
-| kimai.nameOverride | string | `nil` | possibility to override the name of the Kimai component |
-| kimai.pvc.var.size | string | `"4Gi"` | size for the var pvc for Kimai |
+| kimai.initialization.admin.email | string | `"admin@kimai.local"` | Email for the superadmin account |
+| kimai.initialization.admin.password | string | `"changemeplease"` | Password for the superadmin account |
+| kimai.nameOverride | string | `nil` | Possibility to override the name of the Kimai component |
+| kimai.pvc.var.size | string | `"4Gi"` | Size for the PVC var for Kimai |
 | kimai.resources.limits.cpu | string | `"1000m"` |  |
 | kimai.resources.limits.memory | string | `"512Mi"` |  |
 | kimai.resources.requests.cpu | string | `"500m"` |  |
 | kimai.resources.requests.memory | string | `"256Mi"` |  |
 | kimai.version | string | `"master"` | Kimai version. This is used to determine which tag should be used for Kimai itself. If you change this, ensure, that the corresponding tag already exists at Docker Hub. The tag is formed following the pattern `apache-debian-<kimai.version>-prod`. |
-| metadata.applicationName | string | `"kimai"` | name for the whole application. Used at different places for labels and naming of components. |
-| mysql.nameOverride | string | `nil` | possibility to override the name of the Kimai components |
-| mysql.pvc.data.size | string | `"4Gi"` | size for the data pvc for MySQL |
+| metadata.applicationName | string | `"kimai"` | Name for the whole application. Used at different places for labels and naming of components. |
+| mysql.nameOverride | string | `nil` | Possibility to override the name of the Kimai components |
+| mysql.pvc.data.size | string | `"4Gi"` | Size for the PVC data for MySQL |
 | mysql.resources.limits.cpu | string | `"2000m"` |  |
 | mysql.resources.limits.memory | string | `"4096Mi"` |  |
 | mysql.resources.requests.cpu | string | `"1000m"` |  |
 | mysql.resources.requests.memory | string | `"512Mi"` |  |
-| mysql.rootPassword | string | `"changemeplease"` | password for the MySQL root user |
+| mysql.rootPassword | string | `"changemeplease"` | Password for the MySQL root user |

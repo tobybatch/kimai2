@@ -1,31 +1,31 @@
 # Values for the Helm chart for Kimai
 
-# general metadata
+# General metadata
 metadata:
-  # -- name for the whole application. Used at different places for labels and naming of
+  # -- Name for the whole application. Used at different places for labels and naming of
   # components.
   applicationName: kimai
 
-# default values application wide
+# Default values application wide
 default:
-  # -- possibility to override the storage class. If left empty, your default storage class will be used
+  # -- Possibility to override the storage class. If left empty, your default storage class will be used
   storageClass:
 
-# images used for the deployment of the application
+# Images used for the deployment of the application
 images:
   mysql:
-    # -- image name for MySQL
+    # -- Image name for MySQL
     name: mysql
-    # -- image tag for MySQL
+    # -- Image tag for MySQL
     tag: "5.7"
 
 kimai:
   # -- Kimai version. This is used to determine which tag should be used for Kimai itself. If
   # you change this, ensure, that the corresponding tag already exists at Docker Hub. The tag is formed following the pattern `apache-debian-<kimai.version>-prod`.
   version: master
-  # -- possibility to override the name of the Kimai component
+  # -- Possibility to override the name of the Kimai component
   nameOverride:
-  # -- configuration of the database for Kimai
+  # -- Configuration of the database for Kimai
   database:
     # -- MySQL database name for Kimai
     databaseName: kimai
@@ -33,21 +33,21 @@ kimai:
     kimaiUser: kimai
     # -- MySQL database password for Kimai
     kimaiPassword: kimai
-  # values for Kimai initialization
+  # Values for Kimai initialization
   initialization:
-    # superadmin account
+    # Superadmin account (`superadmin`)
     admin:
-      # -- email for the superadmin account
+      # -- Email for the superadmin account
       email: admin@kimai.local
-      # -- password for the superadmin account
+      # -- Password for the superadmin account
       password: changemeplease
-  # pvc configuration
+  # PVC configuration
   pvc:
-    # var pvc for Kimai
+    # PVC var for Kimai
     var:
-      # -- size for the var pvc for Kimai
+      # -- Size for the PVC var for Kimai
       size: 4Gi
-  # resources
+  # Resources
   resources:
     requests:
       memory: 256Mi
@@ -56,19 +56,18 @@ kimai:
       memory: 512Mi
       cpu: 1000m
 
-
 mysql:
-  # -- possibility to override the name of the Kimai components
+  # -- Possibility to override the name of the Kimai components
   nameOverride:
-  # -- password for the MySQL root user
+  # -- Password for the MySQL root user
   rootPassword: changemeplease
-  # pvc configuration
+  # PVC configuration
   pvc:
-    # data pvc for MySQL
+    # PVC data for MySQL
     data:
-      # -- size for the data pvc for MySQL
+      # -- Size for the PVC data for MySQL
       size: 4Gi
-  # resources
+  # Resources
   resources:
     requests:
       memory: 512Mi
@@ -78,15 +77,15 @@ mysql:
       cpu: 2000m
 
 
-# ingress definitions
+# Ingress definitions
 ingress:
-  # -- default domain for ingress definitions. Can be overridden by the component specific settings
+  # -- Default domain for ingress definitions. Can be overridden by the component specific settings
   defaultDomain: local
-  # ingress definition for Kimai
+  # Ingress definition for Kimai
   kimai:
-    # -- host name for Kimai. Defaults to kimai
+    # -- Host name for Kimai. Defaults to kimai
     hostName:
-    # -- optional possibility to declare a specific domain for Kimai
+    # -- Optional possibility to declare a specific domain for Kimai
     domain:
-    # -- certificate for Kimai
+    # -- Certificate for Kimai
     tlsSecret: add-you-own-here
