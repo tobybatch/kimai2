@@ -17,3 +17,7 @@ This docker transient and will disappear when you stop the container.
 ## Documentation
 
 [https://tobybatch.github.io/kimai2/](https://tobybatch.github.io/kimai2/)
+
+## Kimai Helm chart
+
+There is also a Helm chart for easy deployment of Kimai on Kubernetes. See the [README](docs/helm/README.md) for more information.

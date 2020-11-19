@@ -1,0 +1,91 @@
+# Values for the Helm chart for Kimai
+
+# General metadata
+metadata:
+  # -- Name for the whole application. Used at different places for labels and naming of
+  # components.
+  applicationName: kimai
+
+# Default values application wide
+default:
+  # -- Possibility to override the storage class. If left empty, your default storage class will be used
+  storageClass:
+
+# Images used for the deployment of the application
+images:
+  mysql:
+    # -- Image name for MySQL
+    name: mysql
+    # -- Image tag for MySQL
+    tag: "5.7"
+
+kimai:
+  # -- Kimai version. This is used to determine which tag should be used for Kimai itself. If
+  # you change this, ensure, that the corresponding tag already exists at Docker Hub. The tag is formed following the pattern `apache-debian-<kimai.version>-prod`.
+  version: master
+  # -- Possibility to override the name of the Kimai component
+  nameOverride:
+  # -- Configuration of the database for Kimai
+  database:
+    # -- MySQL database name for Kimai
+    databaseName: kimai
+    # -- MySQL database user for Kimai
+    kimaiUser: kimai
+    # -- MySQL database password for Kimai
+    kimaiPassword: kimai
+  # Values for Kimai initialization
+  initialization:
+    # Superadmin account (`superadmin`)
+    admin:
+      # -- Email for the superadmin account
+      email: admin@kimai.local
+      # -- Password for the superadmin account
+      password: changemeplease
+  # PVC configuration
+  pvc:
+    # PVC var for Kimai
+    var:
+      # -- Size for the PVC var for Kimai
+      size: 4Gi
+  # Resources
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 500m
+    limits:
+      memory: 512Mi
+      cpu: 1000m
+
+mysql:
+  # -- Possibility to override the name of the Kimai components
+  nameOverride:
+  # -- Password for the MySQL root user
+  rootPassword: changemeplease
+  # PVC configuration
+  pvc:
+    # PVC data for MySQL
+    data:
+      # -- Size for the PVC data for MySQL
+      size: 4Gi
+  # Resources
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 1000m
+    limits:
+      memory: 4096Mi
+      cpu: 2000m
+
+
+# Ingress definitions
+ingress:
+  # -- Default domain for ingress definitions. Can be overridden by the component specific settings
+  defaultDomain: local
+  # Ingress definition for Kimai
+  kimai:
+    # -- Host name for Kimai. Defaults to kimai
+    hostName:
+    # -- Optional possibility to declare a specific domain for Kimai
+    domain:
+    # -- Certificate for Kimai
+    tlsSecret: add-you-own-here

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-{{ include "kimai.name" . }}
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.metadata.applicationName }}
+    app.kubernetes.io/name: core-{{ include "kimai.name" . }}
+    app.kubernetes.io/component: core-{{ include "kimai.name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: {{ .Values.metadata.applicationName }}
+      app.kubernetes.io/name: core-{{ include "kimai.name" . }}
+      app.kubernetes.io/component: core-{{ include "kimai.name" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: {{ .Values.metadata.applicationName }}
+        app.kubernetes.io/name: core-{{ include "kimai.name" . }}
+        app.kubernetes.io/component: core-{{ include "kimai.name" . }}
+    spec:
+      containers:
+        - env:
+            - name: ADMINMAIL
+              value: {{ .Values.kimai.initialization.admin.email }}
+            - name: ADMINPASS
+              value: {{ .Values.kimai.initialization.admin.password }}
+            - name: APP_ENV
+              value: {{ .Values.kimai.environment }}
+            - name: DATABASE_URL
+              value: {{ include "application.databaseUrl" . }}
+            - name: TRUSTED_HOSTS
+              value: localhost,{{ include "kimai-helmchart.ingress.fqdn.kimai" . }}
+          image: kimai/kimai2:{{ include "kimai.imageTag" . }}
+          name: core-{{ include "kimai.name" . }}
+          ports:
+            - containerPort: 8001
+              name: kimai
+          resources:
+            requests:
+              memory: {{ .Values.kimai.resources.requests.memory }}
+              cpu: {{ .Values.kimai.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.kimai.resources.limits.memory }}
+              cpu: {{ .Values.kimai.resources.limits.cpu }}
+          volumeMounts:
+            - mountPath: /opt/kimai/var
+              name: kimai-var
+      volumes:
+        - name: kimai-var
+          persistentVolumeClaim:
+            claimName: core-{{ include "kimai.name" .}}-var

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: additional-{{ include "mysql.name" . }}
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.metadata.applicationName }}
+    app.kubernetes.io/name: additional-{{ include "mysql.name" . }}
+    app.kubernetes.io/component: additional-{{ include "mysql.name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: {{ .Values.metadata.applicationName }}
+      app.kubernetes.io/name: additional-{{ include "mysql.name" . }}
+      app.kubernetes.io/component: additional-{{ include "mysql.name" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: {{ .Values.metadata.applicationName }}
+        app.kubernetes.io/name: additional-{{ include "mysql.name" . }}
+        app.kubernetes.io/component: additional-{{ include "mysql.name" . }}
+    spec:
+      containers:
+        - env:
+          - name: MYSQL_DATABASE
+            value: {{ .Values.kimai.database.databaseName }}
+          - name: MYSQL_USER
+            value: {{ .Values.kimai.database.kimaiUser }}
+          - name: MYSQL_PASSWORD
+            value: {{ .Values.kimai.database.kimaiPassword }}
+          - name: MYSQL_ROOT_PASSWORD
+            value: {{ .Values.mysql.rootPassword }}{{ .Values.mysql.foo }}
+          image: {{ .Values.images.mysql.name }}:{{ .Values.images.mysql.tag }}
+          name: additional-{{ include "mysql.name" . }}
+          ports:
+            - containerPort: 3306
+              name: mysql
+          resources:
+            requests:
+              memory: {{ .Values.mysql.resources.requests.memory }}
+              cpu: {{ .Values.mysql.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.mysql.resources.limits.memory }}
+              cpu: {{ .Values.mysql.resources.limits.cpu }}
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-data
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: additional-{{ include "mysql.name" .}}-data
