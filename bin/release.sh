@@ -31,8 +31,10 @@ $BIN_DIR/simple-test.sh $TAG
 
 set -x
 docker tag kimai/kimai2:fpm-alpine-${TAG}-prod kimai/kimai2:latest
+docker tag kimai/kimai2:fpm-alpine-${TAG}-prod kimai/kimai2:fpm-alpine
 docker tag kimai/kimai2:fpm-alpine-${TAG}-prod kimai/kimai2:latest-prod
 docker tag kimai/kimai2:apache-debian-${TAG}-dev kimai/kimai2:latest-dev
+docker tag kimai/kimai2:apache-debian-${TAG}-dev kimai/kimai2:apache-debian
 set +x
 
 $BIN_DIR/push.sh $TAG
