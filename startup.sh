@@ -2,7 +2,7 @@
 
 echo $KIMAI
 
-function waitForDB() {
+function waitForDB () {
   # Parse sql connection data
   if [ ! -z "$DATABASE_URL" ]; then
     DB_TYPE=$(awk -F '[/:@]' '{print $1}' <<< $DATABASE_URL)
@@ -41,7 +41,7 @@ function waitForDB() {
   fi
 }
 
-function handleStartup() {
+function handleStartup () {
   # first start?
   if ! [ -e /opt/kimai/installed ]; then 
     echo "first run - install kimai"
@@ -56,7 +56,7 @@ function handleStartup() {
   echo "Kimai2 ready"
 }
 
-function runServer() {
+function runServer () {
   /opt/kimai/bin/console kimai:reload --env=$APP_ENV
   if [ -e /use_apache ]; then 
     /usr/sbin/apache2ctl -D FOREGROUND
