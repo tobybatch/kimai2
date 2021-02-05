@@ -59,14 +59,13 @@ To keep the final image size down we recommend building the php extension in an 
 e.g. to add xml/xls support to the apache/debian production image
 
 ```dockerfile
-FROM php:7.4.12-apache-buster  AS php-base
+FROM php:7.4.15-apache-buster AS php-base
 RUN apt-get update
 RUN apt-get install -y libxslt-dev libxml2-dev libssl-dev
 RUN docker-php-ext-install -j$(nproc) xsl xml xmlrpc xmlwriter simplexml
 
-FROM kimai/kimai2:apache-debian-1.11-prod
+FROM kimai/kimai2:apache-debian-1.12-prod
 COPY --from=php-base /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini
 COPY --from=php-base /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so
 
 ```
-

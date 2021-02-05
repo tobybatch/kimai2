@@ -13,8 +13,8 @@ ARG BASE="fpm-alpine"
 ###########################
 
 # full kimai source
-FROM alpine:3.13.0 AS git-dev
-ARG KIMAI="1.11.1"
+FROM alpine:3.13.1 AS git-dev
+ARG KIMAI="1.12"
 # I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
 ADD test-kimai-version.sh /test-kimai-version.sh
 RUN /test-kimai-version.sh
@@ -27,7 +27,7 @@ WORKDIR /opt/kimai
 RUN rm -r tests
 
 # composer base image
-FROM composer:2.0.8 AS composer
+FROM composer:2.0.9 AS composer
 
 
 ###########################
@@ -35,7 +35,7 @@ FROM composer:2.0.8 AS composer
 ###########################
 
 #fpm alpine php extension base
-FROM php:7.4.12-fpm-alpine3.12 AS fpm-alpine-php-ext-base
+FROM php:7.4.15-fpm-alpine3.13 AS fpm-alpine-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -70,7 +70,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:7.4.12-apache-buster AS apache-debian-php-ext-base
+FROM php:7.4.15-apache-buster AS apache-debian-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \
@@ -115,7 +115,7 @@ RUN docker-php-ext-install -j$(nproc) xsl
 ###########################
 
 # fpm-alpine base build
-FROM php:7.4.12-fpm-alpine3.12 AS fpm-alpine-base
+FROM php:7.4.15-fpm-alpine3.13 AS fpm-alpine-base
 RUN apk add --no-cache \
         bash \
         freetype \
@@ -143,7 +143,7 @@ HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
 # apache-debian base build
 ###########################
 
-FROM php:7.4.12-apache-buster AS apache-debian-base
+FROM php:7.4.15-apache-buster AS apache-debian-base
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN apt-get update && \
     apt-get install -y \
