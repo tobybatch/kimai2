@@ -182,8 +182,9 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     mkdir /composer  && \
     chown -R www-data:www-data /composer
 
-# copy startup script
+# copy startup script & DB checking script
 COPY startup.sh /startup.sh
+COPY dbtest.php /dbtest.php
 
 # copy composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
@@ -247,6 +248,7 @@ RUN export COMPOSER_HOME=/composer && \
     composer --no-ansi clearcache && \
     composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai && \
+    mkdir -p /opt/kimai/var/logs && chmod 777 /opt/kimai/var/logs && \
     sed "s/128M/256M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini && \
     sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini && \
     sed -i "s/env php/env -S php -c \/opt\/kimai\/php-cli.ini/g" /opt/kimai/bin/console
@@ -264,6 +266,7 @@ RUN export COMPOSER_HOME=/composer && \
     composer --no-ansi clearcache && \
     composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
+    mkdir -p /opt/kimai/var/logs && chmod 777 /opt/kimai/var/logs && \
     chown -R www-data:www-data /opt/kimai
 ENV APP_ENV=prod
 USER www-data

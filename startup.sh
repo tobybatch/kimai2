@@ -32,8 +32,9 @@ function waitForDB() {
   if [[ $DB_TYPE == "mysql" ]]; then
       echo "Using Mysql DB"
       echo "Wait for db connection ..."
-      until php -r "new PDO(\"mysql:host=$DB_HOST;dbname=$DB_BASE;port=$DB_PORT\", \"$DB_USER\", \"$DB_PASS\");" &> /dev/null; do
-          sleep 3
+      until php /dbtest.php $DB_HOST $DB_BASE $DB_PORT $DB_USER $DB_PASS; do
+        echo Checking DB: $?
+        sleep 3
       done
       echo "Connection established"
   else

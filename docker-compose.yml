@@ -1,6 +1,9 @@
 version: '3.5'
 services:
 
+  # THIS IS AN EXAMPLE FILE ONLY
+  # You will need to modify this to work in your production environment
+
   sqldb:
     image: mysql:5.7
     environment:
@@ -8,8 +11,8 @@ services:
       - MYSQL_USER=kimaiuser
       - MYSQL_PASSWORD=kimaipassword
       - MYSQL_ROOT_PASSWORD=changemeplease
-    volumes:
-      - /var/lib/mysql
+    #volumes: # Uncomment to persist data
+      #- /var/lib/mysql
     command: --default-storage-engine innodb
     restart: unless-stopped
     healthcheck:
@@ -36,14 +39,15 @@ services:
       timeout: 10s
       retries: 3
 
-  kimai:
-    image: kimai/kimai2
+  kimai: # This is the latest FPM image of kimai
+    image: kimai/kimai2:latest-prod
     environment:
       - APP_ENV=prod
       - TRUSTED_HOSTS=localhost
       - ADMINMAIL=admin@kimai.local
       - ADMINPASS=changemeplease
       - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
+      - TRUSTED_HOSTS=nginx,localhost,127.0.0.1
     volumes:
       - public:/opt/kimai/public
       - var:/opt/kimai/var
