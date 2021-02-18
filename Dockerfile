@@ -13,7 +13,7 @@ ARG BASE="fpm-alpine"
 ###########################
 
 # full kimai source
-FROM alpine:3.13.1 AS git-dev
+FROM alpine:3.13.2 AS git-dev
 ARG KIMAI="1.12"
 # I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
 ADD test-kimai-version.sh /test-kimai-version.sh
