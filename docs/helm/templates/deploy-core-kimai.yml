@@ -36,7 +36,7 @@ spec:
           name: core-{{ include "kimai.name" . }}
           ports:
             - containerPort: 8001
-              name: kimai
+              name: kimai-http
           resources:
             requests:
               memory: {{ .Values.kimai.resources.requests.memory }}
