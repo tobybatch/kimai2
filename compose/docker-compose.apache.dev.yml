@@ -1,5 +1,0 @@
-version: '3.5'
-services:
-
-    kimai:
-        image: kimai/kimai2:apache-debian-$KIMAI-dev

@@ -5,8 +5,8 @@
 # |_|\_\_|_| |_| |_|\__,_|_|_____|
 #
 
-# Source base [fpm-alpine/apache-debian]
-ARG BASE="fpm-alpine"
+# Source base [fpm/apache]
+ARG BASE="fpm"
 
 ###########################
 # Shared tools
@@ -16,7 +16,7 @@ ARG BASE="fpm-alpine"
 FROM alpine:3.13.1 AS git-dev
 ARG KIMAI="1.12"
 # I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
-ADD test-kimai-version.sh /test-kimai-version.sh
+ADD assets/test-kimai-version.sh /test-kimai-version.sh
 RUN /test-kimai-version.sh
 RUN apk add --no-cache git && \
     git clone --depth 1 --branch ${KIMAI} https://github.com/kevinpapst/kimai2.git /opt/kimai
@@ -35,7 +35,7 @@ FROM composer:2.0.10 AS composer
 ###########################
 
 #fpm alpine php extension base
-FROM php:7.4.15-fpm-alpine3.13 AS fpm-alpine-php-ext-base
+FROM php:7.4.15-fpm-alpine3.13 AS fpm-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -70,7 +70,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:7.4.15-apache-buster AS apache-debian-php-ext-base
+FROM php:7.4.15-apache-buster AS apache-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \
@@ -111,11 +111,11 @@ RUN docker-php-ext-install -j$(nproc) xsl
 
 
 ###########################
-# fpm-alpine base build
+# fpm base build
 ###########################
 
-# fpm-alpine base build
-FROM php:7.4.15-fpm-alpine3.13 AS fpm-alpine-base
+# fpm base build
+FROM php:7.4.15-fpm-alpine3.13 AS fpm-base
 RUN apk add --no-cache \
         bash \
         freetype \
@@ -140,11 +140,11 @@ HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
 
 
 ###########################
-# apache-debian base build
+# apache base build
 ###########################
 
-FROM php:7.4.15-apache-buster AS apache-debian-base
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+FROM php:7.4.15-apache-buster AS apache-base
+COPY assets/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN apt-get update && \
     apt-get install -y \
         bash \
@@ -183,8 +183,8 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     chown -R www-data:www-data /composer
 
 # copy startup script & DB checking script
-COPY startup.sh /startup.sh
-COPY dbtest.php /dbtest.php
+COPY assets/startup.sh /startup.sh
+COPY assets/dbtest.php /dbtest.php
 
 # copy composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
@@ -241,7 +241,7 @@ ENTRYPOINT /startup.sh
 FROM base AS dev
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
-COPY monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
+COPY assets/monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer --no-ansi install --working-dir=/opt/kimai --optimize-autoloader && \
@@ -253,13 +253,14 @@ RUN export COMPOSER_HOME=/composer && \
     sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini && \
     sed -i "s/env php/env -S php -c \/opt\/kimai\/php-cli.ini/g" /opt/kimai/bin/console
 ENV APP_ENV=dev
+ENV DATABASE_URL=
 USER www-data
 
 # production build
 FROM base AS prod
 # copy kimai production source
 COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
-COPY monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
+COPY assets/monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
     composer --no-ansi install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
@@ -269,4 +270,5 @@ RUN export COMPOSER_HOME=/composer && \
     mkdir -p /opt/kimai/var/logs && chmod 777 /opt/kimai/var/logs && \
     chown -R www-data:www-data /opt/kimai
 ENV APP_ENV=prod
+ENV DATABASE_URL=
 USER www-data
