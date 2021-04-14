@@ -1,37 +1,47 @@
 include .env
 
-ifndef BASES
-  BASES := fpm apache
-endif
-
 ifndef TIMEZONE
   TIMEZONE := Europe/London
-endif
-
-ifndef STAGES
-  STAGES := dev prod
 endif
 
 ifndef KIMAI_VERSION
   KIMAI_VERSION := master
 endif
 
-# https://itnext.io/docker-makefile-x-ops-sharing-infra-as-code-parts-ea6fa0d22946
-# https://gist.github.com/mpneuried/0594963ad38e68917ef189b4e6a269db
-
-# Inherited from the environment
-# DOCKER_BUILDKIT
+ZAP := $(shell echo $(KIMAI_VERSION) | egrep -q "[0-9].[0-9]+" && echo matched)
 
 build:
-	$(foreach stage,${STAGES}, $(foreach base,${BASES}, \
-		$(info Building kimai2/kimai:${base}-${KIMAI_VERSION}-${stage}) \
-		docker build -t kimai2/kimai:$(base)-${KIMAI_VERSION}-$(stage) --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=${base} --build-arg TZ=${TIMEZONE} --target=${stage} .; \
-	))
-
-test:
+	docker build -t kimai2/kimai:fpm-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=dev .
+	docker build -t kimai2/kimai:fpm-${KIMAI_VERSION}-prod --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=prod .
+	docker build -t kimai2/kimai:apache-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=dev .
+	docker build -t kimai2/kimai:apache-${KIMAI_VERSION}-prod --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=prod .
 
 tag:
+ifeq (${ZAP}, matched)
+	docker tag kimai2/kimai:fpm-${KIMAI_VERSION}-prod kimai2/kimai:fpm-latest-prod
+	docker tag kimai2/kimai:fpm-${KIMAI_VERSION}-dev kimai2/kimai:fpm-latest-dev
+	docker tag kimai2/kimai:apache-${KIMAI_VERSION}-prod kimai2/kimai:apache-latest-prod
+	docker tag kimai2/kimai:apache-${KIMAI_VERSION}-dev kimai2/kimai:apache-latest-dev
+	docker tag kimai2/kimai:fpm-${KIMAI_VERSION}-prod kimai2/kimai:latest
+	docker tag kimai2/kimai:apache-${KIMAI_VERSION}-dev kimai2/kimai:latest-dev
+else
+	$(error ${KIMAI_VERSION} does not look like a release, x.y or x.y.z. Not tagging)
+endif
 
 push:
+	docker push kimai2/kimai:fpm-${KIMAI_VERSION}-dev
+	docker push kimai2/kimai:fpm-${KIMAI_VERSION}-prod
+	docker push kimai2/kimai:apache-${KIMAI_VERSION}-dev
+	docker push kimai2/kimai:apache-${KIMAI_VERSION}-prod
+ifeq (${ZAP}, matched)
+	docker push kimai2/kimai:kimai2/kimai:fpm-latest-prod
+	docker push kimai2/kimai:kimai2/kimai:fpm-latest-dev
+	docker push kimai2/kimai:kimai2/kimai:apache-latest-prod
+	docker push kimai2/kimai:kimai2/kimai:apache-latest-dev
+	docker push kimai2/kimai:kimai2/kimai:latest
+	docker push kimai2/kimai:kimai2/kimai:latest-dev
+endif
+
+build-version: build test push
 
 release: build test tag push
