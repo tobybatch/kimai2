@@ -118,6 +118,7 @@ RUN docker-php-ext-install -j$(nproc) xsl
 FROM php:7.4.15-fpm-alpine3.13 AS fpm-base
 RUN apk add --no-cache \
         bash \
+        coreutils \
         freetype \
         haveged \
         icu \
@@ -184,6 +185,7 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
 
 # copy startup script & DB checking script
 COPY assets/startup.sh /startup.sh
+COPY assets/self-test.sh /self-test.sh
 COPY assets/dbtest.php /dbtest.php
 
 # copy composer
@@ -225,6 +227,8 @@ ENV DB_PASS=
 ENV DB_HOST=
 ENV DB_PORT=
 ENV DB_BASE=
+# If this set then the image will start, run a self test and then exit. It's used for the release process
+ENV TEST_AND_EXIT=
 
 
 VOLUME [ "/opt/kimai/var" ]
