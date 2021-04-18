@@ -6,20 +6,28 @@ The built images are available from [Kimai v2](https://hub.docker.com/repository
 
 ## Quick start
 
-Run the latest build against tbe master branch of the Kimai repo using a bundled DB. **This is not suitable for production use**:
+Run the latest production build:
 
-    docker run --rm -ti -p 8001:8001 --name kimai kimai/kimai2:latest-dev
+ 1. Start a DB
+        docker run --rm --name kimai-mysql-testing -e MYSQL_DATABASE=kimai -e MYSQL_USER=kimai -e MYSQL_PASSWORD=kimai -e MYSQL_ROOT_PASSWORD=kimai -p 3399:3306 -d mysql
+ 1. Start Kimai   
+        docker run --rm --name kimai-test -ti -p 8001:8001 -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3399/kimai kimai2/kimai:apache-latest-prod
+ 1. Add a user, open a new terminal and:
+        docker exec -ti kimai-test /bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN
+    
+You can now hit the kimai instance on http://localhost:8001
 
-Create an admin user in the new running docker:
+This docker transient and will disappear when you stop the containers.
 
-    docker exec kimai /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN
+    docker stop kimai-mysql-testing kimai-test
 
-This docker transient and will disappear when you stop the container.
+## Using docker-compose
+
+This will run the latest prod version using FPM with an nginx reverse proxy
+
+```docker-compose
+```
 
 ## Documentation
 
 [https://tobybatch.github.io/kimai2/](https://tobybatch.github.io/kimai2/)
-
-## Kimai Helm chart
-
-There is also a Helm chart for easy deployment of Kimai on Kubernetes. See the [README](docs/helm/README.md) for more information.
