@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: core-{{ include "kimai.name" . }}
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.metadata.applicationName }}
+    app.kubernetes.io/name: core-{{ include "kimai.name" . }}
+spec:
+  {{ if .Values.ingress.kimai.tlsSecret }}
+  tls:
+  - hosts:
+    - {{ include "kimai-helmchart.ingress.fqdn.kimai" . }}
+    secretName: {{ .Values.ingress.kimai.tlsSecret }}
+  {{ end }}
+  rules:
+  - host: {{ include "kimai-helmchart.ingress.fqdn.kimai" . }}
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: core-{{ include "kimai.name" . }}
+            port:
+              name: kimai-http
