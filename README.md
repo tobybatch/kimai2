@@ -26,6 +26,69 @@ This docker transient and will disappear when you stop the containers.
 This will run the latest prod version using FPM with an nginx reverse proxy
 
 ```docker-compose
+version: '3.5'
+services:
+
+  sqldb:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=kimai
+      - MYSQL_USER=kimaiuser
+      - MYSQL_PASSWORD=kimaipassword
+      - MYSQL_ROOT_PASSWORD=changemeplease
+    #volumes: # Uncomment to persist data
+      #- /var/lib/mysql
+    command: --default-storage-engine innodb
+    restart: unless-stopped
+    healthcheck:
+      test: mysqladmin -p$$MYSQL_ROOT_PASSWORD ping -h localhost
+      interval: 20s
+      start_period: 10s
+      timeout: 10s
+      retries: 3
+
+  nginx:
+    image: tobybatch/nginx-fpm-reverse-proxy
+    ports:
+      - 8001:80
+    volumes:
+      - public:/opt/kimai/public:ro
+    restart: unless-stopped
+    depends_on:
+      - kimai
+    healthcheck:
+      test:  wget --spider http://nginx/health || exit 1
+      interval: 20s
+      start_period: 10s
+      timeout: 10s
+      retries: 3
+
+  kimai: # This is the latest FPM image of kimai
+    image: kimai2/kimai:fpm-latest-prod
+    environment:
+      - APP_ENV=prod
+      - TRUSTED_HOSTS=localhost
+      - ADMINMAIL=admin@kimai.local
+      - ADMINPASS=changemeplease
+      - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
+      - TRUSTED_HOSTS=nginx,localhost,127.0.0.1
+    volumes:
+      - public:/opt/kimai/public
+      # - var:/opt/kimai/var
+      # - ./ldap.conf:/etc/openldap/ldap.conf:z
+      # - ./ROOT-CA.pem:/etc/ssl/certs/ROOT-CA.pem:z
+    restart: unless-stopped
+
+  postfix:
+    image: catatnight/postfix:latest
+    environment:
+      maildomain: neontribe.co.uk
+      smtp_user: kimai:kimai
+    restart: unless-stopped
+
+volumes:
+    var:
+    public:
 ```
 
 ## Documentation
