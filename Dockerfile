@@ -13,7 +13,7 @@ ARG BASE="fpm"
 ###########################
 
 # full kimai source
-FROM alpine:3.13.1 AS git-dev
+FROM alpine:3.13.5 AS git-dev
 ARG KIMAI="1.12"
 # I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
 ADD assets/test-kimai-version.sh /test-kimai-version.sh
@@ -27,7 +27,7 @@ WORKDIR /opt/kimai
 RUN rm -r tests
 
 # composer base image
-FROM composer:2.0.10 AS composer
+FROM composer:2.0.12 AS composer
 
 
 ###########################
