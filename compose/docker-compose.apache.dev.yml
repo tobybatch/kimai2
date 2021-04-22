@@ -18,11 +18,10 @@ services:
       retries: 3
 
   kimai:
-    image: kimai2/kimai:apache-${KIMAI_VERSION}-dev
+    image: kimai2/kimai:apache-dev
     ports:
       - 8001:8001
     environment:
-      - APP_ENV=prod
       - TRUSTED_HOSTS=localhost
       - ADMINMAIL=admin@kimai.local
       - ADMINPASS=changemeplease
