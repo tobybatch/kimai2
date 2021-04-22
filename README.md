@@ -28,7 +28,7 @@ Run the latest production build:
  1. Add a user, open a new terminal and:
  
         docker exec -ti kimai-test \
-        /bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN
+            /bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN
     
 You can now hit the kimai instance on http://localhost:8001
 
