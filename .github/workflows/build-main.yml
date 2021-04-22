@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: make build
-      run: make build
-    - name: make test
-      run: make test
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build -t kimai/kimai2:fpm-master-dev --build-arg KIMAI=master --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=dev .
+
