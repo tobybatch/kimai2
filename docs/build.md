@@ -1,12 +1,10 @@
 # Building the Kimai Docker
 
-The same docker file is used to build all the tagged images and is configured by combination of build arguments and
-targets.
+The same docker file is used to build all the tagged images and is configured by combination of build arguments and targets.
 
 ## Targets
 
-The docker file has many staging targets but two functional builds are `prod` and `dev` which correspond to the
-prod and development environments as outlined in the Kimai documentation.  The default is `prod`
+The docker file has many staging targets but two functional builds are `prod` and `dev` which correspond to the prod and development environments as outlined in the Kimai documentation.  The default is `prod`
 
     docker build --target=prod .
     docker build --target=dev .
@@ -15,17 +13,14 @@ prod and development environments as outlined in the Kimai documentation.  The d
 
 ### BASE
 
-  * `BASE=apache-debian`
-  * `BASE=fpm-alpine`
+  * `BASE=apache
+  * `BASE=fpm
 
-Selects which PHP wrapper to use.  The Apache Debian version bundles an Apache server, and the mod-php wrapper based
-on a debian buster image.  The fpm-alpine version provides the fast CGI version of PHP based on an alpine image.
+Selects which PHP wrapper to use.  The Apache Debian version bundles an Apache server, and the mod-php wrapper based on a debian buster image.  The fpm-alpine version provides the fast CGI version of PHP based on an alpine image.
 
-The Apache/Debian image is bigger (~940mb) but does not require a second container to provide http services.  Use this
-image for development, tests or evaluation.
+The Apache/Debian image is bigger (~940mb) but does not require a second container to provide http services.  Use this image for development, tests or evaluation.
 
-The FPM image is smaller (~640mb) but requires a web server to provide the http services.  Use this image in production
-and see the [docker-compose](docker-compose.md) page for setting up a http server.
+The FPM image is smaller (~640mb) but requires a web server to provide the http services.  Use this image in production and see the [docker-compose](docker-compose.md) page for setting up a http server.
 
 ### KIMAI
 
@@ -64,7 +59,7 @@ RUN apt-get update
 RUN apt-get install -y libxslt-dev libxml2-dev libssl-dev
 RUN docker-php-ext-install -j$(nproc) xsl xml xmlrpc xmlwriter simplexml
 
-FROM kimai/kimai2:apache-debian-1.12-prod
+FROM kimai/kimai2:apache-1.12-prod
 COPY --from=php-base /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini
 COPY --from=php-base /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so
 

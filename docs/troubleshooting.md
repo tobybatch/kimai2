@@ -2,11 +2,9 @@
 
 ## NGINX and proxying
 
-While outside the direct responsibility of this project we get a lot of issues reported that relate to proxying with
-NGINX into the FPM container.
+While outside the direct responsibility of this project we get a lot of issues reported that relate to proxying with NGINX into the FPM container.
 
-Note that you will need to set the name of your NGINX container to be in the list of TRUSTED_HOSTS when you start the
-Kimai container.
+Note that you will need to set the name of your NGINX container to be in the list of TRUSTED_HOSTS when you start the Kimai container.
 
 ## Permissions
 
@@ -24,9 +22,7 @@ docker-compose --user root exec CONTAINER_NAME chown -R www-data:www-data /opt/k
 
 ## 500 Server errors
 
-Around 4/5 of the bugs raised are related to the TRUSTED_HOSTS value.  If you get a 500 then check that the
-`TRUSTED_HOSTS` environment variable is set to either your hostname or the hostname of your proxy server (nginx etc).  In
-the docker-compose environment that is the container name of the nginx container.
+Around nine out of ten of the bugs raised are related to the TRUSTED_HOSTS value.  If you get a 500 then check that the `TRUSTED_HOSTS` environment variable is set to either your hostname or the hostname of your proxy server (nginx etc).  In the docker-compose environment that is the container name of the nginx container.
 
 ## Older version
 
