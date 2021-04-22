@@ -2,7 +2,7 @@
 
 BACK UP EVERYTHING. The database, the mounted volumes, everything. Please. Pretty please.
 
-While this process (almost) always works there can be errors and we really don't want you to loose any data.
+While this process (almost) always works there can be errors, and we really don't want you to lose any data.
 
 ## The apache image
 
@@ -28,7 +28,7 @@ services:
     ...
 ```
 
-When the kimai image is updated and the container is restarted any new assets in the public directory are never included. These will be things like CSS files, images and especially version specific javascript code! To fix this you need to copy the newer files from a fresh image over the top.
+When the kimai image is updated, and the container is restarted any new assets in the public directory are never included. These will be things like CSS files, images and especially version specific javascript code! To fix this you need to copy the newer files from a fresh image over the top.
 
 ```bash
 me@myhost $ docker run --rm -ti -v kimai_public:/public --entrypoint /bin/bash kimai/kimai2
@@ -38,7 +38,7 @@ bash-5.0$ exit
 me@myhost $
 ```
 
-And now you'll need to tell the running kimai to update it's assets:
+Now you'll need to tell the running kimai to update its assets:
 
 ```bash
 me@myhost $ docker-compose exec kimai /opt/kimai/bin/console assets:install
@@ -61,7 +61,7 @@ autoupdate:
     entrypoint: /copy-public.sh
 ```
 
-You'll still need to tell the running kimai to update it's assets:
+You'll still need to tell the running kimai to update its assets:
 
 ```bash
 me@myhost $ docker-compose exec kimai /opt/kimai/bin/console assets:install

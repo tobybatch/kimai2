@@ -5,7 +5,7 @@ function usage {
     echo "VERSIONS is a space delimited list of branches and or tags."
     echo "e.g. 1.7 fixes/foo"
     echo
-    echo " -b The images bases, e.g. apache-debian fpm-alpine"
+    echo " -b The images bases, e.g. apache fpm"
     echo " -t The timezone, e.g. Europe/London"
     echo " -s The stages, e.g. dev prod"
     echo " -k Do not use Docker Build Kit"
@@ -16,7 +16,7 @@ function usage {
 export DOCKER_BUILDKIT=1
 export TZ=Europe/London
 export STAGES="dev prod"
-export BASES="apache-debian fpm-alpine"
+export BASES="apache fpm"
 NOCACHE="--no-cache"
 
 USAGE="$0 [-t TIMEZONE] [-b BASES] [-s STAGES] [-k] [-c] [-h] VERSIONS"
@@ -47,7 +47,7 @@ for KIMAI in $KIMAIS; do
             echo "*************************************"
             echo "* Building $KIMAI for $STAGE_NAME and $BASE"
             echo "*************************************"
-            docker build $NOCACHE -t kimai/kimai2:${BASE}-${KIMAI}-${STAGE_NAME} --build-arg KIMAI=${KIMAI} --build-arg BASE=${BASE} --build-arg TZ=${TZ} --target=${STAGE_NAME} $(dirname $0)/..
+            docker build $NOCACHE -t kimai/kimai2:${BASE}-${KIMAI}-${STAGE_NAME} --build-arg KIMAI=${KIMAI} --build-arg BASE=${BASE} --build-arg TZ=${TZ} --target=${STAGE_NAME} $(dirname $0)
         done
     done
 done

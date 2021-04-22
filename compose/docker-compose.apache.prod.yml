@@ -1,8 +1,32 @@
+
 version: '3.5'
 services:
 
-    # Apache with sqlite, the dev/evaluate option
-    kimai:
-        image: kimai/kimai2:apache-debian-$KIMAI-prod
-        environment:
-            - APP_ENV=prod
+  sqldb:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=kimai
+      - MYSQL_USER=kimaiuser
+      - MYSQL_PASSWORD=kimaipassword
+      - MYSQL_ROOT_PASSWORD=changemeplease
+    command: --default-storage-engine innodb
+    restart: unless-stopped
+    healthcheck:
+      test: mysqladmin -p$$MYSQL_ROOT_PASSWORD ping -h localhost
+      interval: 20s
+      start_period: 10s
+      timeout: 10s
+      retries: 3
+
+  kimai:
+    image: kimai2/kimai:apache
+    ports:
+      - 8001:8001
+    environment:
+      - TRUSTED_HOSTS=localhost
+      - ADMINMAIL=admin@kimai.local
+      - ADMINPASS=changemeplease
+      - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
+      - TRUSTED_HOSTS=nginx,localhost,127.0.0.1
+    restart: unless-stopped
+

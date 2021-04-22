@@ -44,7 +44,7 @@ function waitForDB() {
 
 function handleStartup() {
   # first start?
-  if ! [ -e /opt/kimai/installed ]; then 
+  if ! [ -e /opt/kimai/var/installed ]; then 
     echo "first run - install kimai"
     /opt/kimai/bin/console -n kimai:install
     if [ ! -z "$ADMINPASS" ] && [ ! -a "$ADMINMAIL" ]; then
@@ -53,7 +53,7 @@ function handleStartup() {
   fi
   # Add this here so it's always available, it would be lost between conatiner restarts.
   export KIMAI=$(/opt/kimai/bin/console kimai:version --short)
-  echo $KIMAI > /opt/kimai/installed
+  echo $KIMAI > /opt/kimai/var/installed
   echo "Kimai2 ready"
 }
 
