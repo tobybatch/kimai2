@@ -4,6 +4,8 @@ Listed here are example set ups for running the image(s). If you'd like to contr
 
 ## docker-compose
 
+[Sample docker compose files](https://github.com/tobybatch/kimai2/tree/main/compose)
+
 Kimai requires a database server, and the docker guidelines advise placing this in a separate container. We can use `docker-compose` to manage the DB and Kimai.
 
 ### apache-dev

@@ -18,10 +18,10 @@ build:
 
 tag:
 ifeq (${ZAP}, matched)
-	docker tag kimai2/kimai:fpm-${KIMAI_VERSION}-prod kimai2/kimai:fpm-latest-prod
-	docker tag kimai2/kimai:fpm-${KIMAI_VERSION}-dev kimai2/kimai:fpm-latest-dev
-	docker tag kimai2/kimai:apache-${KIMAI_VERSION}-prod kimai2/kimai:apache-latest-prod
-	docker tag kimai2/kimai:apache-${KIMAI_VERSION}-dev kimai2/kimai:apache-latest-dev
+	docker tag kimai2/kimai:fpm-${KIMAI_VERSION}-prod kimai2/kimai:fpm
+	docker tag kimai2/kimai:fpm-${KIMAI_VERSION}-dev kimai2/kimai:fpm-dev
+	docker tag kimai2/kimai:apache-${KIMAI_VERSION}-prod kimai2/kimai:apache
+	docker tag kimai2/kimai:apache-${KIMAI_VERSION}-dev kimai2/kimai:apache-dev
 	docker tag kimai2/kimai:fpm-${KIMAI_VERSION}-prod kimai2/kimai:latest
 	docker tag kimai2/kimai:apache-${KIMAI_VERSION}-dev kimai2/kimai:latest-dev
 else
