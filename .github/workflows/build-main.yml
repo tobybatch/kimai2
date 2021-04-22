@@ -1,0 +1,18 @@
+name: Muils main
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: make build
+      run: make build
+    - name: make test
+      run: make test
