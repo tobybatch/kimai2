@@ -35,7 +35,7 @@ services:
       retries: 3
 
   kimai:
-    image: kimai2/kimai:apache-latest-dev
+    image: kimai/kimai2:apache-latest-dev
     environment:
       - TRUSTED_HOSTS=localhost
       - ADMINMAIL=admin@kimai.local
@@ -115,7 +115,7 @@ services:
       retries: 3
 
   kimai:
-    image: kimai2/kimai:fpm-latest-prod
+    image: kimai/kimai2:fpm-latest-prod
     environment:
       - TRUSTED_HOSTS=localhost
       - ADMINMAIL=admin@kimai.local

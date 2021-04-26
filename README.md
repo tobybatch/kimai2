@@ -23,7 +23,7 @@ Run the latest production build:
             -ti \
             -p 8001:8001 \
             -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3399/kimai \
-            kimai2/kimai:apache-latest
+            kimai/kimai2:apache-latest
  
  1. Add a user, open a new terminal and:
  
@@ -79,7 +79,7 @@ services:
       retries: 3
 
   kimai: # This is the latest FPM image of kimai
-    image: kimai2/kimai:latest
+    image: kimai/kimai2:latest
     environment:
       - APP_ENV=prod
       - TRUSTED_HOSTS=localhost

@@ -36,7 +36,7 @@ services:
       retries: 3
 
   kimai: # This is the latest FPM image of kimai
-    image: kimai2/kimai:fpm-latest-prod
+    image: kimai/kimai2:fpm-latest-prod
     environment:
       - APP_ENV=prod
       - TRUSTED_HOSTS=localhost

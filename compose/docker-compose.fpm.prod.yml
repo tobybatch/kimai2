@@ -37,7 +37,7 @@ services:
       retries: 3
 
   kimai: # This is the latest FPM image of kimai
-    image: kimai2/kimai:latest
+    image: kimai/kimai2:latest
     environment:
       - TRUSTED_HOSTS=localhost
       - ADMINMAIL=admin@kimai.local
