@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "make test"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
