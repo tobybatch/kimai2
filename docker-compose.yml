@@ -8,8 +8,8 @@ services:
       - MYSQL_USER=kimaiuser
       - MYSQL_PASSWORD=kimaipassword
       - MYSQL_ROOT_PASSWORD=changemeplease
-    #volumes: # Uncomment to persist data
-      #- /var/lib/mysql
+    volumes:
+      - mysql:/var/lib/mysql
     command: --default-storage-engine innodb
     restart: unless-stopped
     healthcheck:
@@ -36,10 +36,8 @@ services:
       retries: 3
 
   kimai: # This is the latest FPM image of kimai
-    image: kimai/kimai2:fpm-latest-prod
+    image: kimai/kimai2:fpm
     environment:
-      - APP_ENV=prod
-      - TRUSTED_HOSTS=localhost
       - ADMINMAIL=admin@kimai.local
       - ADMINPASS=changemeplease
       - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
@@ -58,14 +56,7 @@ services:
       smtp_user: kimai:kimai
     restart: unless-stopped
 
-  #autoupdate:
-  #  image: kimai/kimai2
-  #  volumes:
-  #      - public:/public
-  #      - ./bin/copy-public.sh:/copy-public.sh
-  #  entrypoint: /copy-public.sh
-  #  user: 0:0
-
 volumes:
     var:
     public:
+    mysql:
