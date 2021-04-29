@@ -1,4 +1,3 @@
-
 version: '3.5'
 services:
 
@@ -9,8 +8,6 @@ services:
       - MYSQL_USER=kimaiuser
       - MYSQL_PASSWORD=kimaipassword
       - MYSQL_ROOT_PASSWORD=changemeplease
-    #volumes: # Uncomment to persist data
-      #- /var/lib/mysql
     command: --default-storage-engine innodb
     restart: unless-stopped
     healthcheck:
@@ -39,7 +36,6 @@ services:
   kimai: # This is the latest FPM image of kimai
     image: kimai/kimai2:latest
     environment:
-      - TRUSTED_HOSTS=localhost
       - ADMINMAIL=admin@kimai.local
       - ADMINPASS=changemeplease
       - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
@@ -50,21 +46,6 @@ services:
       # - ./ldap.conf:/etc/openldap/ldap.conf:z
       # - ./ROOT-CA.pem:/etc/ssl/certs/ROOT-CA.pem:z
     restart: unless-stopped
-
-  postfix:
-    image: catatnight/postfix:latest
-    environment:
-      maildomain: neontribe.co.uk
-      smtp_user: kimai:kimai
-    restart: unless-stopped
-
-  #autoupdate:
-  #  image: kimai/kimai2
-  #  volumes:
-  #      - public:/public
-  #      - ./bin/copy-public.sh:/copy-public.sh
-  #  entrypoint: /copy-public.sh
-  #  user: 0:0
 
 volumes:
     var:
