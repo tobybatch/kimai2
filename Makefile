@@ -34,12 +34,12 @@ push:
 	docker push kimai/kimai2:apache-${KIMAI_VERSION}-dev
 	docker push kimai/kimai2:apache-${KIMAI_VERSION}-prod
 ifeq (${ZAP}, matched)
-	docker push kimai/kimai2:kimai/kimai2:fpm-latest-prod
-	docker push kimai/kimai2:kimai/kimai2:fpm-latest-dev
-	docker push kimai/kimai2:kimai/kimai2:apache-latest-prod
-	docker push kimai/kimai2:kimai/kimai2:apache-latest-dev
-	docker push kimai/kimai2:kimai/kimai2:latest
-	docker push kimai/kimai2:kimai/kimai2:latest-dev
+	docker push kimai/kimai2:fpm
+	docker push kimai/kimai2:fpm-dev
+	docker push kimai/kimai2:apache
+	docker push kimai/kimai2:apache-dev
+	docker push kimai/kimai2:latest
+	docker push kimai/kimai2:latest-dev
 endif
 
 clean-test:

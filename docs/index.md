@@ -12,7 +12,7 @@ Run the latest production build:
  
  1. Start Kimai
  
-        docker run --rm --name kimai-test -ti -p 8001:8001 -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3399/kimai kimai2/kimai:apache-latest-prod
+        docker run --rm --name kimai-test -ti -p 8001:8001 -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3399/kimai kimai/kimai2:apache-latest-prod
  
  1. Add a user, open a new terminal and:
  

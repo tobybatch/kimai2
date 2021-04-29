@@ -19,11 +19,10 @@ services:
       retries: 3
 
   kimai:
-    image: kimai2/kimai:apache
+    image: kimai/kimai2:apache
     ports:
       - 8001:8001
     environment:
-      - TRUSTED_HOSTS=localhost
       - ADMINMAIL=admin@kimai.local
       - ADMINPASS=changemeplease
       - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
