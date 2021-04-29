@@ -43,19 +43,11 @@ function waitForDB() {
 }
 
 function handleStartup() {
-  # first start?
-  if ! [ -e /opt/kimai/var/installed ]; then 
-    echo "first run - install kimai"
-    /opt/kimai/bin/console -n kimai:install
-    if [ ! -z "$ADMINPASS" ] && [ ! -a "$ADMINMAIL" ]; then
-      /opt/kimai/bin/console kimai:create-user superadmin $ADMINMAIL ROLE_SUPER_ADMIN $ADMINPASS
-    fi
-    # Add this here so it's always available, it would be lost between conatiner restarts.
-    export KIMAI=$(/opt/kimai/bin/console kimai:version --short)
-    echo $KIMAI > /opt/kimai/var/installed
-  else
-    # Ensure any migrations have been run
-    /opt/kimai/bin/console -n kimai:update
+  # These are idempotent, run them anyway
+  /opt/kimai/bin/console -n kimai:install
+  /opt/kimai/bin/console -n kimai:update
+  if [ ! -z "$ADMINPASS" ] && [ ! -a "$ADMINMAIL" ]; then
+    /opt/kimai/bin/console kimai:create-user superadmin $ADMINMAIL ROLE_SUPER_ADMIN $ADMINPASS
   fi
   echo "Kimai2 ready"
 }
