@@ -23,7 +23,7 @@ Run the latest production build:
             -ti \
             -p 8001:8001 \
             -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3306/kimai \
-            kimai/kimai2:apache-latest
+            kimai/kimai2:apache
  
  1. Add a user, open a new terminal and:
  
