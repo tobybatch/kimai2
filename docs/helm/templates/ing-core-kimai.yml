@@ -5,6 +5,10 @@ metadata:
   labels:
     app.kubernetes.io/part-of: {{ .Values.metadata.applicationName }}
     app.kubernetes.io/name: core-{{ include "kimai.name" . }}
+  annotations:
+{{- if .Values.ingress.annotations }}
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+{{- end }}
 spec:
   {{ if .Values.ingress.kimai.tlsSecret }}
   tls:
