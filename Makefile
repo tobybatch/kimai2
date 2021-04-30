@@ -58,6 +58,16 @@ test: clean-test
 	docker run --rm --network kimai-test --name kimai-test-apache-${KIMAI_VERSION}-prod -ti -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai --entrypoint /self-test.sh kimai/kimai2:apache-${KIMAI_VERSION}-prod
 	docker run --rm --network kimai-test --name kimai-test-apache-${KIMAI_VERSION}-dev  -ti -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai --entrypoint /self-test.sh kimai/kimai2:apache-${KIMAI_VERSION}-dev
 
+changelog_patch:
+	# npx standard-version --release-as 1.1.0
+	npx standard-version --release-as patch
+
+changelog_minor:
+	npx standard-version --release-as minor
+
+changelog_major:
+	npx standard-version --release-as major
+
 build-version: build test push
 
 release: build test tag push

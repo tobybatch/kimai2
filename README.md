@@ -4,6 +4,17 @@ We provide a set of docker images for the [Kimai v2](https://github.com/kevinpap
 
 The built images are available from [Kimai v2](https://hub.docker.com/repository/docker/kimai/kimai2) at Docker Hub.
 
+## Deving and Contributing
+
+We use commit linting to generate commits that we can auto generate changelogs from. To set these up you will need node/nvm installed:
+
+```bash
+nvm use
+npm install
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+
 ## Quick start
 
 Run the latest production build:
