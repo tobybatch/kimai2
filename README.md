@@ -6,7 +6,7 @@ The built images are available from [Kimai v2](https://hub.docker.com/repository
 
 ## Deving and Contributing
 
-We use commit liniting to generate commits that we can auto generate changelogs from. To set these up you will need node/nvm installed:
+We use commit linting to generate commits that we can auto generate changelogs from. To set these up you will need node/nvm installed:
 
 ```bash
 nvm use
