@@ -108,6 +108,15 @@ RUN docker-php-ext-install -j$(nproc) zip
 FROM ${BASE}-php-ext-base AS php-ext-xsl
 RUN docker-php-ext-install -j$(nproc) xsl
 
+# php extension xdebug
+FROM ${BASE}-php-ext-base AS php-ext-xdebug
+RUN pecl install xdebug && \
+    docker-php-ext-enable xdebug && \
+    echo 'xdebug.remote_enable=1'    >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+    echo 'xdebug.remote_port="9001"' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+    echo 'xdebug.mode=debug'         >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+    echo 'xdebug.client_port=9001'   >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 
 
 ###########################
@@ -169,6 +178,7 @@ HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
 ###########################
 # global base build
 ###########################
+
 
 FROM ${BASE}-base AS base
 LABEL maintainer="tobias@neontribe.co.uk"
@@ -243,6 +253,9 @@ ENTRYPOINT /startup.sh
 
 # developement build
 FROM base AS dev
+# PHP extension xdebug - done here as we don't want it in the prod conatiner
+COPY --from=php-ext-xdebug /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY --from=php-ext-xdebug /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xdebug.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xdebug.so
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
 COPY assets/monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
@@ -259,6 +272,7 @@ RUN export COMPOSER_HOME=/composer && \
 ENV APP_ENV=dev
 ENV DATABASE_URL=
 USER www-data
+EXPOSE 9001
 
 # production build
 FROM base AS prod
