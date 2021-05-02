@@ -65,6 +65,11 @@ spec:
           volumeMounts:
             - mountPath: /opt/kimai/var
               name: kimai-data
+            {{- if .Values.configuration }}
+            - name: config
+              mountPath: /opt/kimai/config/packages/local.yaml
+              subPath: local.yaml
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -85,3 +90,8 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end }}
+        {{- if .Values.configuration }}
+        - name: config
+          configMap:
+            name: {{ include "kimai2.name" . }}-config
+        {{- end }}

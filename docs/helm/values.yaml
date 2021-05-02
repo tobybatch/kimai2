@@ -75,6 +75,12 @@ tolerations: []
 
 affinity: {}
 
+configuration: |-
+  monolog:
+      handlers:
+          main:
+              path: php://stderr
+
 persistence:
   enabled: false
 
@@ -139,6 +145,8 @@ mariadb:
 ## All of these values are only used if `mariadb.enabled=false`
 ##
 externalDatabase:
+  enabled: false
+
   ## @param externalDatabase.host External Database server host
   ##
   host: localhost
