@@ -16,7 +16,6 @@ replicaCount: 1
 ##
 updateStrategy:
   type: Recreate
-#  rollingUpdate: {}
 
 image:
   repository: kimai/kimai2
@@ -33,7 +32,7 @@ kimaiAdminEmail: admin@kimai.local
 # -- Password for the superadmin account
 kimaiAdminPassword: changemeplease
 
-kimaiEnvironment: production
+kimaiEnvironment: prod
 
 podAnnotations: {}
 
@@ -77,6 +76,8 @@ tolerations: []
 affinity: {}
 
 persistence:
+  enabled: false
+
   ## @param persistence.storageClass Persistent Volume storage class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning

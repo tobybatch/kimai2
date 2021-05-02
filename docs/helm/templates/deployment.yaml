@@ -49,14 +49,16 @@ spec:
             - name: http
               containerPort: 8001
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#              host: localhost
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#              host: localhost
           {{- if .Values.resources }}
           resources: {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}
@@ -77,5 +79,9 @@ spec:
       {{- end }}
       volumes:
         - name: kimai-data
+          {{- if  .Values.persistence.enabled}}
           persistentVolumeClaim:
             claimName: {{ include "kimai2.name" .}}-data
+          {{- else }}
+          emptyDir: {}
+          {{- end }}

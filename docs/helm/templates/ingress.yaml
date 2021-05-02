@@ -24,7 +24,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "kimai2.name" . }}
+                name: {{ include "kimai2.fullname" . }}
                 port:
                   name: http
 {{- end }}
