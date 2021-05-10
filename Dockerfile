@@ -35,7 +35,7 @@ FROM composer:2.0.13 AS composer
 ###########################
 
 #fpm alpine php extension base
-FROM php:7.4.15-fpm-alpine3.13 AS fpm-php-ext-base
+FROM php:8.0.6-fpm-alpine3.13 AS fpm-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -115,7 +115,7 @@ RUN docker-php-ext-install -j$(nproc) xsl
 ###########################
 
 # fpm base build
-FROM php:7.4.15-fpm-alpine3.13 AS fpm-base
+FROM php:8.0.6-fpm-alpine3.13 AS fpm-base
 RUN apk add --no-cache \
         bash \
         coreutils \
