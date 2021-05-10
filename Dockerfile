@@ -70,7 +70,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:7.4.15-apache-buster AS apache-php-ext-base
+FROM php:8.0.6-apache-buster AS apache-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \
@@ -144,7 +144,7 @@ HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
 # apache base build
 ###########################
 
-FROM php:7.4.15-apache-buster AS apache-base
+FROM php:8.0.6-apache-buster AS apache-base
 COPY assets/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN apt-get update && \
     apt-get install -y \
