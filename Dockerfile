@@ -14,7 +14,7 @@ ARG BASE="fpm"
 
 # full kimai source
 FROM alpine:3.13.5 AS git-dev
-ARG KIMAI="1.12"
+ARG KIMAI="1.14.1"
 # I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
 ADD assets/test-kimai-version.sh /test-kimai-version.sh
 RUN /test-kimai-version.sh
@@ -112,8 +112,6 @@ RUN docker-php-ext-install -j$(nproc) xsl
 FROM ${BASE}-php-ext-base AS php-ext-xdebug
 RUN pecl install xdebug && \
     docker-php-ext-enable xdebug && \
-    echo 'xdebug.remote_enable=1'    >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-    echo 'xdebug.remote_port="9001"' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
     echo 'xdebug.mode=debug'         >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
     echo 'xdebug.client_port=9001'   >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
