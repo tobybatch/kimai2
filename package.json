@@ -1,7 +1,10 @@
 {
   "scripts": {
     "prepare": "husky install",
-    "test": "make test"
+    "test": "make test",
+    "release-patch": "standard-version --release-as patch",
+    "release-minor": "standard-version --release-as minor",
+    "release-major": "standard-version --release-as major"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
@@ -15,5 +18,5 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
-  "version": "2.0.1"
+  "version": "2.0.2"
 }
