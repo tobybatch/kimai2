@@ -1,10 +1,57 @@
-# kimai-helmchart
+# Kimai
 
-In order to allow an easy deployment on Kubernetes, we provide a Helm chart (https://helm.sh). The chart allows a parameterized deployment of Kimai on Kubernetes, using the Docker images also used for the standard docker deployment. This Helm chart only allows the deployment with Apache and MySQL.
+[Kimai](https://kimai.org/)  is a free & open source timetracker. It tracks work time and prints out a summary of your activities on demand. Yearly, monthly, daily, by customer, by project … Its simplicity is its strength.
 
-# Chart Documentation
+## TL;DR
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+```console
+$ git clone https://github.com/tobybatch/kimai2.git
+$ helm install kimai kimai2/docs/helm
+```
+
+## Introduction
+
+This chart bootstraps a [Kimai2](https://github.com/tobybatch/kimai2) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+
+It also packages the [Bitnami MariaDB chart](https://github.com/bitnami/charts/tree/master/bitnami/mariadb) which is required for bootstrapping a MariaDB deployment for the database requirements of the Kimai application.
+
+This chart has been tested to work with NGINX Ingress and cert-manager on top of the [MicroK8s](https://microk8s.io/).
+
+## Prerequisites
+
+- Kubernetes 1.12+
+- Helm 3.1.0
+- PV provisioner support in the underlying infrastructure
+- ReadWriteMany volumes for deployment scaling
+
+## Installing the Chart
+
+To install the chart with the release name `kimai`:
+
+```console
+$ helm install kimai kimai2/docs/helm
+```
+
+The command deploys Kimai on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
+
+> **Tip**: List all releases using `helm list`
+
+## Uninstalling the Chart
+
+To uninstall/delete the `kimai` deployment:
+
+```console
+helm delete kimai
+```
+
+The command removes all the Kubernetes components associated with the chart and deletes the release.
+
+## Parameters
+
+
+
+
+
 
 A Helm chart for Kubernetes
 
