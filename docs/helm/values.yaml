@@ -1,3 +1,7 @@
+## @param replicaCount Number of Kimai replicas to deploy
+## NOTE: ReadWriteMany PVC(s) are required if replicaCount > 1
+##
+
 replicaCount: 1
 ## @param updateStrategy.type Kimai deployment strategy type
 ## @param updateStrategy.rollingUpdate WordPress deployment rolling update configuration parameters
@@ -20,14 +24,21 @@ image:
   tag: ""
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+## @param nameOverride String to partially override common.names.fullname
+##
+nameOverride:
+## @param fullnameOverride String to fully override common.names.fullname
+##
+fullnameOverride:
 
-# -- Email for the superadmin account
+## @param kimaiAdminEmail Email for the superadmin account
+##
 kimaiAdminEmail: admin@kimai.local
-# -- Password for the superadmin account
+## @param kimaiAdminPassword Password for the superadmin account
+##
 kimaiAdminPassword: changemeplease
-
+## @param kimaiEnvironment Kimai environment name
+##
 kimaiEnvironment: prod
 
 podAnnotations: {}
@@ -48,14 +59,47 @@ service:
   port: 80
 
 ingress:
+  ## @param ingress.enabled Enable ingress record generation for WordPress
+  ##
   enabled: false
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
-  host: kimai.example.com
-  tls:
-    enabled: false
-    secretName: kimai2-tls
+  ## @param ingress.certManager Add the corresponding annotations for cert-manager integration
+  ##
+  certManager: false
+  ## @param ingress.annotations Additional custom annotations for the ingress record
+  ## NOTE: If `ingress.certManager=true`, annotation `kubernetes.io/tls-acme: "true"` will automatically be added
+  ##
+  annotations: {}
+  ## @param ingress.hostname Default host for the ingress record
+  ##
+  hostname: kimai.local
+  ## @param ingress.tls Enable TLS configuration for the host defined at `ingress.hostname` parameter
+  ## TLS certificates will be retrieved from a TLS secret with name: `{{- printf "%s-tls" .Values.ingress.hostname }}`
+  ## You can:
+  ##   - Use the `ingress.secrets` parameter to create this TLS secret
+  ##   - Relay on cert-manager to create it by setting `ingress.certManager=true`
+  ##   - Relay on Helm to create self-signed certificates by setting `ingress.tls=true` and `ingress.certManager=false`
+  ##
+  tls: false
+  ## @param ingress.secrets Custom TLS certificates as secrets
+  ## NOTE: 'key' and 'certificate' are expected in PEM format
+  ## NOTE: 'name' should line up with a 'secretName' set further up
+  ## If it is not set and you're using cert-manager, this is unneeded, as it will create a secret for you with valid certificates
+  ## If it is not set and you're NOT using cert-manager either, self-signed certificates will be created valid for 365 days
+  ## It is also possible to create and manage the certificates outside of this helm chart
+  ## Please see README.md for more information
+  ## e.g:
+  ## secrets:
+  ##   - name: kimai.local-tls
+  ##     key: |-
+  ##       -----BEGIN RSA PRIVATE KEY-----
+  ##       ...
+  ##       -----END RSA PRIVATE KEY-----
+  ##     certificate: |-
+  ##       -----BEGIN CERTIFICATE-----
+  ##       ...
+  ##       -----END CERTIFICATE-----
+  ##
+  secrets: [ ]
 
 resources:
   requests:
@@ -78,8 +122,9 @@ configuration: |-
               path: php://stderr
 
 persistence:
-  enabled: false
-
+  ## @param persistence.enabled Enable persistence using Persistent Volume Claims
+  ##
+  enabled: true
   ## @param persistence.storageClass Persistent Volume storage class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning

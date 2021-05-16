@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "kimai2.fullname" . }}
+  name: {{ include "common.names.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     {{- include "kimai2.labels" . | nindent 4 }}
 spec:
@@ -44,7 +45,7 @@ spec:
             - name: DATABASE_URL
               value: {{ include "kimai2.databaseUrl" . }}
             - name: TRUSTED_HOSTS
-              value: localhost,{{ .Values.ingress.host }}
+              value: localhost,{{ .Values.ingress.hostname }}
           ports:
             - name: http
               containerPort: 8001
@@ -92,7 +93,7 @@ spec:
         - name: kimai-data
           {{- if  .Values.persistence.enabled}}
           persistentVolumeClaim:
-            claimName: {{ include "kimai2.name" .}}-data
+            claimName: {{ .Values.persistence.existingClaim | default (include "common.names.fullname" .) }}
           {{- else }}
           emptyDir: {}
           {{- end }}
