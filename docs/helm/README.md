@@ -92,7 +92,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `service.port`                     | Kimai service HTTP port                                                          | `80`           |
 | `ingress.enabled`                  | Enable ingress record generation for Kimai                                       | `false`        |
 | `ingress.certManager`              | Add the corresponding annotations for cert-manager integration                   | `false`        |
-| `ingress.hostname`                 | Default host for the ingress record                                              | `Kimai.local`  |
+| `ingress.hostname`                 | Default host for the ingress record                                              | `kimai.local`  |
 | `ingress.annotations`              | Additional custom annotations for the ingress record                             | `{}`           |
 | `ingress.tls`                      | Enable TLS configuration for the host defined at `ingress.hostname` parameter    | `false`        |
 | `ingress.secrets`                  | Custom TLS certificates as secrets                                               | `[]`           |

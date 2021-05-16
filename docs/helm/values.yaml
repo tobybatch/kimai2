@@ -1,7 +1,6 @@
 ## @param replicaCount Number of Kimai replicas to deploy
 ## NOTE: ReadWriteMany PVC(s) are required if replicaCount > 1
 ##
-
 replicaCount: 1
 ## @param updateStrategy.type Kimai deployment strategy type
 ## @param updateStrategy.rollingUpdate WordPress deployment rolling update configuration parameters
