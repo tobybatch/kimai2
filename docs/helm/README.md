@@ -143,3 +143,28 @@ Alternatively, a YAML file that specifies the values for the above parameters ca
 ```console
 helm install kimai -f values.yaml kimai2/docs/helm
 ```
+
+## Configuration and installation details
+
+### External database support
+
+You may want to have Kimai connect to an external database rather than installing one inside your cluster. Typical reasons for this are to use a managed database service, or to share a common database server for all your applications. To achieve this, the chart allows you to specify credentials for an external database with the [`externalDatabase` parameter](#database-parameters). You should also disable the MariaDB installation with the `mariadb.enabled` option. Here is an example:
+
+```console
+mariadb.enabled=false
+externalDatabase.host=myexternalhost
+externalDatabase.user=myuser
+externalDatabase.password=mypassword
+externalDatabase.database=mydatabase
+externalDatabase.port=3306
+```
+
+### Ingress
+
+This chart provides support for Ingress resources. If an Ingress controller, such as [nginx-ingress](https://kubeapps.com/charts/stable/nginx-ingress) or [traefik](https://kubeapps.com/charts/stable/traefik), that Ingress controller can be used to serve Kimai.
+
+To enable Ingress integration, set `ingress.enabled` to `true`. The `ingress.hostname` property can be used to set the host name. The `ingress.tls` parameter can be used to add the TLS configuration for this host.
+
+### TLS secrets
+
+The chart also facilitates the creation of TLS secrets for use with the Ingress controller, with different options for certificate management.
