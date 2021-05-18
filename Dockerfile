@@ -119,14 +119,15 @@ FROM php:7.4.15-fpm-alpine3.13 AS fpm-base
 RUN apk add --no-cache \
         bash \
         coreutils \
+        fcgi && \
         freetype \
         haveged \
         icu \
         libldap \
         libpng \
-        libzip \
         libxslt-dev \
-        fcgi && \
+        libzip \
+        tzdata && \
     touch /use_fpm
 
 EXPOSE 9000
