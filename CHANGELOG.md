@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/tobybatch/kimai2/compare/v2.0.2...v2.1.0) (2021-05-21)
+
+
+### Features
+
+* add tzdata ([af9c60c](https://github.com/tobybatch/kimai2/commits/af9c60c27423668ab939da13a003aae891fa75d7))
+
 ### [2.0.2](https://github.com/tobybatch/kimai2/compare/v2.0.1...v2.0.2) (2021-05-14)
 
 ### 2.0.1 (2021-04-30)
