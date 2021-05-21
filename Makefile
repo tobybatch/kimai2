@@ -1,3 +1,5 @@
+include .env
+
 ifndef TIMEZONE
   TIMEZONE := Europe/London
 endif
