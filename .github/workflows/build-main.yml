@@ -14,5 +14,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build -t kimai/kimai2:fpm-master-dev --build-arg KIMAI=master --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=dev .
+      run: docker build -t kimai/kimai2:fpm-master-dev --build-arg KIMAI=master --build-arg BASE=fpm --target=dev .
 
