@@ -126,7 +126,7 @@ RUN apk add --no-cache \
         libpng \
         libzip \
         libxslt-dev \
-        fcgi && \
+        fcgi \
         tzdata && \
     touch /use_fpm
 
