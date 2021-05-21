@@ -127,6 +127,7 @@ RUN apk add --no-cache \
         libzip \
         libxslt-dev \
         fcgi && \
+        tzdata && \
     touch /use_fpm
 
 EXPOSE 9000
