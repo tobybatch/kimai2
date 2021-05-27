@@ -31,6 +31,7 @@ This docker transient and will disappear when you stop the containers.
 * [Building it yourself](build.md#building-the-kimai-docker)
   * [Build arguments](build.md#build-arguments)
   * [Extending the image](build.md#extending-the-image)
+* [Helm and Kubernetes](helm.md)
 * [Troubleshooting](troubleshooting.md#troubleshooting)
   * [NGINX and proxying](troubleshooting.md#nginx-and-proxying)
   * [Fixing permissions](troubleshooting.md#permissions)
