@@ -13,7 +13,7 @@ nvm use
 npm install
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+See [CONTRIBUTING.md](https://github.com/tobybatch/kimai2/blob/main/CONTRIBUTING.md) for more details.
 
 ## Quick start
 
@@ -51,7 +51,7 @@ This docker transient and will disappear when you stop the containers.
 
 This will run the latest prod version using FPM with an nginx reverse proxy
 
-See the [docker-compose.yml](docker-compose.yml) in the root of this repo.
+See the [docker-compose.yml](https://github.com/tobybatch/kimai2/blob/main/docker-compose.yml) in the root of this repo.
 
 ## Documentation
 
