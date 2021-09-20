@@ -15,7 +15,7 @@ MAILER_URL=null://localhost
 
 Start up values:
 
-If set then these values will try and create a new admin user.
+If set, then these values will be used to create a new admin user (if not yet existing).
 
 ```bash
 ADMINPASS=
@@ -26,7 +26,7 @@ ADMINMAIL=
 
 It is possible to pass the DB config in individual values.  If the ENV variable ```DB_TYPE``` is set then the following values will be expected:
 
-The ```DB_TYPE``` must be mysql:
+The ```DB_TYPE``` must be `mysql`:
 
  * ```DB_USER``` defaults to ```kimai```
  * ```DB_PASS``` defaults to ```kimai```
