@@ -31,8 +31,9 @@ services:
 When the kimai image is updated, and the container is restarted any new assets in the public directory are never included. These will be things like CSS files, images and especially version specific javascript code! To fix this you need to copy the newer files from a fresh image over the top.
 
 ```bash
+# You might need to use `docker volume ls | grep kimai` and see how your Kimai public volume really is named on your system!
 me@myhost $ docker run --rm -ti -v kimai_public:/public --entrypoint /bin/bash kimai/kimai2
-#                                  ^^^^^^^^^^^^ -> Where this is the name of your public volume
+#                                  ^^^^^^^^^^^^ -> Kimai public volume
 bash-5.0$ cp -r /opt/kimai/public /
 bash-5.0$ exit
 me@myhost $
