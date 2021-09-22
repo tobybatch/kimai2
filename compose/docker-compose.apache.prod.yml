@@ -4,6 +4,8 @@ services:
 
   sqldb:
     image: mysql:5.7
+    volumes:
+      - kimai-mysql:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=kimai
       - MYSQL_USER=kimaiuser
@@ -20,6 +22,8 @@ services:
 
   kimai:
     image: kimai/kimai2:apache
+    volumes:
+      - kimai-var:/opt/kimai/var
     ports:
       - 8001:8001
     environment:
@@ -29,3 +33,6 @@ services:
       - TRUSTED_HOSTS=nginx,localhost,127.0.0.1
     restart: unless-stopped
 
+volumes:
+  kimai-var:
+  kimai-mysql:
