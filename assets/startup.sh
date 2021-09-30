@@ -44,6 +44,7 @@ function waitForDB() {
 
 function handleStartup() {
   # These are idempotent, run them anyway
+  tar -zx -C /opt/kimai -f /var/tmp/public.tgz 
   /opt/kimai/bin/console -n kimai:install
   /opt/kimai/bin/console -n kimai:update
   if [ ! -z "$ADMINPASS" ] && [ ! -a "$ADMINMAIL" ]; then
