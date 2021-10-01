@@ -1,2 +1,6 @@
 build-tree.png
 *.swp
+node_modules/
+yarn.lock
+.env
+compose/docker-vols/public/
