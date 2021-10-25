@@ -15,10 +15,8 @@ function waitForDB() {
     DB_TYPE=${DB_TYPE:mysql}
     if [ "$DB_TYPE" == "mysql" ]; then
       export DATABASE_URL="${DB_TYPE}://${DB_USER:=kimai}:${DB_PASS:=kimai}@${DB_HOST:=sqldb}:${DB_PORT:=3306}/${DB_BASE:=kimai}"
-    elif [ "$DB_TYPE" == "sqlite" ]; then
-      export DATABASE_URL="${DB_TYPE}://${DB_BASE:=%kernel.project_dir%/var/data/kimai.sqlite}"
     else
-      echo "Unkown database type, cannot proceed.  Expected one of: mysql, sqlite. Received: [$DB_TYPE]"
+      echo "Unknown database type, cannot proceed. Only 'mysql' is supported, received: [$DB_TYPE]"
       exit 1
     fi
   fi
@@ -28,18 +26,12 @@ function waitForDB() {
      DB_PORT=3306
   fi
 
-  # If we use mysql wait until its online
-  if [[ $DB_TYPE == "mysql" ]]; then
-      echo "Using Mysql DB"
-      echo "Wait for db connection ..."
-      until php /dbtest.php $DB_HOST $DB_BASE $DB_PORT $DB_USER $DB_PASS; do
-        echo Checking DB: $?
-        sleep 3
-      done
-      echo "Connection established"
-  else
-      echo "Using non mysql DB"
-  fi
+  echo "Wait for MySQL DB connection ..."
+  until php /dbtest.php $DB_HOST $DB_BASE $DB_PORT $DB_USER $DB_PASS; do
+    echo Checking DB: $?
+    sleep 3
+  done
+  echo "Connection established"
 }
 
 function handleStartup() {
@@ -57,9 +49,9 @@ function handleStartup() {
 
 function runServer() {
   /opt/kimai/bin/console kimai:reload --env=$APP_ENV
-  if [ -e /use_apache ]; then 
+  if [ -e /use_apache ]; then
     /usr/sbin/apache2ctl -D FOREGROUND
-  elif [ -e /use_fpm ]; then 
+  elif [ -e /use_fpm ]; then
     exec php-fpm
   else
     echo "Error, unknown server type"
