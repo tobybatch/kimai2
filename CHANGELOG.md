@@ -4,8 +4,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [2.0.3](https://github.com/tobybatch/kimai2/compare/v2.2.0...v2.0.3) (2021-09-30)
 
-## [2.1.0](https://github.com/tobybatch/kimai2/compare/v2.0.2...v2.1.0) (2021-05-21)
-
 
 ### Features
 
