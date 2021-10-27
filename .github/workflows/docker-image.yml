@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the FPM Dev
+      # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . \
+          -t kimai/kimai2:fpm-${KIMAI_VERSION}-dev \
+          --build-arg KIMAI=${KIMAI_VERSION} \
+          --build-arg BASE=fpm \
+          --target=dev
