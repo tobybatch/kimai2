@@ -3,7 +3,7 @@ name: 'Build on Kimai release'
 on:
   workflow_dispatch:
     inputs:
-      KIMAI_VERSION:
+      KIMAI:
         description: "Kimai version"
         required: true
         default: 1.16.9
@@ -20,42 +20,42 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build FPM dev
-        run: docker build -t kimai/kimai2:fpm-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=dev .
+        run: docker build -t kimai/kimai2:fpm-${KIMAI}-dev --build-arg KIMAI=${KIMAI} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=dev .
       - name: Build FPM prod
-        run: docker build -t kimai/kimai2:fpm-${KIMAI_VERSION}-prod --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=prod .
+        run: docker build -t kimai/kimai2:fpm-${KIMAI}-prod --build-arg KIMAI=${KIMAI} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=prod .
       - name: Build Apache dev
-        run: docker build -t kimai/kimai2:apache-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=dev .
+        run: docker build -t kimai/kimai2:apache-${KIMAI}-dev --build-arg KIMAI=${KIMAI} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=dev .
       - name: Build Apache prod
-        run: docker build -t kimai/kimai2:apache-${KIMAI_VERSION}-prod --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=prod .
+        run: docker build -t kimai/kimai2:apache-${KIMAI}-prod --build-arg KIMAI=${KIMAI} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=prod .
       - name: tag builds
         run: |
-          docker tag kimai/kimai2:fpm-${KIMAI_VERSION}-prod kimai/kimai2:fpm
-          docker tag kimai/kimai2:fpm-${KIMAI_VERSION}-dev kimai/kimai2:fpm-dev
-          docker tag kimai/kimai2:apache-${KIMAI_VERSION}-prod kimai/kimai2:apache
-          docker tag kimai/kimai2:apache-${KIMAI_VERSION}-dev kimai/kimai2:apache-dev
-          docker tag kimai/kimai2:fpm-${KIMAI_VERSION}-prod kimai/kimai2:latest
-          docker tag kimai/kimai2:apache-${KIMAI_VERSION}-dev kimai/kimai2:latest-dev
+          docker tag kimai/kimai2:fpm-${KIMAI}-prod kimai/kimai2:fpm
+          docker tag kimai/kimai2:fpm-${KIMAI}-dev kimai/kimai2:fpm-dev
+          docker tag kimai/kimai2:apache-${KIMAI}-prod kimai/kimai2:apache
+          docker tag kimai/kimai2:apache-${KIMAI}-dev kimai/kimai2:apache-dev
+          docker tag kimai/kimai2:fpm-${KIMAI}-prod kimai/kimai2:latest
+          docker tag kimai/kimai2:apache-${KIMAI}-dev kimai/kimai2:latest-dev
       - name: run tests
         run: |
           docker network create --driver bridge kimai-test
           docker run --rm --network kimai-test --name kimai-mysql-testing -e MYSQL_DATABASE=kimai -e MYSQL_USER=kimai -e MYSQL_PASSWORD=kimai -e MYSQL_ROOT_PASSWORD=kimai -p 3399:3306 -d mysql
-          docker run --rm --network kimai-test --name kimai-test-fpm-${KIMAI_VERSION}-prod    -ti -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai --entrypoint /self-test.sh kimai/kimai2:fpm-${KIMAI_VERSION}-prod
-          docker run --rm --network kimai-test --name kimai-test-fpm-${KIMAI_VERSION}-dev     -ti -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai --entrypoint /self-test.sh kimai/kimai2:fpm-${KIMAI_VERSION}-dev
-          docker run --rm --network kimai-test --name kimai-test-apache-${KIMAI_VERSION}-prod -ti -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai --entrypoint /self-test.sh kimai/kimai2:apache-${KIMAI_VERSION}-prod
-          docker run --rm --network kimai-test --name kimai-test-apache-${KIMAI_VERSION}-dev  -ti -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai --entrypoint /self-test.sh kimai/kimai2:apache-${KIMAI_VERSION}-dev
+          docker run --rm --network kimai-test --name kimai-test-fpm-${KIMAI}-prod    -ti -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai --entrypoint /self-test.sh kimai/kimai2:fpm-${KIMAI_VERSION}-prod
+          docker run --rm --network kimai-test --name kimai-test-fpm-${KIMAI}-dev     -ti -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai --entrypoint /self-test.sh kimai/kimai2:fpm-${KIMAI_VERSION}-dev
+          docker run --rm --network kimai-test --name kimai-test-apache-${KIMAI}-prod -ti -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai --entrypoint /self-test.sh kimai/kimai2:apache-${KIMAI_VERSION}-prod
+          docker run --rm --network kimai-test --name kimai-test-apache-${KIMAI}-dev  -ti -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai --entrypoint /self-test.sh kimai/kimai2:apache-${KIMAI_VERSION}-dev
       - name: clean up
         run: |
           docker stop kimai-mysql-testing || true
-          docker stop kimai-test-fpm-${KIMAI_VERSION}-prod || true
-          docker stop kimai-test-fpm-${KIMAI_VERSION}-dev || true
-          docker stop kimai-test-apache-${KIMAI_VERSION}-prod || true
-          docker stop kimai-test-apache-${KIMAI_VERSION}-dev || true
+          docker stop kimai-test-fpm-${KIMAI}-prod || true
+          docker stop kimai-test-fpm-${KIMAI}-dev || true
+          docker stop kimai-test-apache-${KIMAI}-prod || true
+          docker stop kimai-test-apache-${KIMAI}-dev || true
           docker network rm kimai-test || true
 
-#   docker push kimai/kimai2:fpm-${KIMAI_VERSION}-dev
-#   docker push kimai/kimai2:fpm-${KIMAI_VERSION}-prod
-#   docker push kimai/kimai2:apache-${KIMAI_VERSION}-dev
-#   docker push kimai/kimai2:apache-${KIMAI_VERSION}-prod
+#   docker push kimai/kimai2:fpm-${KIMAI}-dev
+#   docker push kimai/kimai2:fpm-${KIMAI}-prod
+#   docker push kimai/kimai2:apache-${KIMAI}-dev
+#   docker push kimai/kimai2:apache-${KIMAI}-prod
 #   docker push kimai/kimai2:fpm
 #   docker push kimai/kimai2:fpm-dev
 #   docker push kimai/kimai2:apache
