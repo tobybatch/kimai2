@@ -7,11 +7,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      KIMAI_VERSION: 1.16.9
     steps:
       - uses: actions/checkout@v2
       - name: Run a one-line script
-        run: echo Hello, world!
-      - name: Run a multi-line script
-        run: |
-          echo Add other custom actions to build,
-          echo test, and deploy your project.
+        run: docker build -t kimai/kimai2:fpm-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=dev .
+#      - name: Run a multi-line script
+#        run: |
+#          echo Add other custom actions to build,
+#          echo test, and deploy your project.
+#
+#  docker build -t kimai/kimai2:fpm-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=dev .
+#  docker build -t kimai/kimai2:fpm-${KIMAI_VERSION}-prod --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=prod .
+#  docker build -t kimai/kimai2:apache-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=dev .
+#  docker build -t kimai/kimai2:apache-${KIMAI_VERSION}-prod --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=prod .
