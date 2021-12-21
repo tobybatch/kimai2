@@ -1,0 +1,60 @@
+name: 'Build FPM dev'
+
+on:
+  workflow_dispatch:
+    inputs:
+      KIMAI:
+        description: "Kimai version"
+        required: true
+        default: 1.16.9
+      TIMEZONE:
+        description: "Timezone"
+        required: false
+        default: "Europe/London"
+  repository_dispatch:
+    types: [kimai_release]
+
+env:
+  XXX: ${{ secrets.DOCKERHUB_USERNAME }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # setup Docker buld action
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub ${{XXX}}
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to Github Packages
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+      
+      - name: Build image and push to Docker Hub and GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args: |
+            KIMAI=${{github.event.inputs.KIMAI}}
+            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            TARGET=dev
+            BASE=fpm
+          tags: |
+            kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-dev 
+            ghcr.io/tobybatch/kimai2:fpm-${{github.event.inputs.KIMAI}}-dev
+          push: ${{ github.ref == 'refs/heads/main' }}
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
