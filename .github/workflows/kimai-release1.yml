@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build FPM dev
+      - name: Build FPM kimai/kimai2:fpm-${KIMAI}-dev
         run: docker build -t kimai/kimai2:fpm-${KIMAI}-dev --build-arg KIMAI=${KIMAI} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=dev .
       - name: Build FPM prod
         run: docker build -t kimai/kimai2:fpm-${KIMAI}-prod --build-arg KIMAI=${KIMAI} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=prod .
