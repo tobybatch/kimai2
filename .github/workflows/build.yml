@@ -1,4 +1,4 @@
-name: 'Build on Kimai release'
+name: 'Build FOM dev'
 
 on:
   workflow_dispatch:
