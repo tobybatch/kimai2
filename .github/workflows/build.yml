@@ -1,4 +1,4 @@
-name: 'Build FOM dev'
+name: 'Build FPM dev'
 
 on:
   workflow_dispatch:
