@@ -1,4 +1,4 @@
-name: 'Build FPM dev'
+name: 'Build release'
 
 on:
   workflow_dispatch:
@@ -18,10 +18,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: step 1
-        ## Reference your environment variables
-        run: echo "The API key is:${{secrets.DOCKERHUB_USERNAME}} '${{secrets.DOCKERHUB_PASSWORD}}'" 
-        
       - name: Checkout code
         uses: actions/checkout@v2
         
@@ -35,15 +31,8 @@ jobs:
         with:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_PASSWORD}}
-
-#       - name: Login to Github Packages
-#         uses: docker/login-action@v1
-#         with:
-#           registry: ghcr.io
-#           username: ${{ github.actor }}
-#           password: ${{ secrets.GHCR_PAT }}
       
-      - name: Build image and push to Docker Hub and GitHub Container Registry
+      - name: Build FPM Dev image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -53,8 +42,46 @@ jobs:
             TARGET=dev
             BASE=fpm
           tags: |
-            kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-dev 
-            ghcr.io/tobybatch/kimai2:fpm-${{github.event.inputs.KIMAI}}-dev
+            kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-dev
+          push: ${{ github.ref == 'refs/heads/main' }}
+      
+      - name: Build FPM Pro image and push to Docker Hub and GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args: |
+            KIMAI=${{github.event.inputs.KIMAI}}
+            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            TARGET=prod
+            BASE=fpm
+          tags: |
+            kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-prod
+          push: ${{ github.ref == 'refs/heads/main' }}
+      
+      - name: Build Apache dev image and push to Docker Hub and GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args: |
+            KIMAI=${{github.event.inputs.KIMAI}}
+            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            TARGET=dev
+            BASE=apache
+          tags: |
+            kimai/kimai2:apache-${{github.event.inputs.KIMAI}}-dev
+          push: ${{ github.ref == 'refs/heads/main' }}
+      
+      - name: Build Apache prod image and push to Docker Hub and GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args: |
+            KIMAI=${{github.event.inputs.KIMAI}}
+            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            TARGET=apache
+            BASE=prod
+          tags: |
+            kimai/kimai2:apache-${{github.event.inputs.KIMAI}}-prod
           push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Image digest
