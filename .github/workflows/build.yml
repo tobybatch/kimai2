@@ -18,6 +18,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: step 1
+        ## Reference your environment variables
+        run: echo "The API key is:${{secrets.DOCKERHUB_USERNAME}}" 
+        
       - name: Checkout code
         uses: actions/checkout@v2
         
