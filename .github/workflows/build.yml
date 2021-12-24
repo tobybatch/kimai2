@@ -20,13 +20,13 @@ jobs:
     steps:
       - name: step 1
         ## Reference your environment variables
-        run: echo "The API key is:${{secrets.DOCKERHUB_USERNAME}}" 
+        run: echo "The API key is:${{secrets.DOCKERHUB_USERNAME}} '${{secrets.DOCKERHUB_PASSWORD}}'" 
         
       - name: Checkout code
         uses: actions/checkout@v2
         
       - name: Show secrets
-        run: echo "Secrets '${{secrets.DOCKERHUB_USERNAME}}' '${{secrets.DOCKERHUB_TOKEN}}'"
+        run: echo "Secrets '${{secrets.DOCKERHUB_USERNAME}}' '${{secrets.DOCKERHUB_PASSWORD}}'"
 
       # setup Docker buld action
       - name: Set up Docker Buildx
