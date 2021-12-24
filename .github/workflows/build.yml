@@ -78,8 +78,8 @@ jobs:
           build-args: |
             KIMAI=${{github.event.inputs.KIMAI}}
             TIMEZONE=${{github.event.inputs.TIMEZONE}}
-            TARGET=apache
-            BASE=prod
+            TARGET=prod
+            BASE=apache
           tags: |
             kimai/kimai2:apache-${{github.event.inputs.KIMAI}}-prod
           push: ${{ github.ref == 'refs/heads/main' }}
