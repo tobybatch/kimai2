@@ -20,6 +20,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
+      - name: Show secrets
+        run: echo "Secrets '${{secrets.DOCKERHUB_USERNAME}}' '${{secrets.DOCKERHUB_TOKEN}}'"
 
       # setup Docker buld action
       - name: Set up Docker Buildx
