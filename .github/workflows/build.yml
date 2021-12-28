@@ -14,9 +14,6 @@ on:
   repository_dispatch:
     types: [kimai_release]
 
-env:
-  XXX: ${{ secrets.DOCKERHUB_USERNAME }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
