@@ -43,46 +43,7 @@ jobs:
             BASE=fpm
           tags: |
             kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-dev
-          push: ${{ github.ref == 'refs/heads/main' }}
-      
-      - name: Build FPM Pro image and push to Docker Hub and GitHub Container Registry
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          build-args: |
-            KIMAI=${{github.event.inputs.KIMAI}}
-            TIMEZONE=${{github.event.inputs.TIMEZONE}}
-            TARGET=prod
-            BASE=fpm
-          tags: |
-            kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-prod
-          push: ${{ github.ref == 'refs/heads/main' }}
-      
-      - name: Build Apache dev image and push to Docker Hub and GitHub Container Registry
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          build-args: |
-            KIMAI=${{github.event.inputs.KIMAI}}
-            TIMEZONE=${{github.event.inputs.TIMEZONE}}
-            TARGET=dev
-            BASE=apache
-          tags: |
-            kimai/kimai2:apache-${{github.event.inputs.KIMAI}}-dev
-          push: ${{ github.ref == 'refs/heads/main' }}
-      
-      - name: Build Apache prod image and push to Docker Hub and GitHub Container Registry
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          build-args: |
-            KIMAI=${{github.event.inputs.KIMAI}}
-            TIMEZONE=${{github.event.inputs.TIMEZONE}}
-            TARGET=prod
-            BASE=apache
-          tags: |
-            kimai/kimai2:apache-${{github.event.inputs.KIMAI}}-prod
-          push: ${{ github.ref == 'refs/heads/main' }}
+          push: true
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
