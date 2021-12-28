@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       # setup Docker buld action
       - name: Set up Docker Buildx
         id: buildx
@@ -31,7 +31,7 @@ jobs:
         with:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_PASSWORD}}
-      
+
       - name: Build and push FPM Dev
         uses: docker/build-push-action@v2
         with:
@@ -44,7 +44,7 @@ jobs:
           tags: |
             kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-dev
           push: true
-      
+
       - name: Build and push FPM Prod
         uses: docker/build-push-action@v2
         with:
@@ -57,7 +57,7 @@ jobs:
           tags: |
             kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-prod
           push: true
-      
+
       - name: Build and push Apache Dev
         uses: docker/build-push-action@v2
         with:
@@ -70,7 +70,7 @@ jobs:
           tags: |
             kimai/kimai2:apache-${{github.event.inputs.KIMAI}}-dev
           push: true
-      
+
       - name: Build and push Apache Prod
         uses: docker/build-push-action@v2
         with:
@@ -86,3 +86,4 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+

@@ -13,7 +13,7 @@ ARG BASE="fpm"
 ###########################
 
 # full kimai source
-FROM alpine:3.14.2 AS git-dev
+FROM alpine:3.15.0 AS git-dev
 ARG KIMAI="master"
 # I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
 ADD assets/test-kimai-version.sh /test-kimai-version.sh
@@ -27,7 +27,7 @@ WORKDIR /opt/kimai
 RUN rm -r tests
 
 # composer base image
-FROM composer:2.1.8 AS composer
+FROM composer:2.2.1 AS composer
 
 
 ###########################
@@ -35,7 +35,7 @@ FROM composer:2.1.8 AS composer
 ###########################
 
 #fpm alpine php extension base
-FROM php:8.0.10-fpm-alpine3.13 AS fpm-php-ext-base
+FROM php:8.1.0RC6-fpm-alpine3.13 AS fpm-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -70,7 +70,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:8.0.10-apache-buster AS apache-php-ext-base
+FROM php:8.1.0RC6-fpm-alpine3.13 AS apache-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \
@@ -115,7 +115,7 @@ RUN docker-php-ext-install -j$(nproc) xsl
 ###########################
 
 # fpm base build
-FROM php:8.0.10-fpm-alpine3.13 AS fpm-base
+FROM php:8.1.0RC6-fpm-alpine3.13 AS fpm-base
 RUN apk add --no-cache \
         bash \
         coreutils \
@@ -145,7 +145,7 @@ HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
 # apache base build
 ###########################
 
-FROM php:8.0.10-apache-buster AS apache-base
+FROM php:8.1.0RC6-fpm-alpine3.13 AS apache-base
 COPY assets/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN apt-get update && \
     apt-get install -y \
