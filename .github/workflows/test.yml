@@ -1,0 +1,29 @@
+name: 'Test'
+
+on:
+  workflow_dispatch:
+    inputs:
+      KIMAI:
+        description: "Kimai version"
+        required: true
+        default: 1.16.9
+  repository_dispatch:
+    types: [kimai_release]
+env:
+  TIMEZONE: "Europe/London"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set vars from payload
+        run: echo "kv=${{ github.event.client_payload.KIMAI }}" >> $GITHUB_ENV
+        if: github.event.client_payload != null
+
+      - name: Set vars from inputs
+        run: echo "kv=${{ github.event.inputs.KIMAI }}" >> $GITHUB_ENV
+        if: github.event.client_payload == null
+
+      - name: Show env
+        run: echo ${{env.kv}}
+
