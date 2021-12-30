@@ -1,0 +1,95 @@
+name: 'Build release'
+
+on:
+  workflow_dispatch:
+    inputs:
+      KIMAI:
+        description: "Kimai version"
+        required: true
+        default: 1.16.9
+      TIMEZONE:
+        description: "Timezone"
+        required: false
+        default: "Europe/London"
+  repository_dispatch:
+    types: [kimai_release]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # setup Docker buld action
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1.12.0
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_PASSWORD}}
+
+      - name: Build and push FPM Dev
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args: |
+            KIMAI=${{github.event.inputs.KIMAI}}
+            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            TARGET=dev
+            BASE=fpm
+          tags: |
+            kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-dev
+            kimai/kimai2:fpm-dev
+          push: true
+
+      - name: Build and push FPM Prod
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args: |
+            KIMAI=${{github.event.inputs.KIMAI}}
+            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            TARGET=prod
+            BASE=fpm
+          tags: |
+            kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-prod
+            kimai/kimai2:fpm-latest
+            kimai/kimai2:latest
+          push: true
+
+      - name: Build and push Apache Dev
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args: |
+            KIMAI=${{github.event.inputs.KIMAI}}
+            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            TARGET=dev
+            BASE=apache
+          tags: |
+            kimai/kimai2:apache-${{github.event.inputs.KIMAI}}-dev
+            kimai/kimai2:apache-dev
+          push: true
+
+      - name: Build and push Apache Prod
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args: |
+            KIMAI=${{github.event.inputs.KIMAI}}
+            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            TARGET=prod
+            BASE=apache
+          tags: |
+            kimai/kimai2:apache-${{github.event.inputs.KIMAI}}-prod
+            kimai/kimai2:apache-latest
+            kimai/kimai2:apache
+          push: true
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+
