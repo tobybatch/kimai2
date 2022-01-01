@@ -9,21 +9,22 @@ on:
         default: 1.16.9
   repository_dispatch:
     types: [kimai_release]
-env:
-  TIMEZONE: "Europe/London"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Set vars from payload
-        run: echo "kv=${{ github.event.client_payload.KIMAI }}" >> $GITHUB_ENV
-        if: github.event.client_payload != null
-
-      - name: Set vars from inputs
-        run: echo "kv=${{ github.event.inputs.KIMAI }}" >> $GITHUB_ENV
-        if: github.event.client_payload == null
-
-      - name: Show env
-        run: echo ${{env.kv}}
-
+      - name: Echo payload
+        run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
+      - name: Echo inputs
+        run: |
+          echo "KIMAI=${KIMAI}"
+          echo "TIMEZONE=${TIMEZONE}"
+      - name: Check for payload
+        run: |
+          if ! -z ${{ github.event.client_payload.KIMAI }}; then
+            echo "kv=${{ github.event.client_payload.KIMAI }}" >> $GITHUB_ENV
+            echo "kv set from payload"
+          else
+            echo "kv=${KIMAI}" >> $GITHUB_ENV
+            echo "kv set from inputs"

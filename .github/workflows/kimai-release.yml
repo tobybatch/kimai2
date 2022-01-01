@@ -24,7 +24,7 @@ jobs:
       - name: Set vars from inputs
         run: echo "kv=${{ github.event.inputs.KIMAI }}" >> $GITHUB_ENV
         if: github.event.client_payload == null
-        
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -98,4 +98,3 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-
