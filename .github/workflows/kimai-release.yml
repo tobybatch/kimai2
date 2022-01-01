@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Dump payload
-        run: echo "kv=${{ toJSON(github.event.client_payload) }}"
+        run: echo "kv=${{ toJson(github.event.client_payload) }}"
 
       - name: Set vars from payload
         run: echo "kv=${{ github.event.client_payload.KIMAI_VERSION }}" >> $GITHUB_ENV
