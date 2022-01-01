@@ -7,10 +7,6 @@ on:
         description: "Kimai version"
         required: true
         default: 1.16.9
-      TIMEZONE:
-        description: "Timezone"
-        required: false
-        default: "Europe/London"
   repository_dispatch:
     types: [kimai_release]
 

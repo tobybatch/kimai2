@@ -7,10 +7,6 @@ on:
         description: "Kimai version"
         required: true
         default: 1.16.9
-      TIMEZONE:
-        description: "Timezone"
-        required: false
-        default: "Europe/London"
   repository_dispatch:
     types: [kimai_release]
 
@@ -18,10 +14,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Dump payload
+        run: echo "kv=${{ toJson(github.event.client_payload) }}"
+
+      - name: Set vars from payload
+        run: echo "kv=${{ github.event.client_payload.KIMAI_VERSION }}" >> $GITHUB_ENV
+        if: github.event.client_payload != null
+
+      - name: Set vars from inputs
+        run: echo "kv=${{ github.event.inputs.KIMAI }}" >> $GITHUB_ENV
+        if: github.event.client_payload == null
+
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # setup Docker buld action
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
@@ -37,12 +43,12 @@ jobs:
         with:
           context: .
           build-args: |
-            KIMAI=${{github.event.inputs.KIMAI}}
-            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            KIMAI=${{env.kv}}
+            TIMEZONE=Europe/London
             TARGET=dev
             BASE=fpm
           tags: |
-            kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-dev
+            kimai/kimai2:fpm-${{env.kv}}-dev
             kimai/kimai2:fpm-dev
           push: true
 
@@ -51,12 +57,12 @@ jobs:
         with:
           context: .
           build-args: |
-            KIMAI=${{github.event.inputs.KIMAI}}
-            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            KIMAI=${{env.kv}}
+            TIMEZONE=Europe/London
             TARGET=prod
             BASE=fpm
           tags: |
-            kimai/kimai2:fpm-${{github.event.inputs.KIMAI}}-prod
+            kimai/kimai2:fpm-${{env.kv}}-prod
             kimai/kimai2:fpm-latest
             kimai/kimai2:latest
           push: true
@@ -66,12 +72,12 @@ jobs:
         with:
           context: .
           build-args: |
-            KIMAI=${{github.event.inputs.KIMAI}}
-            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            KIMAI=${{env.kv}}
+            TIMEZONE=Europe/London
             TARGET=dev
             BASE=apache
           tags: |
-            kimai/kimai2:apache-${{github.event.inputs.KIMAI}}-dev
+            kimai/kimai2:apache-${{env.kv}}-dev
             kimai/kimai2:apache-dev
           push: true
 
@@ -80,16 +86,15 @@ jobs:
         with:
           context: .
           build-args: |
-            KIMAI=${{github.event.inputs.KIMAI}}
-            TIMEZONE=${{github.event.inputs.TIMEZONE}}
+            KIMAI=${{env.kv}}
+            TIMEZONE=Europe/London
             TARGET=prod
             BASE=apache
           tags: |
-            kimai/kimai2:apache-${{github.event.inputs.KIMAI}}-prod
+            kimai/kimai2:apache-${{env.kv}}-prod
             kimai/kimai2:apache-latest
             kimai/kimai2:apache
           push: true
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-
