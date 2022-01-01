@@ -35,5 +35,3 @@ jobs:
           -e DATABASE_URL=mysql://kimai:kimai@kimai-mysql-testing:3306/kimai \
           --entrypoint /self-test.sh \
           kimai/kimai2:kimai:fpm-dev
-
-	
