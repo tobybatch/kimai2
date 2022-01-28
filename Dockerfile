@@ -35,7 +35,7 @@ FROM composer:2.2.1 AS composer
 ###########################
 
 #fpm alpine php extension base
-FROM php:8.1.0RC6-fpm-alpine3.13 AS fpm-php-ext-base
+FROM php:8.0.15-fpm-alpine3.15 AS fpm-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -70,7 +70,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:8.1.1-apache-buster AS apache-php-ext-base
+FROM php:8.0.15-apache-buster AS apache-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \
