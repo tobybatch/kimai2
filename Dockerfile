@@ -279,6 +279,7 @@ RUN export COMPOSER_HOME=/composer && \
     composer --no-ansi clearcache && \
     composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
+    sed -i "s/expose_php = On/expose_php = Off/g" /usr/local/etc/php/php.ini && \
     mkdir -p /opt/kimai/var/logs && chmod 777 /opt/kimai/var/logs && \
     chown -R www-data:www-data /opt/kimai && \
     tar -C /opt/kimai -zcvf /var/tmp/public.tgz public && \
