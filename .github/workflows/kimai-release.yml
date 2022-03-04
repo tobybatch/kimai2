@@ -14,16 +14,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Dump payload
-        run: echo "kv=${{ toJson(github.event.client_payload) }}"
 
       - name: Set vars from payload
-        run: echo "kv=${{ github.event.client_payload.KIMAI_VERSION }}" >> $GITHUB_ENV
+        run: echo "kv=${{ github.event.client_payload.release.tag_name }}" >> $GITHUB_ENV
         if: github.event.client_payload != null
-
-      - name: Set vars from inputs
-        run: echo "kv=${{ github.event.inputs.KIMAI }}" >> $GITHUB_ENV
-        if: github.event.client_payload == null
 
       - name: Checkout code
         uses: actions/checkout@v2
