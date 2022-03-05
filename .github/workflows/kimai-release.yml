@@ -2,11 +2,6 @@ name: 'Build release'
 
 on:
   workflow_dispatch:
-    inputs:
-      KIMAI:
-        description: "Kimai version"
-        required: true
-        default: 1.16.9
   repository_dispatch:
     types: [kimai_release]
 
@@ -26,6 +21,13 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: install lastversion
+        run: sudo apt-get update -y; sudo apt-get install --no-install-recommends -y python3 python3-pip; pip install lastversion
+
+      - name: check remote lastversion
+        id: remote_version
+        run: echo "::set-output name=version::$(lastversion https://github.com/kevinpapst/kimai2)"
+
       - name: Login to DockerHub
         uses: docker/login-action@v1.12.0
         with:
@@ -37,12 +39,12 @@ jobs:
         with:
           context: .
           build-args: |
-            KIMAI=${{env.kv}}
+            KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
             TARGET=dev
             BASE=fpm
           tags: |
-            kimai/kimai2:fpm-${{env.kv}}-dev
+            kimai/kimai2:fpm-${{steps.remote_version.outputs.version}}-dev
             kimai/kimai2:fpm-dev
           push: true
 
@@ -51,12 +53,12 @@ jobs:
         with:
           context: .
           build-args: |
-            KIMAI=${{env.kv}}
+            KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
             TARGET=prod
             BASE=fpm
           tags: |
-            kimai/kimai2:fpm-${{env.kv}}-prod
+            kimai/kimai2:fpm-${{steps.remote_version.outputs.version}}-prod
             kimai/kimai2:fpm-latest
             kimai/kimai2:latest
           push: true
@@ -66,12 +68,12 @@ jobs:
         with:
           context: .
           build-args: |
-            KIMAI=${{env.kv}}
+            KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
             TARGET=dev
             BASE=apache
           tags: |
-            kimai/kimai2:apache-${{env.kv}}-dev
+            kimai/kimai2:apache-${{steps.remote_version.outputs.version}}-dev
             kimai/kimai2:apache-dev
           push: true
 
@@ -80,12 +82,12 @@ jobs:
         with:
           context: .
           build-args: |
-            KIMAI=${{env.kv}}
+            KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
             TARGET=prod
             BASE=apache
           tags: |
-            kimai/kimai2:apache-${{env.kv}}-prod
+            kimai/kimai2:apache-${{steps.remote_version.outputs.version}}-prod
             kimai/kimai2:apache-latest
             kimai/kimai2:apache
           push: true
