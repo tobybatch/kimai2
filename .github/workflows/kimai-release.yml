@@ -38,10 +38,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          target: dev
           build-args: |
             KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
-            TARGET=dev
             BASE=fpm
           tags: |
             kimai/kimai2:fpm-${{steps.remote_version.outputs.version}}-dev
@@ -52,10 +52,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          target: prod
           build-args: |
             KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
-            TARGET=prod
             BASE=fpm
           tags: |
             kimai/kimai2:fpm-${{steps.remote_version.outputs.version}}-prod
@@ -67,10 +67,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          target: dev
           build-args: |
             KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
-            TARGET=dev
             BASE=apache
           tags: |
             kimai/kimai2:apache-${{steps.remote_version.outputs.version}}-dev
@@ -81,10 +81,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          target: prod
           build-args: |
             KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
-            TARGET=prod
             BASE=apache
           tags: |
             kimai/kimai2:apache-${{steps.remote_version.outputs.version}}-prod
