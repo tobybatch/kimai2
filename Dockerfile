@@ -27,7 +27,7 @@ WORKDIR /opt/kimai
 RUN rm -r tests
 
 # composer base image
-FROM composer:2.2.6 AS composer
+FROM composer:2.3.2 AS composer
 
 
 ###########################
