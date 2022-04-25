@@ -3,7 +3,13 @@
 # An reg wizard can probably do this without the cut command
 VER=$(echo $KIMAI | sed 's/[^0-9]//g' | cut -c1-3)
 
-if test "${VER}" -lt 111
+# Special case for new major release
+if test "${VER}" -eq "2"
+then
+  return 0
+fi
+
+if test "${VER}" -lt 111 
 then
   echo "+--------------------------------------------------------------------------+"
   echo "| Kimai versions older than 1.11 require composer 1.x                      |"
