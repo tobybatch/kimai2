@@ -20,7 +20,7 @@ function waitForDB() {
   else
     DB_TYPE=${DB_TYPE:mysql}
     if [ "$DB_TYPE" == "mysql" ]; then
-      export DATABASE_URL="${DB_TYPE}://${DB_USER:=kimai}:${DB_PASS:=kimai}@${DB_HOST:=database}:${DB_PORT:=3306}/${DB_BASE:=kimai}"
+      export DATABASE_URL="${DB_TYPE}://${DB_USER:=kimai}:${DB_PASS:=kimai}@${DB_HOST:=sqldb}:${DB_PORT:=3306}/${DB_BASE:=kimai}"
     else
       echo "Unknown database type, cannot proceed. Only 'mysql' is supported, received: [$DB_TYPE]"
       exit 1
