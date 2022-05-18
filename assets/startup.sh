@@ -11,6 +11,12 @@ function waitForDB() {
     DB_HOST=$(awk -F '[/:@]' '{print $6}' <<< $DATABASE_URL)
     DB_PORT=$(awk -F '[/:@]' '{print $7}' <<< $DATABASE_URL)
     DB_BASE=$(awk -F '[/?]' '{print $4}' <<< $DATABASE_URL)
+
+    re='^[0-9]+$'
+    if ! [[ $DB_PORT =~ $re ]] ; then
+       DB_PORT=3306
+    fi
+
   else
     DB_TYPE=${DB_TYPE:mysql}
     if [ "$DB_TYPE" == "mysql" ]; then
@@ -19,11 +25,6 @@ function waitForDB() {
       echo "Unknown database type, cannot proceed. Only 'mysql' is supported, received: [$DB_TYPE]"
       exit 1
     fi
-  fi
-
-  re='^[0-9]+$'
-  if ! [[ $DB_PORT =~ $re ]] ; then
-     DB_PORT=3306
   fi
 
   echo "Wait for MySQL DB connection ..."
