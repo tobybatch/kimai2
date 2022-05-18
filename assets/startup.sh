@@ -14,7 +14,7 @@ function waitForDB() {
   else
     DB_TYPE=${DB_TYPE:mysql}
     if [ "$DB_TYPE" == "mysql" ]; then
-      export DATABASE_URL="${DB_TYPE}://${DB_USER:=kimai}:${DB_PASS:=kimai}@${DB_HOST:=sqldb}:${DB_PORT:=3306}/${DB_BASE:=kimai}"
+      export DATABASE_URL="${DB_TYPE}://${DB_USER:=kimai}:${DB_PASS:=kimai}@${DB_HOST:=database}:${DB_PORT:=3306}/${DB_BASE:=kimai}"
     else
       echo "Unknown database type, cannot proceed. Only 'mysql' is supported, received: [$DB_TYPE]"
       exit 1
@@ -36,7 +36,7 @@ function waitForDB() {
 
 function handleStartup() {
   # These are idempotent, run them anyway
-  tar -zx -C /opt/kimai -f /var/tmp/public.tgz 
+  tar -zx -C /opt/kimai -f /var/tmp/public.tgz
   /opt/kimai/bin/console -n kimai:install
   /opt/kimai/bin/console -n kimai:update
   if [ ! -z "$ADMINPASS" ] && [ ! -a "$ADMINMAIL" ]; then

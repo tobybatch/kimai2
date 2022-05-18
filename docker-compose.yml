@@ -1,8 +1,8 @@
 version: '3.5'
 services:
 
-  sqldb:
-    image: mysql:5.7
+  database:
+    image: mariadb:latest
     environment:
       - MYSQL_DATABASE=kimai
       - MYSQL_USER=kimaiuser
