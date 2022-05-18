@@ -60,6 +60,7 @@ jobs:
           tags: |
             kimai/kimai2:fpm-${{steps.remote_version.outputs.version}}-prod
             kimai/kimai2:fpm-latest
+            kimai/kimai2:fpm
             kimai/kimai2:latest
           push: true
 
