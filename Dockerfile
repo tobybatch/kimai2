@@ -35,7 +35,7 @@ FROM composer:2.2.6 AS composer
 ###########################
 
 #fpm alpine php extension base
-FROM php:8.0.15-fpm-alpine3.15 AS fpm-php-ext-base
+FROM php:8.1.7-fpm-alpine3.16 AS fpm-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -118,7 +118,7 @@ RUN yes no | pecl install redis && \
 ###########################
 
 # fpm base build
-FROM php:8.1.5-fpm-alpine3.15 AS fpm-base
+FROM php:8.1.7-fpm-alpine3.16 AS fpm-base
 RUN apk add --no-cache \
         bash \
         coreutils \
@@ -254,6 +254,7 @@ COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
 COPY assets/monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
 # do the composer deps installation
 RUN export COMPOSER_HOME=/composer && \
+    echo memory_limit = -1 > /usr/local/etc/php/php.ini && \
     composer --no-ansi install --working-dir=/opt/kimai --optimize-autoloader && \
     composer --no-ansi clearcache && \
     composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
