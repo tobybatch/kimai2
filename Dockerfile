@@ -13,13 +13,14 @@ ARG BASE="fpm"
 ###########################
 
 # full kimai source
-FROM alpine:3.15.0 AS git-dev
+FROM alpine:3.15 AS git-dev
 ARG KIMAI="master"
+ARG REPO="https://github.com/kevinpapst/kimai2.git"
 # I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
 ADD assets/test-kimai-version.sh /test-kimai-version.sh
 RUN /test-kimai-version.sh
 RUN apk add --no-cache git && \
-    git clone --depth 1 --branch ${KIMAI} https://github.com/kevinpapst/kimai2.git /opt/kimai
+    git clone --depth 1 --branch ${KIMAI} ${REPO} /opt/kimai
 
 # production kimai source
 FROM git-dev AS git-prod
@@ -27,7 +28,7 @@ WORKDIR /opt/kimai
 RUN rm -r tests
 
 # composer base image
-FROM composer:2.3.5 AS composer
+FROM composer:2 AS composer
 
 
 ###########################
@@ -35,7 +36,7 @@ FROM composer:2.3.5 AS composer
 ###########################
 
 #fpm alpine php extension base
-FROM php:8.0.15-fpm-alpine3.15 AS fpm-php-ext-base
+FROM php:8.0-fpm-alpine3.15 AS fpm-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -70,7 +71,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:8.0.14-apache-buster AS apache-php-ext-base
+FROM php:8.0-apache-buster AS apache-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \

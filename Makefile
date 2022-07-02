@@ -8,38 +8,89 @@ ifndef KIMAI_VERSION
   KIMAI_VERSION := master
 endif
 
+ifndef KIMAI_REPO
+	KIMAI_REPO := https://github.com/kevinpapst/kimai2.git
+endif
+
+ifndef KIMAI_IMG
+	KIMAI_IMG := kimai/kimai2
+endif
+
 ZAP := $(shell echo $(KIMAI_VERSION) | egrep -q "[0-9].[0-9]+" && echo matched)
 
+.PHONY: buildx
+buildx:
+	docker buildx build \
+		--platform linux/amd64,linux/arm64 \
+		--build-arg KIMAI=${KIMAI_VERSION} \
+		--build-arg REPO=${KIMAI_REPO} \
+		--build-arg BASE=fpm \
+		--build-arg TZ=${TIMEZONE} \
+		--target=dev \
+		-t ${KIMAI_IMG}:fpm-dev \
+		-t ${KIMAI_IMG}:latest-dev \
+		.
+	docker buildx build \
+		--platform linux/amd64,linux/arm64 \
+		--build-arg KIMAI=${KIMAI_VERSION} \
+		--build-arg REPO=${KIMAI_REPO} \
+		--build-arg BASE=fpm \
+		--build-arg TZ=${TIMEZONE} \
+		--target=prod \
+		-t ${KIMAI_IMG}:fpm-prod \
+		-t ${KIMAI_IMG}:fpm \
+		-t ${KIMAI_IMG}:latest \
+		.
+	docker buildx build \
+		--platform linux/amd64,linux/arm64 \
+		--build-arg KIMAI=${KIMAI_VERSION} \
+		--build-arg REPO=${KIMAI_REPO} \
+		--build-arg BASE=apache \
+		--build-arg TZ=${TIMEZONE} \
+		--target=dev \
+		-t ${KIMAI_IMG}:apache-dev \
+		.
+	docker buildx build \
+		--platform linux/amd64,linux/arm64 \
+		--build-arg KIMAI=${KIMAI_VERSION} \
+		--build-arg REPO=${KIMAI_REPO} \
+		--build-arg BASE=apache \
+		--build-arg TZ=${TIMEZONE} \
+		--target=prod \
+		-t ${KIMAI_IMG}:apache-prod \
+		-t ${KIMAI_IMG}:apache \
+		.
+
 build:
-	docker build -t kimai/kimai2:fpm-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=dev .
-	docker build -t kimai/kimai2:fpm-${KIMAI_VERSION}-prod --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=prod .
-	docker build -t kimai/kimai2:apache-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=dev .
-	docker build -t kimai/kimai2:apache-${KIMAI_VERSION}-prod --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=prod .
+	docker build -t ${KIMAI_IMG}:fpm-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=dev .
+	docker build -t ${KIMAI_IMG}:fpm-${KIMAI_VERSION}-prod --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=fpm --build-arg TZ=${TIMEZONE} --target=prod .
+	docker build -t ${KIMAI_IMG}:apache-${KIMAI_VERSION}-dev --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=dev .
+	docker build -t ${KIMAI_IMG}:apache-${KIMAI_VERSION}-prod --build-arg KIMAI=${KIMAI_VERSION} --build-arg BASE=apache --build-arg TZ=${TIMEZONE} --target=prod .
 
 tag:
 ifeq (${ZAP}, matched)
-	docker tag kimai/kimai2:fpm-${KIMAI_VERSION}-prod kimai/kimai2:fpm
-	docker tag kimai/kimai2:fpm-${KIMAI_VERSION}-dev kimai/kimai2:fpm-dev
-	docker tag kimai/kimai2:apache-${KIMAI_VERSION}-prod kimai/kimai2:apache
-	docker tag kimai/kimai2:apache-${KIMAI_VERSION}-dev kimai/kimai2:apache-dev
-	docker tag kimai/kimai2:fpm-${KIMAI_VERSION}-prod kimai/kimai2:latest
-	docker tag kimai/kimai2:apache-${KIMAI_VERSION}-dev kimai/kimai2:latest-dev
+	docker tag ${KIMAI_IMG}:fpm-${KIMAI_VERSION}-prod kimai/kimai2:fpm
+	docker tag ${KIMAI_IMG}:fpm-${KIMAI_VERSION}-dev kimai/kimai2:fpm-dev
+	docker tag ${KIMAI_IMG}:apache-${KIMAI_VERSION}-prod kimai/kimai2:apache
+	docker tag ${KIMAI_IMG}:apache-${KIMAI_VERSION}-dev kimai/kimai2:apache-dev
+	docker tag ${KIMAI_IMG}:fpm-${KIMAI_VERSION}-prod kimai/kimai2:latest
+	docker tag ${KIMAI_IMG}:apache-${KIMAI_VERSION}-dev kimai/kimai2:latest-dev
 else
 	$(error ${KIMAI_VERSION} does not look like a release, x.y or x.y.z. Not tagging)
 endif
 
 push:
-	docker push kimai/kimai2:fpm-${KIMAI_VERSION}-dev
-	docker push kimai/kimai2:fpm-${KIMAI_VERSION}-prod
-	docker push kimai/kimai2:apache-${KIMAI_VERSION}-dev
-	docker push kimai/kimai2:apache-${KIMAI_VERSION}-prod
+	docker push ${KIMAI_IMG}:fpm-${KIMAI_VERSION}-dev
+	docker push ${KIMAI_IMG}:fpm-${KIMAI_VERSION}-prod
+	docker push ${KIMAI_IMG}:apache-${KIMAI_VERSION}-dev
+	docker push ${KIMAI_IMG}:apache-${KIMAI_VERSION}-prod
 ifeq (${ZAP}, matched)
-	docker push kimai/kimai2:fpm
-	docker push kimai/kimai2:fpm-dev
-	docker push kimai/kimai2:apache
-	docker push kimai/kimai2:apache-dev
-	docker push kimai/kimai2:latest
-	docker push kimai/kimai2:latest-dev
+	docker push ${KIMAI_IMG}:fpm
+	docker push ${KIMAI_IMG}:fpm-dev
+	docker push ${KIMAI_IMG}:apache
+	docker push ${KIMAI_IMG}:apache-dev
+	docker push ${KIMAI_IMG}:latest
+	docker push ${KIMAI_IMG}:latest-dev
 endif
 
 clean-test:
