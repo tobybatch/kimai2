@@ -6,7 +6,7 @@ The built images are available from [Kimai v2](https://hub.docker.com/r/kimai/ki
 
 ## Deving and Contributing
 
-We use commit linting to generate commits that we can auto generate changelogs from. To set these up you will need node/nvm installed:
+We use commit linting to generate commits that we can auto generate changelogs from. To set these up, you will need node/nvm installed:
 
 ```bash
 nvm use
@@ -26,7 +26,7 @@ Run the latest production build:
             -e MYSQL_USER=kimai \
             -e MYSQL_PASSWORD=kimai \
             -e MYSQL_ROOT_PASSWORD=kimai \
-            -p 3399:3306 -d mysql
+            -p 3306:3306 -d mysql
         
  1. Start Kimai 
    
@@ -35,6 +35,8 @@ Run the latest production build:
             -p 8001:8001 \
             -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3306/kimai \
             kimai/kimai2:apache
+ 
+Note: If you're using Docker for Windows or Docker for Mac, and you're getting "Connection refused" or other errors, you might need to change `${HOSTNAME}` to `host.docker.internal`. This is because the Kimai Docker container can only communicate within its network boundaries. Another option would be to start the container with the flag `--network="host"`. See [here](https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach) for more information.
  
  1. Add a user, open a new terminal and:
  
