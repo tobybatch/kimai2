@@ -71,7 +71,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:8.1-rc-apache-buster AS apache-php-ext-base
+FROM php:8.1-apache-buster AS apache-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \
