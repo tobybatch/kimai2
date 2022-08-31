@@ -149,7 +149,7 @@ HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
 # apache base build
 ###########################
 
-FROM php:8.1-apache-buster AS apache-php-ext-base
+FROM php:8.1-apache-buster AS apache-base
 COPY assets/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN apt-get update && \
     apt-get install -y \
