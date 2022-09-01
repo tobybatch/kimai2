@@ -41,6 +41,9 @@ jobs:
         with:
           context: .
           target: dev
+          platforms: |-
+            linux/amd64
+            linux/arm64
           build-args: |
             KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
@@ -55,6 +58,9 @@ jobs:
         with:
           context: .
           target: prod
+          platforms: |-
+            linux/amd64
+            linux/arm64
           build-args: |
             KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
@@ -71,6 +77,9 @@ jobs:
         with:
           context: .
           target: dev
+          platforms: |-
+            linux/amd64
+            linux/arm64
           build-args: |
             KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
@@ -85,6 +94,9 @@ jobs:
         with:
           context: .
           target: prod
+          platforms: |-
+            linux/amd64
+            linux/arm64
           build-args: |
             KIMAI=${{steps.remote_version.outputs.version}}
             TIMEZONE=Europe/London
