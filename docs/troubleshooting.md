@@ -6,6 +6,12 @@ While outside the direct responsibility of this project we get a lot of issues r
 
 Note that you will need to set the name of your NGINX container to be in the list of TRUSTED_HOSTS when you start the Kimai container.
 
+## ARM support
+
+We don't build ARM images at the moment. We use git hub actions to auto build releases and I can get them to build as multi arch images. The images build and run fine, but you'll need to build them yourself. See [Building it yourself](https://tobybatch.github.io/kimai2/build.html#building-the-kimai-docker) on how to do that.
+
+If you fancy trying to fix the multi arch build, I have an on going attempt to do that in the branch `add-buildx-support` using `buildx`
+
 ## Permissions
 
 If you are mounting the code base into the container (`-v $PWD/kimai:/opt/kimai`) then you will need to fix the permissions on the var folder.
