@@ -13,8 +13,8 @@ The docker file has many staging targets but two functional builds are `prod` an
 
 ### BASE
 
-  * `BASE=apache
-  * `BASE=fpm
+  * `BASE=apache`
+  * `BASE=fpm`
 
 Selects which PHP wrapper to use.  The Apache Debian version bundles an Apache server, and the mod-php wrapper based on a debian buster image.  The fpm-alpine version provides the fast CGI version of PHP based on an alpine image.
 
@@ -39,11 +39,11 @@ The PHP timezone for the php build.  Defaults to Europe/Berlin.
 
 Build a dev image of Kimai 1.10.1 that uses the apache bundled web server:
 
-    docker build --target=dev --build-arg KIMAI=10.0.1 --build-arg BASE=apache-debian .
+    docker build --target=dev --build-arg KIMAI=10.0.1 --build-arg BASE=apache .
 
 Build a prod, FPM image of Kimai 1.10.2, localised for the UK
 
-    docker build --target=prod --build-arg KIMAI=10.0.2 --build-arg BASE=fpm-alpine --build-arg TZ=Europe/London .
+    docker build --target=prod --build-arg KIMAI=10.0.2 --build-arg BASE=fpm --build-arg TZ=Europe/London .
 
 ## Extending the image
 
