@@ -26,7 +26,7 @@ Run the latest production build:
             -e MYSQL_USER=kimai \
             -e MYSQL_PASSWORD=kimai \
             -e MYSQL_ROOT_PASSWORD=kimai \
-            -p 3306:3306 -d mysql
+            -p 3399:3306 -d mysql
         
  1. Start Kimai 
    
