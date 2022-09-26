@@ -30,6 +30,7 @@ services:
       - ADMINMAIL=admin@kimai.local
       - ADMINPASS=changemeplease
       - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
+      # If you're using a reverse proxy, then add your own domain (example.ltd).
       - TRUSTED_HOSTS=nginx,localhost,127.0.0.1
     restart: unless-stopped
 
