@@ -114,6 +114,10 @@ FROM ${BASE}-php-ext-base AS php-ext-redis
 RUN yes no | pecl install redis && \
     docker-php-ext-enable redis 
 
+# php extension calendar : ?.?? s
+FROM ${BASE}-php-ext-base AS php-ext-calendar
+RUN docker-php-ext-install -j$(nproc) calendar
+
 ###########################
 # fpm base build
 ###########################
@@ -219,6 +223,9 @@ COPY --from=php-ext-intl /usr/local/lib/php/extensions/no-debug-non-zts-20210902
 # PHP extension redis
 COPY --from=php-ext-redis /usr/local/etc/php/conf.d/docker-php-ext-redis.ini /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 COPY --from=php-ext-redis /usr/local/lib/php/extensions/no-debug-non-zts-20210902/redis.so /usr/local/lib/php/extensions/no-debug-non-zts-20210902/redis.so
+# PHP extension calendar
+COPY --from=php-ext-calendar /usr/local/etc/php/conf.d/docker-php-ext-calendar.ini /usr/local/etc/php/conf.d/docker-php-ext-calendar.ini
+COPY --from=php-ext-calendar /usr/local/lib/php/extensions/no-debug-non-zts-20210902/calendar.so /usr/local/lib/php/extensions/no-debug-non-zts-20210902/calendar.so
 
 ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
 ENV APP_SECRET=change_this_to_something_unique
@@ -261,7 +268,7 @@ RUN export COMPOSER_HOME=/composer && \
     composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
     chown -R www-data:www-data /opt/kimai && \
     mkdir -p /opt/kimai/var/logs && chmod 777 /opt/kimai/var/logs && \
-    sed "s/128M/256M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini && \
+    sed "s/128M/512M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini && \
     sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini && \
     sed -i "s/env php/env -S php -c \/opt\/kimai\/php-cli.ini/g" /opt/kimai/bin/console && \
     tar -C /opt/kimai -zcvf /var/tmp/public.tgz public && \
@@ -281,6 +288,7 @@ RUN export COMPOSER_HOME=/composer && \
     composer --no-ansi clearcache && \
     composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
+    sed "s/128M/512M/g" /usr/local/etc/php/php.ini-production > /usr/local/etc/php/php.ini && \
     sed -i "s/expose_php = On/expose_php = Off/g" /usr/local/etc/php/php.ini && \
     mkdir -p /opt/kimai/var/logs && chmod 777 /opt/kimai/var/logs && \
     chown -R www-data:www-data /opt/kimai && \
