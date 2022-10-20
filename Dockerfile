@@ -35,7 +35,7 @@ FROM composer:2.3.5 AS composer
 ###########################
 
 #fpm alpine php extension base
-FROM php:8.1.10-fpm-alpine3.15 AS fpm-php-ext-base
+FROM php:8.1.11-fpm-alpine3.15 AS fpm-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -71,7 +71,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:8.1.10-apache-buster AS apache-php-ext-base
+FROM php:8.1.11-apache-buster AS apache-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \
@@ -119,7 +119,7 @@ RUN yes no | pecl install redis && \
 ###########################
 
 # fpm base build
-FROM php:8.1.10-fpm-alpine3.15 AS fpm-base
+FROM php:8.1.11-fpm-alpine3.15 AS fpm-base
 RUN apk add --no-cache \
         bash \
         coreutils \
@@ -149,7 +149,7 @@ HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
 # apache base build
 ###########################
 
-FROM php:8.1.10-apache-buster AS apache-base
+FROM php:8.1.11-apache-buster AS apache-base
 COPY assets/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN apt-get update && \
     apt-get install -y \
