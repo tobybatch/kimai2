@@ -2,7 +2,19 @@
 
 The following settings can set at runtime:
 
-Kimai/symfony core settings, see the symfony and Kimai docs for more info on these.
+## PHP Settings
+
+### Memory limit
+
+the Maximum amount of memory a script may consume, https://php.net/memory-limit
+
+```bash
+memory_limit=512
+```
+
+## Kimai/symfony core settings
+
+See the symfony and Kimai docs for more info on these.
 
 ```bash
 DATABASE_URL=mysql://user:pass@hodt/dbname

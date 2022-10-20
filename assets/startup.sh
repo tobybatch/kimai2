@@ -35,6 +35,12 @@ function waitForDB() {
 }
 
 function handleStartup() {
+  # set mem limits
+  if [ "${APP_ENV}" == "prod" ]; then
+    sed "s/128M/${memory_limit}M/g" /usr/local/etc/php/php.ini-production > /usr/local/etc/php/php.ini
+  else
+    sed "s/128M/${memory_limit}M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini
+  fi
   # These are idempotent, run them anyway
   tar -zx -C /opt/kimai -f /var/tmp/public.tgz 
   /opt/kimai/bin/console -n kimai:install
