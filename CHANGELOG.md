@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/tobybatch/kimai2/compare/v2.0.4...v2.2.1) (2022-10-20)
+
 ### [2.0.4](https://github.com/tobybatch/kimai2/compare/v2.2.0...v2.0.4) (2022-10-20)
 
 
