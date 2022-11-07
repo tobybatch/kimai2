@@ -34,3 +34,12 @@ Around nine out of ten of the bugs raised are related to the TRUSTED_HOSTS value
 
 While we do backport bug fixes we only thoroughly test them against the latest release of Kimai.  We keep the older tags available for those who do not wish to upgrade, but if you encounter a bug then first retest after pulling the latest tag
 before raising an issue.
+
+## Allowed memory size exhausted
+
+If you encounter an error like `Allowed memory size of 134217728 bytes exhausted` during cache reload, you can instruct PHP to use more memory for that one call with passing the memory limit as runtime parameter:
+
+```bash
+php -d memory_limit=1G ../../bin/console kimai:reload --env=prod
+```
+
