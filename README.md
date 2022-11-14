@@ -33,7 +33,7 @@ Run the latest production build:
         docker run --rm --name kimai-test \
             -ti \
             -p 8001:8001 \
-            -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3306/kimai \
+            -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3399/kimai \
             kimai/kimai2:apache
  
 Note: If you're using Docker for Windows or Docker for Mac, and you're getting "Connection refused" or other errors, you might need to change `${HOSTNAME}` to `host.docker.internal`. This is because the Kimai Docker container can only communicate within its network boundaries. Another option would be to start the container with the flag `--network="host"`. See [here](https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach) for more information.
