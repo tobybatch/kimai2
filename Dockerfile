@@ -26,6 +26,12 @@ FROM git-dev AS git-prod
 WORKDIR /opt/kimai
 RUN rm -r tests
 
+# symfony cli
+FROM alpine:3.16.2 AS symfony-cli
+RUN \
+    apk add --no-cache curl bash && \
+    curl -sS https://get.symfony.com/cli/installer | bash
+
 # composer base image
 FROM composer:2.4.4 AS composer
 
@@ -237,7 +243,7 @@ ENV DB_PORT=
 ENV DB_BASE=
 # If this set then the image will start, run a self test and then exit. It's used for the release process
 ENV TEST_AND_EXIT=
-
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 VOLUME [ "/opt/kimai/var" ]
 
@@ -253,13 +259,17 @@ ENTRYPOINT /startup.sh
 FROM base AS dev
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
+COPY --from=symfony-cli /root/.symfony5/bin/symfony /usr/bin 
 COPY assets/monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
 # do the composer deps installation
-RUN export COMPOSER_HOME=/composer && \
+RUN echo \$PATH
+RUN \
+    export COMPOSER_HOME=/composer && \
     composer --no-ansi install --working-dir=/opt/kimai --optimize-autoloader && \
     composer --no-ansi clearcache && \
     composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
-    chown -R www-data:www-data /opt/kimai && \
+    cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini && \
+    chown -R www-data:www-data /opt/kimai /usr/local/etc/php/php.ini && \
     mkdir -p /opt/kimai/var/logs && chmod 777 /opt/kimai/var/logs && \
     sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini && \
     sed -i "s/env php/env -S php -c \/opt\/kimai\/php-cli.ini/g" /opt/kimai/bin/console && \
@@ -274,9 +284,11 @@ USER www-data
 FROM base AS prod
 # copy kimai production source
 COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
+COPY --from=symfony-cli /root/.symfony5/bin/symfony /usr/bin 
 COPY assets/monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
 # do the composer deps installation
-RUN export COMPOSER_HOME=/composer && \
+RUN \
+    export COMPOSER_HOME=/composer && \
     composer --no-ansi install --working-dir=/opt/kimai --no-dev --optimize-autoloader && \
     composer --no-ansi clearcache && \
     composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
@@ -284,7 +296,7 @@ RUN export COMPOSER_HOME=/composer && \
     sed -i "s/expose_php = On/expose_php = Off/g" /usr/local/etc/php/php.ini && \
     mkdir -p /opt/kimai/var/logs && chmod 777 /opt/kimai/var/logs && \
     sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini && \
-    chown -R www-data:www-data /opt/kimai && \
+    chown -R www-data:www-data /opt/kimai /usr/local/etc/php/php.ini && \
     tar -C /opt/kimai -zcvf /var/tmp/public.tgz public && \
     /opt/kimai/bin/console kimai:version
 ENV APP_ENV=prod
