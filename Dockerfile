@@ -220,6 +220,7 @@ COPY --from=php-ext-intl /usr/local/lib/php/extensions/no-debug-non-zts-20210902
 COPY --from=php-ext-redis /usr/local/etc/php/conf.d/docker-php-ext-redis.ini /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 COPY --from=php-ext-redis /usr/local/lib/php/extensions/no-debug-non-zts-20210902/redis.so /usr/local/lib/php/extensions/no-debug-non-zts-20210902/redis.so
 
+ENV COMPOSER_ALLOW_SUPERUSER=1 
 ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
 ENV APP_SECRET=change_this_to_something_unique
 # The default container name for nginx is nginx
