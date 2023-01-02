@@ -14,12 +14,12 @@ ARG BASE="fpm"
 
 # full kimai source
 FROM alpine:3.16.2 AS git-dev
-ARG KIMAI="master"
+ARG KIMAI="main"
 # I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
 ADD assets/test-kimai-version.sh /test-kimai-version.sh
 RUN /test-kimai-version.sh
 RUN apk add --no-cache git && \
-    git clone --depth 1 --branch ${KIMAI} https://github.com/kevinpapst/kimai2.git /opt/kimai
+    git clone --depth 1 --branch ${KIMAI} https://github.com/kimai/kimai.git /opt/kimai
 
 # production kimai source
 FROM git-dev AS git-prod
@@ -241,6 +241,7 @@ ENV DB_PASS=
 ENV DB_HOST=
 ENV DB_PORT=
 ENV DB_BASE=
+ENV COMPOSER_MEMORY_LIMIT=-1
 # If this set then the image will start, run a self test and then exit. It's used for the release process
 ENV TEST_AND_EXIT=
 ENV COMPOSER_ALLOW_SUPERUSER=1
@@ -260,7 +261,7 @@ FROM base AS dev
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
 COPY --from=symfony-cli /root/.symfony5/bin/symfony /usr/bin 
-COPY assets/monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
+COPY assets /assets
 # do the composer deps installation
 RUN echo \$PATH
 RUN \
@@ -285,7 +286,7 @@ FROM base AS prod
 # copy kimai production source
 COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
 COPY --from=symfony-cli /root/.symfony5/bin/symfony /usr/bin 
-COPY assets/monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
+COPY assets /assets
 # do the composer deps installation
 RUN \
     export COMPOSER_HOME=/composer && \
