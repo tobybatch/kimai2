@@ -120,6 +120,10 @@ FROM ${BASE}-php-ext-base AS php-ext-redis
 RUN yes no | pecl install redis && \
     docker-php-ext-enable redis 
 
+# php extension opcache
+FROM ${BASE}-php-ext-base AS php-ext-opcache
+RUN docker-php-ext-install -j$(nproc) opcache
+
 ###########################
 # fpm base build
 ###########################
@@ -225,6 +229,7 @@ COPY --from=php-ext-intl /usr/local/lib/php/extensions/no-debug-non-zts-20210902
 # PHP extension redis
 COPY --from=php-ext-redis /usr/local/etc/php/conf.d/docker-php-ext-redis.ini /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 COPY --from=php-ext-redis /usr/local/lib/php/extensions/no-debug-non-zts-20210902/redis.so /usr/local/lib/php/extensions/no-debug-non-zts-20210902/redis.so
+COPY --from=php-ext-opcache /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini  /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
 
 ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
 ENV APP_SECRET=change_this_to_something_unique
