@@ -41,7 +41,7 @@ FROM composer:2.4.4 AS composer
 ###########################
 
 #fpm alpine php extension base
-FROM php:8.1.12-fpm-alpine3.15 AS fpm-php-ext-base
+FROM php:8.1.13-fpm-alpine3.15 AS fpm-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -77,7 +77,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:8.1.12-apache-buster AS apache-php-ext-base
+FROM php:8.2.1-apache-buster AS apache-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \
@@ -129,7 +129,7 @@ RUN docker-php-ext-install -j$(nproc) opcache
 ###########################
 
 # fpm base build
-FROM php:8.1.12-fpm-alpine3.15 AS fpm-base
+FROM php:8.1.13-fpm-alpine3.15 AS fpm-base
 RUN apk add --no-cache \
         bash \
         coreutils \
@@ -159,7 +159,7 @@ HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
 # apache base build
 ###########################
 
-FROM php:8.1.12-apache-buster AS apache-base
+FROM php:8.2.1-apache-buster AS apache-base
 COPY assets/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN apt-get update && \
     apt-get install -y \
