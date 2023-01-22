@@ -48,9 +48,6 @@ services:
       # - ./ldap.conf:/etc/openldap/ldap.conf:z
       # - ./ROOT-CA.pem:/etc/ssl/certs/ROOT-CA.pem:z
     restart: unless-stopped
-      # entrypoint: sh
-      # stdin_open: true # docker run -i
-      # tty: true        # docker run -t
 
   postfix:
     image: catatnight/postfix:latest

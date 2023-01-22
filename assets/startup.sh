@@ -32,16 +32,26 @@ function config() {
   tar -zx -C /opt/kimai -f /var/tmp/public.tgz 
   
   if [ -z "$USER_ID" ]; then
-    USER_ID=www-data
+    USER_ID=$(id -u www-data)
   fi
   if [ -z "$GROUP_ID" ]; then
-    GROUP_ID=www-data
+    GROUP_ID=$(id -g www-data)
   fi
 
   chown -R $USER_ID:$GROUP_ID /opt/kimai/var
 
+  # if user doesn't exist
+  if id $USER_ID &>/dev/null; then
+    echo User already exists
+  else
+    echo www-kimai:x:$USER_ID:$GROUP_ID:www-kimai:/var/www:/usr/sbin/nologin >> /etc/passwd
+    echo www-data:x:33: >> /etc/group
+    pwconv
+  fi
+
   if [ -e /use_apache ]; then         
-    /usr/sbin/apache2ctl -D FOREGROUND
+    export APACHE_RUN_USER=$(id -nu 33)
+    export APACHE_RUN_GROUP=$(id -ng 33)
   elif [ -e /use_fpm ]; then         
     sed -i "s/user = .*/user = $USER_ID/g" /usr/local/etc/php-fpm.d/www.conf
     sed -i "s/group = .*/group = $GROUP_ID/g" /usr/local/etc/php-fpm.d/www.conf
@@ -51,7 +61,5 @@ function config() {
 }
 
 config
-# if user doesn't exist
-adduser --no-create-home --disabled-password -u $USER_ID -g $GROUP_ID kimai-www
 /service.sh
 exit
