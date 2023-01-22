@@ -28,6 +28,8 @@ function config() {
       cp /assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
     fi
   fi
+
+  tar -zx -C /opt/kimai -f /var/tmp/public.tgz 
   
   if [ -z "$USER_ID" ]; then
     USER_ID=www-data
@@ -35,11 +37,21 @@ function config() {
   if [ -z "$GROUP_ID" ]; then
     GROUP_ID=www-data
   fi
+
   chown -R $USER_ID:$GROUP_ID /opt/kimai/var
+
+  if [ -e /use_apache ]; then         
+    /usr/sbin/apache2ctl -D FOREGROUND
+  elif [ -e /use_fpm ]; then         
+    sed -i "s/user = .*/user = $USER_ID/g" /usr/local/etc/php-fpm.d/www.conf
+    sed -i "s/group = .*/group = $GROUP_ID/g" /usr/local/etc/php-fpm.d/www.conf
+  else                                                        
+    echo "Error, unknown server type"                         
+  fi
 }
 
 config
 # if user doesn't exist
 adduser --no-create-home --disabled-password -u $USER_ID -g $GROUP_ID kimai-www
-su kimai-www -s /service.sh
+/service.sh
 exit
