@@ -200,6 +200,7 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
 
 # copy startup script & DB checking script
 COPY assets/startup.sh /startup.sh
+COPY assets/service.sh /service.sh
 COPY assets/self-test.sh /self-test.sh
 COPY assets/dbtest.php /dbtest.php
 
@@ -250,6 +251,8 @@ ENV COMPOSER_MEMORY_LIMIT=-1
 # If this set then the image will start, run a self test and then exit. It's used for the release process
 ENV TEST_AND_EXIT=
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV USER_ID=1000
+ENV GROUP_ID=1000
 
 VOLUME [ "/opt/kimai/var" ]
 
@@ -284,7 +287,6 @@ RUN \
 ENV APP_ENV=dev
 ENV DATABASE_URL=
 ENV memory_limit=256
-USER www-data
 
 # production build
 FROM base AS prod
@@ -308,4 +310,3 @@ RUN \
 ENV APP_ENV=prod
 ENV DATABASE_URL=
 ENV memory_limit=128
-USER www-data

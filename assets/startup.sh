@@ -1,81 +1,45 @@
-#!/bin/bash
+#!/bin/bash -x
 
-echo $KIMAI
+# shellcheck disable=SC2155
+export KIMAI=$(/opt/kimai/bin/console kimai:version --short)
+echo "***********************************************"
+echo "STARTING KIMAI VERSION ${KIMAI} in ${APP_ENV}"
+echo "***********************************************"
 
-function waitForDB() {
-  # Parse sql connection data
-  if [ ! -z "$DATABASE_URL" ]; then
-    DB_TYPE=$(awk -F '[/:@]' '{print $1}' <<< $DATABASE_URL)
-    DB_USER=$(awk -F '[/:@]' '{print $4}' <<< $DATABASE_URL)
-    DB_PASS=$(awk -F '[/:@]' '{print $5}' <<< $DATABASE_URL)
-    DB_HOST=$(awk -F '[/:@]' '{print $6}' <<< $DATABASE_URL)
-    DB_PORT=$(awk -F '[/:@]' '{print $7}' <<< $DATABASE_URL)
-    DB_BASE=$(awk -F '[/?]' '{print $4}' <<< $DATABASE_URL)
-  else
-    DB_TYPE=${DB_TYPE:mysql}
-    if [ "$DB_TYPE" == "mysql" ]; then
-      export DATABASE_URL="${DB_TYPE}://${DB_USER:=kimai}:${DB_PASS:=kimai}@${DB_HOST:=sqldb}:${DB_PORT:=3306}/${DB_BASE:=kimai}"
-    else
-      echo "Unknown database type, cannot proceed. Only 'mysql' is supported, received: [$DB_TYPE]"
-      exit 1
-    fi
-  fi
 
-  re='^[0-9]+$'
-  if ! [[ $DB_PORT =~ $re ]] ; then
-     DB_PORT=3306
-  fi
-
-  echo "Wait for MySQL DB connection ..."
-  until php /dbtest.php $DB_HOST $DB_BASE $DB_PORT $DB_USER $DB_PASS; do
-    echo Checking DB: $?
-    sleep 3
-  done
-  echo "Connection established"
-}
-
-function handleStartup() {
+function config() {
   # set mem limits and copy in custom logger config
+  if [ -z "$memory_limit" ]; then
+    memory_limit=256
+  fi
+
   if [ "${APP_ENV}" == "prod" ]; then
     sed "s/128M/${memory_limit}M/g" /usr/local/etc/php/php.ini-production > /usr/local/etc/php/php.ini
     if [ "${KIMAI:0:1}" -lt "2" ]; then
       cp /assets/monolog-prod.yaml /opt/kimai/config/packages/monolog.yaml
     else
-      assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
+      cp /assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
     fi
   else
     sed "s/128M/${memory_limit}M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini
     if [ "${KIMAI:0:1}" -lt "2" ]; then
       cp /assets/monolog-dev.yaml /opt/kimai/config/packages/monolog.yaml
     else
-      assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
+      cp /assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
     fi
   fi
-
-  # These are idempotent, run them anyway
-  tar -zx -C /opt/kimai -f /var/tmp/public.tgz 
-  /opt/kimai/bin/console -n kimai:install
-  /opt/kimai/bin/console -n kimai:update
-  if [ ! -z "$ADMINPASS" ] && [ ! -a "$ADMINMAIL" ]; then
-    /opt/kimai/bin/console kimai:create-user superadmin $ADMINMAIL ROLE_SUPER_ADMIN $ADMINPASS
+  
+  if [ -z "$USER_ID" ]; then
+    USER_ID=www-data
   fi
-  export KIMAI=$(/opt/kimai/bin/console kimai:version --short)
-  echo $KIMAI > /opt/kimai/var/installed
-  echo "Kimai2 ready"
+  if [ -z "$GROUP_ID" ]; then
+    GROUP_ID=www-data
+  fi
+  chown -R $USER_ID:$GROUP_ID /opt/kimai/var
 }
 
-function runServer() {
-  /opt/kimai/bin/console kimai:reload --env=$APP_ENV
-  if [ -e /use_apache ]; then
-    /usr/sbin/apache2ctl -D FOREGROUND
-  elif [ -e /use_fpm ]; then
-    exec php-fpm
-  else
-    echo "Error, unknown server type"
-  fi
-}
-
-waitForDB
-handleStartup
-runServer
+config
+# if user doesn't exist
+adduser --no-create-home --disabled-password -u $USER_ID -g $GROUP_ID kimai-www
+su kimai-www -s /service.sh
 exit
