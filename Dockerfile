@@ -33,7 +33,7 @@ RUN \
     curl -sS https://get.symfony.com/cli/installer | bash
 
 # composer base image
-FROM composer:2.4.4 AS composer
+FROM composer:2.5.2 AS composer
 
 
 ###########################
