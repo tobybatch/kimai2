@@ -64,3 +64,13 @@ COPY --from=php-base /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini /usr/local
 COPY --from=php-base /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so
 
 ```
+
+## Building for other architectures, Pi, Mac etc
+
+Currently the CI chain doesn't do this for us but it is possible to build your own image for ARMN cpus. **Note** Symfony doesn't seem to support ARM7, so older Pi's are not supported.
+
+The process to build it relies on Buildx, install that from here https://github.com/docker/buildx
+
+And then you can build an alternate architecture:
+
+    docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t kimai/kimai2:multi .
