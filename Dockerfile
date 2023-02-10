@@ -13,7 +13,7 @@ ARG BASE="fpm"
 ###########################
 
 # full kimai source
-FROM alpine:3.16.2 AS git-dev
+FROM alpine:3.17.1 AS git-dev
 ARG KIMAI="main"
 # I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
 ADD assets/test-kimai-version.sh /test-kimai-version.sh
@@ -27,7 +27,7 @@ WORKDIR /opt/kimai
 RUN rm -r tests
 
 # symfony cli
-FROM alpine:3.16.2 AS symfony-cli
+FROM alpine:3.17.1 AS symfony-cli
 RUN \
     apk add --no-cache curl bash && \
     curl -sS https://get.symfony.com/cli/installer | bash
