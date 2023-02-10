@@ -1,5 +1,6 @@
 #!/bin/bash
 
+KIMAI=$(cat /opt/kimai/version.txt)
 echo $KIMAI
 
 function waitForDB() {
@@ -35,13 +36,14 @@ function waitForDB() {
 }
 
 function handleStartup() {
+  set -x
   # set mem limits and copy in custom logger config
   if [ "${APP_ENV}" == "prod" ]; then
     sed "s/128M/${memory_limit}M/g" /usr/local/etc/php/php.ini-production > /usr/local/etc/php/php.ini
     if [ "${KIMAI:0:1}" -lt "2" ]; then
       cp /assets/monolog-prod.yaml /opt/kimai/config/packages/monolog.yaml
     else
-      assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
+      cp /assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
     fi
   else
     sed "s/128M/${memory_limit}M/g" /usr/local/etc/php/php.ini-development > /usr/local/etc/php/php.ini
@@ -51,6 +53,7 @@ function handleStartup() {
       assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
     fi
   fi
+  set +x
 
   # These are idempotent, run them anyway
   tar -zx -C /opt/kimai -f /var/tmp/public.tgz 

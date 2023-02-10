@@ -280,7 +280,7 @@ RUN \
     sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini && \
     sed -i "s/env php/env -S php -c \/opt\/kimai\/php-cli.ini/g" /opt/kimai/bin/console && \
     tar -C /opt/kimai -zcvf /var/tmp/public.tgz public && \
-    /opt/kimai/bin/console kimai:version
+    /opt/kimai/bin/console kimai:version | awk '{print $2}' > /opt/kimai/version.txt
 ENV APP_ENV=dev
 ENV DATABASE_URL=
 ENV memory_limit=256
@@ -304,7 +304,7 @@ RUN \
     sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini && \
     chown -R www-data:www-data /opt/kimai /usr/local/etc/php/php.ini && \
     tar -C /opt/kimai -zcvf /var/tmp/public.tgz public && \
-    /opt/kimai/bin/console kimai:version
+    /opt/kimai/bin/console kimai:version | awk '{print $2}' > /opt/kimai/version.txt
 ENV APP_ENV=prod
 ENV DATABASE_URL=
 ENV memory_limit=128
