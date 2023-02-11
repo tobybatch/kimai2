@@ -2,8 +2,8 @@ name: 'Build release'
 
 on:
   workflow_dispatch:
-  repository_dispatch:
-    types: [kimai_release]
+  # repository_dispatch:
+    # types: [kimai_release]
 
 jobs:
   build:
