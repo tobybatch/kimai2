@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      #- name: Set vars from payload
-        #run: echo "kv=${{ github.event.client_payload.release.tag_name }}" >> $GITHUB_ENV
-        #if: github.event.client_payload != null
+      - name: Set vars from payload
+        run: echo "kv=${{ github.event.client_payload.release.tag_name }}" >> $GITHUB_ENV
+        if: github.event.client_payload != null
 
       - name: Checkout code
         uses: actions/checkout@v2
