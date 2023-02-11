@@ -26,12 +26,6 @@ FROM git-dev AS git-prod
 WORKDIR /opt/kimai
 RUN rm -r tests
 
-# symfony cli
-FROM alpine:3.16.2 AS symfony-cli
-RUN \
-    apk add --no-cache curl bash && \
-    curl -sS https://get.symfony.com/cli/installer | bash
-
 # composer base image
 FROM composer:2.4.4 AS composer
 
@@ -265,7 +259,6 @@ ENTRYPOINT /startup.sh
 FROM base AS dev
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
-COPY --from=symfony-cli /root/.symfony5/bin/symfony /usr/bin 
 COPY assets /assets
 # do the composer deps installation
 RUN echo \$PATH
@@ -290,7 +283,6 @@ USER www-data
 FROM base AS prod
 # copy kimai production source
 COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
-COPY --from=symfony-cli /root/.symfony5/bin/symfony /usr/bin 
 COPY assets /assets
 # do the composer deps installation
 RUN \
