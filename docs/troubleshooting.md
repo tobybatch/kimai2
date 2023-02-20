@@ -42,4 +42,3 @@ If you encounter an error like `Allowed memory size of 134217728 bytes exhausted
 ```bash
 php -d memory_limit=1G ../../bin/console kimai:reload --env=prod
 ```
-
