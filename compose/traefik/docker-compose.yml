@@ -1,0 +1,71 @@
+version: "3.9"
+
+# Example setup for "Traefik" V2 reverse proxy.
+# Copy the "example.env" to ".env" and modify the values to your needs.
+# Then run "docker compose up -d" and you're done.
+
+networks:
+  # we assume this is where your "traefik" instance is located.
+  # Should be created manually, not via compose.
+  web:
+    external: true
+  # internal database network
+  kimai_net:
+    driver: bridge
+    internal: true
+    name: kimai_net
+
+services:
+  kimai_db:
+    hostname: kimai_db
+    container_name: kimai_db
+    image: mysql:latest
+    restart: unless-stopped
+    networks:
+      - kimai_net
+    environment:
+      MYSQL_DATABASE: ${SQL_DB_NAME}
+      MYSQL_USER: ${SQL_USER_NAME}
+      MYSQL_PASSWORD: ${SQL_USER_PASS}
+      MYSQL_ROOT_PASSWORD: ${SQL_ROOT_PASS}
+    volumes:
+      - ./kimai/database:/var/lib/mysql
+
+  kimai:
+    hostname: kimai
+    container_name: kimai
+    image: kimai/kimai2:apache-latest
+    restart: unless-stopped
+    networks:
+      - kimai_net
+      - web
+    depends_on:
+      - kimai_db
+    environment:
+      APP_ENV: prod
+      ADMINMAIL: ${KIMAI_ADMIN_MAIL}
+      ADMINPASS: ${KIMAI_ADMIN_PASS}
+      DATABASE_URL: mysql://${SQL_USER_NAME}:${SQL_USER_PASS}@kimai_db/${SQL_DB_NAME}
+      TRUSTED_HOSTS: nginx,localhost,127.0.0.1,traefik,kimai.${HOST}
+      TRUSTED_PROXIES: nginx,localhost,127.0.0.1,traefik,kimai.${HOST}
+      memory_limit: 2048
+    labels:
+      traefik.enable: true
+      # HTTP -> HTTPS
+      traefik.http.routers.kimai-redirect.entrypoints: web
+      traefik.http.routers.kimai-redirect.rule: Host(`kimai.${HOST}`)
+      traefik.http.routers.kimai-redirect.middlewares: httpsredirect@docker
+      # HTTPS -> Entry router
+      traefik.http.routers.kimai.entrypoints: websecure
+      traefik.http.routers.kimai.rule: Host(`kimai.${HOST}`)
+      traefik.http.routers.kimai.tls: true
+      traefik.http.routers.kimai.tls.certresolver: cfresolver
+      traefik.http.routers.kimai.middlewares: error-pages@docker
+      traefik.http.routers.kimai.service: kimai
+      # # Entry
+      traefik.http.services.kimai.loadbalancer.server.port: 8001
+      traefik.http.services.kimai.loadbalancer.server.scheme: http
+      traefik.http.services.kimai.loadbalancer.passHostHeader: true
+    #volumes:
+    #  - ./kimai/apache2.conf:/etc/apache2/onlySaml.conf
+    #  - ./kimai/local.yaml:/opt/kimai/config/packages/local.yaml
