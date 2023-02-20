@@ -6,7 +6,7 @@ The following settings can set at runtime:
 
 ### Memory limit
 
-the Maximum amount of memory a script may consume, https://php.net/memory-limit
+the Maximum amount of memory a script may consume, <https://php.net/memory-limit>
 
 ```bash
 memory_limit=512
@@ -40,8 +40,8 @@ It is possible to pass the DB config in individual values.  If the ENV variable 
 
 The ```DB_TYPE``` must be `mysql`:
 
- * ```DB_USER``` defaults to ```kimai```
- * ```DB_PASS``` defaults to ```kimai```
- * ```DB_HOST``` defaults to ```sqldb```
- * ```DB_PORT``` defaults to ```3306```
- * ```DB_BASE``` defaults to ```kimai```
+* ```DB_USER``` defaults to ```kimai```
+* ```DB_PASS``` defaults to ```kimai```
+* ```DB_HOST``` defaults to ```sqldb```
+* ```DB_PORT``` defaults to ```3306```
+* ```DB_BASE``` defaults to ```kimai```
