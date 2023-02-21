@@ -9,16 +9,16 @@ Run the latest production build:
  1. Start a DB
 
         docker run --rm --name kimai-mysql-testing -e MYSQL_DATABASE=kimai -e MYSQL_USER=kimai -e MYSQL_PASSWORD=kimai -e MYSQL_ROOT_PASSWORD=kimai -p 3399:3306 -d mysql
- 
+
  1. Start Kimai
- 
+
         docker run --rm --name kimai-test -ti -p 8001:8001 -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3399/kimai kimai/kimai2:apache
- 
+
  1. Add a user, open a new terminal and:
- 
+
         docker exec -ti kimai-test /bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN
 
-You can now hit the kimai instance on http://localhost:8001
+You can now hit the kimai instance on <http://localhost:8001>
 
 This docker transient and will disappear when you stop the containers.
 
