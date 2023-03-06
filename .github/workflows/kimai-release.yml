@@ -31,7 +31,7 @@ jobs:
           password: ${{secrets.DOCKERHUB_PASSWORD}}
 
       - name: install buildx
-        run: sudo apt remove --purge containerd.io; sudo apt -y install docker.io; docker buildx install
+        run: sudo apt remove --purge containerd.io containerd runc; sudo apt -y install docker.io; docker buildx install
 
       - name: Build and push FPM Dev
         uses: docker/build-push-action@v2
