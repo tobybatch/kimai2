@@ -37,9 +37,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          driver-opts: |
-            image=moby/buildkit:master
-            network=host
           platforms:
             linux/arm64/v8
             linux/amd64
@@ -57,9 +54,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          driver-opts: |
-            image=moby/buildkit:master
-            network=host
           platforms:
             linux/arm64/v8
             linux/amd64
@@ -79,9 +73,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          driver-opts: |
-            image=moby/buildkit:master
-            network=host
           platforms:
             linux/arm64/v8
             linux/amd64
@@ -99,9 +90,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          driver-opts: |
-            image=moby/buildkit:master
-            network=host
           platforms:
             linux/arm64/v8
             linux/amd64
