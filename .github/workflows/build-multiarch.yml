@@ -1,0 +1,58 @@
+name: 'Build multiarch'
+
+on:
+  workflow_dispatch:
+  # repository_dispatch:
+    # types: [kimai_release]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        type: [dev,prod]
+        server: [fpm,apache]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: install buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: install lastversion
+        run: sudo apt-get update -y; sudo apt-get install --no-install-recommends -y python3 python3-pip; pip install lastversion
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1.12.0
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_PASSWORD}}
+
+      - name: get lastest 1.x version
+        id: remote_version
+        run: echo "::set-output name=version::$(lastversion https://github.com/kevinpapst/kimai2 --only '~^1\.')"
+
+      - name: build ${{ matrix.server }} ${{ matrix.type }}
+        run: echo kimai/kimai2:${{ matrix.type }}-${{ matrix.server }}
+
+      - name: Build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args: |
+            KIMAI=${{steps.remote_version.outputs.version}}
+            TIMEZONE=Europe/London
+            BASE=${{ matrix.server }}
+          target: ${{ matrix.type }}
+            # platforms: linux/arm64,linux/amd64,linux/arm/v8,linux/arm/v7,linux/arm/v6
+          tags: |
+            kimai/kimai2:${{ matrix.server }}-${{ matrix.type }}
+            kimai/kimai2:${{ matrix.server }}-${{steps.remote_version.outputs.version}}-${{ matrix.type }}
+          push: false
+
+      #- name: Tag latests versions
+      #  run: docker tag kimai/kimai2:fpm-prod kimai/kimai2:fpm; docker tag kimai/kimai2:fpm-prod kimai/kimai2:fpm-latest; docker tag kimai/kimai2:fpm-prod kimai/kimai2:latest; docker tag kimai/kimai2:fpm-prod kimai/kimai2:prod; docker tag kimai/kimai2:apache-prod kimai/kimai2:apache; docker tag kimai/kimai2:apache-prod kimai/kimai2:apache-latest; docker tag kimai/kimai2:apache-dev kimai/kimai2:dev;
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
