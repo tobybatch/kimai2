@@ -1,10 +1,7 @@
 #!/bin/bash -x
 
-# shellcheck disable=SC2155
-export KIMAI=$(/opt/kimai/bin/console kimai:version --short)
-echo "***********************************************"
-echo "STARTING KIMAI VERSION ${KIMAI} in ${APP_ENV}"
-echo "***********************************************"
+KIMAI=$(cat /opt/kimai/version.txt)
+echo $KIMAI
 
 
 function config() {
@@ -13,6 +10,17 @@ function config() {
     memory_limit=256
   fi
 
+  echo "Wait for MySQL DB connection ..."
+  until php /dbtest.php $DB_HOST $DB_BASE $DB_PORT $DB_USER $DB_PASS; do
+    echo Checking DB: $?
+    sleep 3
+  done
+  echo "Connection established"
+}
+
+function handleStartup() {
+  set -x
+  # set mem limits and copy in custom logger config
   if [ "${APP_ENV}" == "prod" ]; then
     sed -i "s/128M/${memory_limit}M/g" /usr/local/etc/php/php.ini
     if [ "${KIMAI:0:1}" -lt "2" ]; then
@@ -28,6 +36,7 @@ function config() {
       cp /assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
     fi
   fi
+  set +x
 
   tar -zx -C /opt/kimai -f /var/tmp/public.tgz 
   

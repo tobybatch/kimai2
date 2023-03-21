@@ -6,15 +6,17 @@ The same docker file is used to build all the tagged images and is configured by
 
 The docker file has many staging targets but two functional builds are `prod` and `dev` which correspond to the prod and development environments as outlined in the Kimai documentation.  The default is `prod`
 
+```bash
     docker build --target=prod .
     docker build --target=dev .
+```
 
 ## Build Arguments
 
 ### BASE
 
-  * `BASE=apache`
-  * `BASE=fpm`
+* `BASE=apache`
+* `BASE=fpm`
 
 Selects which PHP wrapper to use.  The Apache Debian version bundles an Apache server, and the mod-php wrapper based on a debian buster image.  The fpm-alpine version provides the fast CGI version of PHP based on an alpine image.
 
@@ -26,24 +28,28 @@ The FPM image is smaller (~640mb) but requires a web server to provide the http 
 
 This allows over releases of Kimai to be built.  You can specify anything that would be passed to a git clone command.
 
-  * A tag or release, e.g. `KIMAI=10.0.2`
-  * A branch name, e.g. `KIMAI=master`
+* A tag or release, e.g. `KIMAI=10.0.2`
+* A branch name, e.g. `KIMAI=master`
 
 ### TZ
 
 The PHP timezone for the php build.  Defaults to Europe/Berlin.
 
-  * `TZ=Europe/London`
+* `TZ=Europe/London`
 
 ## Examples
 
 Build a dev image of Kimai 1.10.1 that uses the apache bundled web server:
 
+```bash
     docker build --target=dev --build-arg KIMAI=10.0.1 --build-arg BASE=apache .
+```
 
 Build a prod, FPM image of Kimai 1.10.2, localised for the UK
 
+```bash
     docker build --target=prod --build-arg KIMAI=10.0.2 --build-arg BASE=fpm --build-arg TZ=Europe/London .
+```
 
 ## Extending the image
 
@@ -63,4 +69,16 @@ FROM kimai/kimai2:apache-1.12-prod
 COPY --from=php-base /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini
 COPY --from=php-base /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so
 
+```
+
+## Building for other architectures, Pi, Mac etc
+
+Currently the CI chain doesn't do this for us but it is possible to build your own image for ARMN cpus. **Note** Symfony doesn't seem to support ARM7, so older Pi's are not supported.
+
+The process to build it relies on Buildx, install that from here <https://github.com/docker/buildx>
+
+And then you can build an alternate architecture:
+
+```bash
+    docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t kimai/kimai2:multi .
 ```

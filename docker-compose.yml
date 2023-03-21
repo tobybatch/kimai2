@@ -42,8 +42,7 @@ services:
       - ADMINPASS=changemeplease
       - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
       - TRUSTED_HOSTS=nginx,localhost,127.0.0.1
-      - USER_ID=1009
-      - GROUP_ID=1009
+      - memory_limit=500
     volumes:
       - public:/opt/kimai/public
       # - var:/opt/kimai/var

@@ -19,35 +19,47 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
 Run the latest production build:
 
- 1. Start a DB
- 
+1. Start a DB
+
+    ```bash
         docker run --rm --name kimai-mysql-testing \
             -e MYSQL_DATABASE=kimai \
             -e MYSQL_USER=kimai \
             -e MYSQL_PASSWORD=kimai \
             -e MYSQL_ROOT_PASSWORD=kimai \
             -p 3399:3306 -d mysql
-        
- 1. Start Kimai 
-   
+    ```
+
+2. Start Kimai
+
+    ```bash
         docker run --rm --name kimai-test \
             -ti \
             -p 8001:8001 \
             -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3399/kimai \
             kimai/kimai2:apache
- 
-Note: If you're using Docker for Windows or Docker for Mac, and you're getting "Connection refused" or other errors, you might need to change `${HOSTNAME}` to `host.docker.internal`. This is because the Kimai Docker container can only communicate within its network boundaries. Another option would be to start the container with the flag `--network="host"`. See [here](https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach) for more information.
- 
- 1. Add a user, open a new terminal and:
- 
+    ```
+
+3. Add a user using the terminal
+
+    ```bash
         docker exec -ti kimai-test \
             /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN
-    
-You can now hit the kimai instance on http://localhost:8001
+    ```
 
-This docker transient and will disappear when you stop the containers.
+Now, you can access the Kimai instance at <http://localhost:8001>.
 
+__Note:__
+If you're using Docker for Windows or Docker for Mac, and you're getting "Connection refused" or other errors, you might need to change `${HOSTNAME}` to `host.docker.internal`.
+This is because the Kimai Docker container can only communicate within its network boundaries. Alternatively, you can start the container with the flag `--network="host"`.
+See [here](https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach) for more information.
+
+Keep in mind that this Docker setup is transient and the data will disappear when you remove the containers.
+
+```bash
     docker stop kimai-mysql-testing kimai-test
+    docker rm kimai-mysql-testing kimai-test
+```
 
 ## Using docker-compose
 
