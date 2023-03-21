@@ -45,14 +45,33 @@ jobs:
             TIMEZONE=Europe/London
             BASE=${{ matrix.server }}
           target: ${{ matrix.type }}
-            # platforms: linux/arm64,linux/amd64,linux/arm/v8,linux/arm/v7,linux/arm/v6
+          platforms: linux/arm64,linux/amd64,linux/arm/v8,linux/arm/v7 #,linux/arm/v6
           tags: |
             kimai/kimai2:${{ matrix.server }}-${{ matrix.type }}
             kimai/kimai2:${{ matrix.server }}-${{steps.remote_version.outputs.version}}-${{ matrix.type }}
           push: false
 
-      #- name: Tag latests versions
-      #  run: docker tag kimai/kimai2:fpm-prod kimai/kimai2:fpm; docker tag kimai/kimai2:fpm-prod kimai/kimai2:fpm-latest; docker tag kimai/kimai2:fpm-prod kimai/kimai2:latest; docker tag kimai/kimai2:fpm-prod kimai/kimai2:prod; docker tag kimai/kimai2:apache-prod kimai/kimai2:apache; docker tag kimai/kimai2:apache-prod kimai/kimai2:apache-latest; docker tag kimai/kimai2:apache-dev kimai/kimai2:dev;
+      - name: Tag fpm
+        run: docker tag kimai/kimai2:fpm-prod kimai/kimai2:fpm
+
+      - name: Tag fpm latest
+        run: docker tag kimai/kimai2:fpm-prod kimai/kimai2:fpm-latest
+
+      - name: Tag latest
+        run: docker tag kimai/kimai2:fpm-prod kimai/kimai2:latest
+
+      - name: Tag prod
+        run: docker tag kimai/kimai2:fpm-prod kimai/kimai2:prod
+
+      - name: Tag apache
+        run: docker tag kimai/kimai2:apache-prod kimai/kimai2:apache
+
+      - name: Tag apache latest
+        run: docker tag kimai/kimai2:apache-prod kimai/kimai2:apache-latest
+
+      - name: Tag dev
+        run: docker tag kimai/kimai2:apache-dev kimai/kimai2:dev
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
