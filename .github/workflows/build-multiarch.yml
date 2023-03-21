@@ -51,6 +51,10 @@ jobs:
             kimai/kimai2:${{ matrix.server }}-${{steps.remote_version.outputs.version}}-${{ matrix.type }}
           push: false
 
+
+  tag:
+    runs-on: ubuntu-latest
+    steps:
       - name: Tag fpm
         run: docker tag kimai/kimai2:fpm-prod kimai/kimai2:fpm
 
