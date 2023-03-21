@@ -7,14 +7,22 @@
 
 # Source base [fpm/apache]
 ARG BASE="fpm"
+ARG PHP_VER="8.1"
+ARG COMPOSER_VER="latest"
+# Branch name
+ARG KIMAI="main"
+# Timezone for images
+ARG TIMEZONE="Europe/Berlin"
 
 ###########################
 # Shared tools
 ###########################
 
 # full kimai source
-FROM alpine:3.16.2 AS git-dev
-ARG KIMAI="main"
+FROM alpine:latest AS git-dev
+# pass-through Arguments in every stage. See: https://benkyriakou.com/posts/docker-args-empty
+ARG KIMAI
+ARG TIMEZONE
 # I need to do this check somewhere, we discard all but the checkout so doing here doesn't hurt
 ADD assets/test-kimai-version.sh /test-kimai-version.sh
 RUN /test-kimai-version.sh
@@ -23,25 +31,19 @@ RUN apk add --no-cache git && \
 
 # production kimai source
 FROM git-dev AS git-prod
+
 WORKDIR /opt/kimai
 RUN rm -r tests
 
-# symfony cli
-FROM alpine:3.16.2 AS symfony-cli
-RUN \
-    apk add --no-cache curl bash && \
-    curl -sS https://get.symfony.com/cli/installer | bash
-
 # composer base image
-FROM composer:2.4.4 AS composer
-
+FROM composer:${COMPOSER_VER} AS composer
 
 ###########################
 # PHP extensions
 ###########################
 
 #fpm alpine php extension base
-FROM php:8.1.12-fpm-alpine3.15 AS fpm-php-ext-base
+FROM php:${PHP_VER}-fpm-alpine AS fpm-php-ext-base
 RUN apk add --no-cache \
     # build-tools
     autoconf \
@@ -77,7 +79,7 @@ RUN apk add --no-cache \
 
 
 # apache debian php extension base
-FROM php:8.1.12-apache-buster AS apache-php-ext-base
+FROM php:${PHP_VER}-apache-buster AS apache-php-ext-base
 RUN apt-get update
 RUN apt-get install -y \
         libldap2-dev \
@@ -129,7 +131,9 @@ RUN docker-php-ext-install -j$(nproc) opcache
 ###########################
 
 # fpm base build
-FROM php:8.1.12-fpm-alpine3.15 AS fpm-base
+FROM php:${PHP_VER}-fpm-alpine AS fpm-base
+ARG KIMAI
+ARG TIMEZONE
 RUN apk add --no-cache \
         bash \
         coreutils \
@@ -159,7 +163,9 @@ HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
 # apache base build
 ###########################
 
-FROM php:8.1.12-apache-buster AS apache-base
+FROM php:${PHP_VER}-apache-buster AS apache-base
+ARG KIMAI
+ARG TIMEZONE
 COPY assets/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN apt-get update && \
     apt-get install -y \
@@ -186,20 +192,22 @@ HEALTHCHECK --interval=20s --timeout=10s --retries=3 \
 ###########################
 
 FROM ${BASE}-base AS base
+ARG KIMAI
+ARG TIMEZONE
+
 LABEL maintainer="tobias@neontribe.co.uk"
 LABEL maintainer="bastian@schroll-software.de"
 
 ENV KIMAI=${KIMAI}
-
-ARG TZ=Europe/Berlin
-ENV TZ=${TZ}
-RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
+ENV TIMEZONE=${TIMEZONE}
+RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone && \
     # make composer home dir
     mkdir /composer  && \
     chown -R www-data:www-data /composer
 
 # copy startup script & DB checking script
 COPY assets/startup.sh /startup.sh
+COPY assets/service.sh /service.sh
 COPY assets/self-test.sh /self-test.sh
 COPY assets/dbtest.php /dbtest.php
 
@@ -250,6 +258,8 @@ ENV COMPOSER_MEMORY_LIMIT=-1
 # If this set then the image will start, run a self test and then exit. It's used for the release process
 ENV TEST_AND_EXIT=
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV USER_ID=1000
+ENV GROUP_ID=1000
 
 VOLUME [ "/opt/kimai/var" ]
 
@@ -265,7 +275,6 @@ ENTRYPOINT /startup.sh
 FROM base AS dev
 # copy kimai develop source
 COPY --from=git-dev --chown=www-data:www-data /opt/kimai /opt/kimai
-COPY --from=symfony-cli /root/.symfony5/bin/symfony /usr/bin 
 COPY assets /assets
 # do the composer deps installation
 RUN echo \$PATH
@@ -284,13 +293,11 @@ RUN \
 ENV APP_ENV=dev
 ENV DATABASE_URL=
 ENV memory_limit=256
-USER www-data
 
 # production build
 FROM base AS prod
 # copy kimai production source
 COPY --from=git-prod --chown=www-data:www-data /opt/kimai /opt/kimai
-COPY --from=symfony-cli /root/.symfony5/bin/symfony /usr/bin 
 COPY assets /assets
 # do the composer deps installation
 RUN \
@@ -300,6 +307,12 @@ RUN \
     composer --no-ansi require --working-dir=/opt/kimai laminas/laminas-ldap && \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     sed -i "s/expose_php = On/expose_php = Off/g" /usr/local/etc/php/php.ini && \
+    sed -i "s/;opcache.enable=1/opcache.enable=1/g" /usr/local/etc/php/php.ini && \
+    sed -i "s/;opcache.memory_consumption=128/opcache.memory_consumption=256/g" /usr/local/etc/php/php.ini && \
+    sed -i "s/;opcache.interned_strings_buffer=8/opcache.interned_strings_buffer=24/g" /usr/local/etc/php/php.ini && \
+    sed -i "s/;opcache.max_accelerated_files=10000/opcache.max_accelerated_files=100000/g" /usr/local/etc/php/php.ini && \
+    sed -i "s/opcache.validate_timestamps=1/opcache.validate_timestamps=0/g" /usr/local/etc/php/php.ini && \
+    sed -i "s/session.gc_maxlifetime = 1440/session.gc_maxlifetime = 604800/g" /usr/local/etc/php/php.ini && \
     mkdir -p /opt/kimai/var/logs && chmod 777 /opt/kimai/var/logs && \
     sed "s/128M/-1/g" /usr/local/etc/php/php.ini-development > /opt/kimai/php-cli.ini && \
     chown -R www-data:www-data /opt/kimai /usr/local/etc/php/php.ini && \
@@ -308,4 +321,3 @@ RUN \
 ENV APP_ENV=prod
 ENV DATABASE_URL=
 ENV memory_limit=128
-USER www-data

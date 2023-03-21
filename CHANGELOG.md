@@ -6,12 +6,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [2.0.4](https://github.com/tobybatch/kimai2/compare/v2.2.0...v2.0.4) (2022-10-20)
 
-
 ### Features
 
 * allow memory_limit to be set at runtime ([6934c36](https://github.com/tobybatch/kimai2/commits/6934c36588664a8d7659a225d399a1f3b14a7ebb))
 * update docker action ([8bfcb69](https://github.com/tobybatch/kimai2/commits/8bfcb6918fb9c5dbedf4491c0d9c2c454edfd870))
-
 
 ### Bug Fixes
 
@@ -36,11 +34,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 2.0.1 (2021-04-30)
 
-
 ### Features
 
 * allow ingress annotations ([#244](https://github.com/tobybatch/kimai2/issues/244)) ([18751ac](https://github.com/tobybatch/kimai2/commits/18751acebf03b4ee56d631cebc587ab8b7bef997))
-
 
 ### Bug Fixes
 
