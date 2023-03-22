@@ -1,5 +1,6 @@
 monolog:
   handlers:
     main:
-      type: error_log
+      type: stream
       level: debug
+      path: "php://stderr"
