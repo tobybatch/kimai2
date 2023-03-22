@@ -71,7 +71,8 @@ function handleStartup() {
     GROUP_ID=$(id -g www-data)
   fi
 
-  chown -R $USER_ID:$GROUP_ID /opt/kimai/var
+  chown -R $USER_ID:$GROUP_ID /opt/kimai
+  chown -R $USER_ID:$GROUP_ID /usr/local/etc/php/php.ini
 
   # if user doesn't exist
   if id $USER_ID &>/dev/null; then
@@ -94,5 +95,6 @@ function handleStartup() {
 }
 
 config
+handleStartup
 /service.sh
 exit
