@@ -53,6 +53,7 @@ jobs:
           push: true
 
   tag:
+    needs: build
     runs-on: ubuntu-latest
     steps:
 
