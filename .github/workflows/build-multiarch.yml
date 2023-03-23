@@ -48,10 +48,10 @@ jobs:
             TIMEZONE=Europe/London
             BASE=${{ matrix.server }}
           target: ${{ matrix.type }}
-          platforms: linux/arm64,linux/amd64,linux/arm/v8,linux/arm/v7 #,linux/arm/v6
+          platforms: linux/amd64 #,linux/arm64,linux/arm/v8,linux/arm/v7 #,linux/arm/v6
           tags: |
-            ${{ DOCKER_REPO }}:${{ matrix.server }}-${{ matrix.type }}
-            ${{ DOCKER_REPO }}:${{ matrix.server }}-${{steps.remote_version.outputs.version}}-${{ matrix.type }}
+            tobybatch/kimai2:${{ matrix.server }}-${{ matrix.type }}
+            tobybatch/kimai2:${{ matrix.server }}-${{steps.remote_version.outputs.version}}-${{ matrix.type }}
           push: true
 
   tag:
