@@ -50,16 +50,8 @@ jobs:
             tobybatch/kimai2:${{ matrix.server }}-${{steps.remote_version.outputs.version}}-${{ matrix.type }}
           push: true
 
-      - name: Test PHP
-        run: docker run --rm --entrypoint php tobybatch/kimai2:${{ matrix.server }}-${{ matrix.type }} /opt/kimai/bin/console kimai:version
-
-      - name: Test apache
-        if: ${{ matrix.server }} == "apache"
-        run: docker run --rm --entrypoint apache2ctl tobybatch/kimai2:${{ matrix.server }}-${{ matrix.type }} -t
-
-      - name: Test fpm
-        if: ${{ matrix.server }} == "fpm"
-        run: docker run --rm --entrypoint php-fpm tobybatch/kimai2:${{ matrix.server }}-${{ matrix.type }} -t
+      - name: Test Lite
+        run: docker run --rm --entrypoint /assets/test-lite.sh tobybatch/kimai2:${{ matrix.server }}-${{ matrix.type }}
 
   tag:
     needs: build
