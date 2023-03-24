@@ -53,6 +53,14 @@ jobs:
       - name: Test PHP
         run: docker run --rm -ti --entrypoint php tobybatch/kimai2:${{ matrix.server }}-${{ matrix.type }} /opt/kimai/bin/console kimai:version
 
+      - name: Test apache
+        if: ${{ matrix.server }} == "apache"
+          run: docker run --rm -ti --entrypoint apache2ctl tobybatch/kimai2:${{ matrix.server }}-${{ matrix.type }} -t
+
+      - name: Test fpm
+        if: ${{ matrix.server }} == "fpm"
+          run: docker run --rm -ti --entrypoint php-fpm tobybatch/kimai2:${{ matrix.server }}-${{ matrix.type }} -t
+
   tag:
     needs: build
     runs-on: ubuntu-latest
