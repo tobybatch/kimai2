@@ -36,7 +36,7 @@ ADMINMAIL=
 
 ## Changing UID and GID
 
-It is possible to set the user that FPM or Apache run as. If the user does not exist a new user called www-kimai is created and the server is then run under that user.
+It is possible to set the user that FPM or Apache run as. If the user does not exist a new user called www-kimai is created and the server is then run under that user. Note these must be numbers, not names.
 
 ```bash
 USER_ID=1000
