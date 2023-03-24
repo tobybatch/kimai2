@@ -79,8 +79,6 @@ function handleStartup() {
     pwconv
   fi
 
-  chown -R "$USER_ID":"$GROUP_ID" /opt/kimai/var
-
   if [ -e /use_apache ]; then
     echo "APACHE_RUN_USER=$(id -nu "$USER_ID")" >> /etc/apache2/envvars
     # This doesn't _exactly_ run as the specified GID, it runs as the GID of the specified user but WTF
