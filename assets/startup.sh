@@ -43,26 +43,18 @@ function config() {
 }
 
 function handleStartup() {
-  set -x
   # set mem limits and copy in custom logger config
-  if [ "${APP_ENV}" == "prod" ]; then
-    sed -i "s/128M/${memory_limit}M/g" /usr/local/etc/php/php.ini
-    if [ "${KIMAI:0:1}" -lt "2" ]; then
-      cp /assets/monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
-    else
-      cp /assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
-    fi
+  sed -i "s/memory_limit.*/memory_limit=$memory_limit/g" /usr/local/etc/php/php.ini
+  if [ "${KIMAI:0:1}" -lt "2" ]; then
+    cp /assets/monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
+    cp /assets/monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
   else
-    sed -i "s/128M/${memory_limit}M/g" /usr/local/etc/php/php.ini
-    if [ "${KIMAI:0:1}" -lt "2" ]; then
-      cp /assets/monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
-    else
-      cp /assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
-    fi
+    cp /assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
   fi
-  set +x
 
   tar -zx -C /opt/kimai -f /var/tmp/public.tgz
+
+
 
   if [ -z "$USER_ID" ]; then
     USER_ID=$(id -u www-data)
@@ -71,24 +63,31 @@ function handleStartup() {
     GROUP_ID=$(id -g www-data)
   fi
 
-  chown -R $USER_ID:$GROUP_ID /opt/kimai
-  chown -R $USER_ID:$GROUP_ID /usr/local/etc/php/php.ini
+  # if group doesn't exist
+  if grep -w "$GROUP_ID" /etc/group &>/dev/null; then
+    echo Group already exists
+  else
+    echo www-kimai:x:"$GROUP_ID": >> /etc/group
+    pwconv
+  fi
 
   # if user doesn't exist
-  if id $USER_ID &>/dev/null; then
+  if id "$USER_ID" &>/dev/null; then
     echo User already exists
   else
-    echo www-kimai:x:$USER_ID:$GROUP_ID:www-kimai:/var/www:/usr/sbin/nologin >> /etc/passwd
-    echo www-data:x:33: >> /etc/group
+    echo www-kimai:x:"$USER_ID":"$GROUP_ID":www-kimai:/var/www:/usr/sbin/nologin >> /etc/passwd
     pwconv
   fi
 
   if [ -e /use_apache ]; then
-    export APACHE_RUN_USER=$(id -nu 33)
-    export APACHE_RUN_GROUP=$(id -ng 33)
+    echo "APACHE_RUN_USER=$(id -nu "$USER_ID")" >> /etc/apache2/envvars
+    # This doesn't _exactly_ run as the specified GID, it runs as the GID of the specified user but WTF
+    echo "APACHE_RUN_GROUP=$(id -ng "$USER_ID")" >> /etc/apache2/envvars
+    tail -n2 /etc/apache2/envvars
   elif [ -e /use_fpm ]; then
     sed -i "s/user = .*/user = $USER_ID/g" /usr/local/etc/php-fpm.d/www.conf
     sed -i "s/group = .*/group = $GROUP_ID/g" /usr/local/etc/php-fpm.d/www.conf
+    echo "Setting fpm to run as ${USER_ID}:${GROUP_ID}"
   else
     echo "Error, unknown server type"
   fi

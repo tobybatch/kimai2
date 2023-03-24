@@ -120,7 +120,7 @@ RUN docker-php-ext-install -j$(nproc) xsl
 # php extension redis
 FROM ${BASE}-php-ext-base AS php-ext-redis
 RUN yes no | pecl install redis && \
-    docker-php-ext-enable redis 
+    docker-php-ext-enable redis
 
 # php extension opcache
 FROM ${BASE}-php-ext-base AS php-ext-opcache
@@ -258,8 +258,8 @@ ENV COMPOSER_MEMORY_LIMIT=-1
 # If this set then the image will start, run a self test and then exit. It's used for the release process
 ENV TEST_AND_EXIT=
 ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV USER_ID=1000
-ENV GROUP_ID=1000
+ENV USER_ID=
+ENV GROUP_ID=
 
 VOLUME [ "/opt/kimai/var" ]
 
