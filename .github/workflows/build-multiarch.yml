@@ -51,7 +51,7 @@ jobs:
           push: true
 
       - name: Test PHP
-        run: docker run --rm -ti --entrypoint php tobybatch/kimai2:${{ matrix.server }}-${{ matrix.type }} /opt/kimai/bin/console kimai:version
+        run: docker run --rm --entrypoint php tobybatch/kimai2:${{ matrix.server }}-${{ matrix.type }} /opt/kimai/bin/console kimai:version
 
       - name: Test apache
         if: ${{ matrix.server }} == "apache"
