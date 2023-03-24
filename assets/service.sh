@@ -44,7 +44,6 @@ function handleStartup() {
 }
 
 function runServer() {
-  # Just while I'm fixing things
   /opt/kimai/bin/console kimai:reload --env="$APP_ENV"
   chown -R $USER_ID:$GROUP_ID /opt/kimai/var
   if [ -e /use_apache ]; then
