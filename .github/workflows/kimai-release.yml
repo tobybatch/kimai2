@@ -22,7 +22,7 @@ jobs:
 
       - name: check remote lastversion
         id: remote_version
-        run: echo "::set-output name=version::$(lastversion https://github.com/kevinpapst/kimai2)"
+        run: echo "::set-output name=version::$(lastversion https://github.com/kevinpapst/kimai2 --only '~^1\.')"
 
       - name: Login to DockerHub
         uses: docker/login-action@v1.12.0
