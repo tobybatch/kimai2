@@ -2,6 +2,15 @@
 
 The same docker file is used to build all the tagged images and is configured by combination of build arguments and targets.
 
+## Clone the repo
+
+Before you do anything else you will need to clone this repo and open a terminal in that folder:
+
+```bash
+git clone git@github.com:tobybatch/kimai2.git
+cd kimai2
+```
+
 ## Targets
 
 The docker file has many staging targets but two functional builds are `prod` and `dev` which correspond to the prod and development environments as outlined in the Kimai documentation.  The default is `prod`

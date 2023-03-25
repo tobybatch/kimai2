@@ -95,5 +95,10 @@ function handleStartup() {
 
 config
 handleStartup
+
+echo +---------------------+
+echo | TAGGING HAS CHANGED |
+echo +---------------------+
+
 /service.sh
 exit

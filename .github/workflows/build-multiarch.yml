@@ -4,15 +4,16 @@ name: 'Build multiarch'
 on:
   workflow_dispatch:
   # repository_dispatch:
-    # types: [kimai_release]
+  # types: [kimai_release]
 
 jobs:
   build:
     strategy:
       matrix:
-        type: [dev,prod]
-        server: [fpm,apache]
+        type: [ dev, prod ]
+        server: [ fpm, apache ]
     runs-on: ubuntu-latest
+
     steps:
 
       - name: Checkout code
@@ -34,9 +35,6 @@ jobs:
         id: remote_version
         run: echo "::set-output name=version::$(lastversion https://github.com/kevinpapst/kimai2 --only '~^1\.')"
 
-      - name: build ${{ matrix.server }} ${{ matrix.type }}
-        run: echo kimai/kimai2:${{ matrix.type }}-${{ matrix.server }}
-
       - name: Build
         uses: docker/build-push-action@v2
         with:
@@ -46,11 +44,14 @@ jobs:
             TIMEZONE=Europe/London
             BASE=${{ matrix.server }}
           target: ${{ matrix.type }}
-          platforms: linux/arm64,linux/amd64,linux/arm/v8,linux/arm/v7 #,linux/arm/v6
+          platforms: linux/amd64,linux/arm64,linux/arm/v8,linux/arm/v7 #,linux/arm/v6
           tags: |
             kimai/kimai2:${{ matrix.server }}-${{ matrix.type }}
             kimai/kimai2:${{ matrix.server }}-${{steps.remote_version.outputs.version}}-${{ matrix.type }}
           push: true
+
+      - name: Test Lite
+        run: docker run --rm --entrypoint /assets/test-lite.sh kimai/kimai2:${{ matrix.server }}-${{ matrix.type }}
 
   tag:
     needs: build
@@ -65,39 +66,39 @@ jobs:
 
       - name: Pull images
         run: |
-          docker pull kimai/kimai2:fpm
+          docker pull kimai/kimai2:fpm-prod
           docker pull kimai/kimai2:fpm-dev
-          docker pull kimai/kimai2:apache
+          docker pull kimai/kimai2:apache-prod
           docker pull kimai/kimai2:apache-dev
 
       - name: Tag fpm
         run: |
-          docker tag kimai/kimai2:fpm kimai/kimai2:fpm-prod
+          docker tag kimai/kimai2:fpm-prod kimai/kimai2:fpm
           docker push kimai/kimai2:fpm
 
       - name: Tag fpm latest
         run: |
-          docker tag kimai/kimai2:fpm kimai/kimai2:fpm-latest
+          docker tag kimai/kimai2:fpm-prod kimai/kimai2:fpm-latest
           docker push kimai/kimai2:fpm-latest
 
       - name: Tag latest
         run: |
-          docker tag kimai/kimai2:fpm kimai/kimai2:latest
+          docker tag kimai/kimai2:fpm-prod kimai/kimai2:latest
           docker push kimai/kimai2:latest
 
       - name: Tag prod
         run: |
-          docker tag kimai/kimai2:fpm kimai/kimai2:prod
+          docker tag kimai/kimai2:fpm-prod kimai/kimai2:prod
           docker push kimai/kimai2:prod
 
       - name: Tag apache
         run: |
-          docker tag kimai/kimai2:apache kimai/kimai2:apache-prod
+          docker tag kimai/kimai2:apache-prod kimai/kimai2:apache
           docker push kimai/kimai2:apache
 
       - name: Tag apache latest
         run: |
-          docker tag kimai/kimai2:apache kimai/kimai2:apache-latest
+          docker tag kimai/kimai2:apache-prod kimai/kimai2:apache-latest
           docker push kimai/kimai2:apache-latest
 
       - name: Tag dev

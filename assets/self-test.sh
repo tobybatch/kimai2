@@ -1,6 +1,6 @@
 #!/bin/sh
 
-nohup /startup.sh 2>&1 & > /tmp/startup.log
+/startup.sh 2>&1
 echo $$ > /tmp/startup.pid
 echo "Waiting for kimai to install"
 while [ ! -f /opt/kimai/var/installed ]; do

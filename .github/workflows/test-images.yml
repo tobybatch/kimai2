@@ -1,0 +1,48 @@
+# act -j test -W ./.github/workflows/test.yml --secret-file  .dockerhub.secrets
+name: 'Test images'
+
+on:
+  workflow_dispatch:
+  # repository_dispatch:
+    # types: [kimai_release]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        type: [dev,prod]
+        server: [fpm,apache]
+    runs-on: ubuntu-latest
+
+    env:
+      DB_USER: root
+      DB_PASSWORD: 'root'
+      DB_HOST: localhost
+
+    steps:
+      - run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE kimai;' -uroot -proot
+          mysql -e 'SHOW DATABASES;' -uroot -proot
+
+      - name: Pull images
+        run: |
+          docker pull tobybatch/kimai2:fpm-prod
+          docker pull tobybatch/kimai2:fpm-dev
+          docker pull tobybatch/kimai2:apache-prod
+          docker pull tobybatch/kimai2:apache-dev
+
+      - name: Test fpm
+        run: docker run --rm  -ti -e DATABASE_URL=mysql://root:root@localhost:3306/kimai --entrypoint /self-test.sh kimai/kimai2:fpm-prod
+
+      - name: Test fpm-dev
+        run: docker run --rm  -ti -e DATABASE_URL=mysql://root:root@localhost:3306/kimai --entrypoint /self-test.sh kimai/kimai2:fpm-dev
+
+      - name: Test apache
+        run: docker run --rm  -ti -e DATABASE_URL=mysql://root:root@localhost:3306/kimai --entrypoint /self-test.sh kimai/kimai2:apache-prod
+
+      - name: Test apache-dev
+        run: docker run --rm  -ti -e DATABASE_URL=mysql://root:root@localhost:3306/kimai --entrypoint /self-test.sh kimai/kimai2:apache-dev
+
+
+
