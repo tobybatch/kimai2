@@ -8,6 +8,8 @@ services:
       - MYSQL_USER=kimaiuser
       - MYSQL_PASSWORD=kimaipassword
       - MYSQL_ROOT_PASSWORD=changemeplease
+    ports:
+      - 3336:3306
     volumes:
       - mysql:/var/lib/mysql
     command: --default-storage-engine innodb
@@ -36,7 +38,7 @@ services:
       retries: 3
 
   kimai: # This is the latest FPM image of kimai
-    image: kimai/kimai2:fpm
+    image: kimai/kimai2:fpm-dev
     environment:
       - ADMINMAIL=admin@kimai.local
       - ADMINPASS=changemeplease
@@ -49,6 +51,23 @@ services:
       # - ./ldap.conf:/etc/openldap/ldap.conf:z
       # - ./ROOT-CA.pem:/etc/ssl/certs/ROOT-CA.pem:z
     restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - PMA_ARBITRARY=1
+
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports:
+      - 8080:8080
+    volumes:
+      - ./swagger.json:/swagger.json
+    environment:
+      - SWAGGER_JSON=/swagger.json
 
   postfix:
     image: catatnight/postfix:latest
