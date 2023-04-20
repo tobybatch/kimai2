@@ -37,7 +37,7 @@ function handleStartup() {
   /opt/kimai/bin/console -n kimai:install
   /opt/kimai/bin/console -n kimai:update
   if [ ! -z "$ADMINPASS" ] && [ ! -a "$ADMINMAIL" ]; then
-    /opt/kimai/bin/console kimai:create-user superadmin "$ADMINMAIL" ROLE_SUPER_ADMIN "$ADMINPASS"
+    /opt/kimai/bin/console kimai:user:create superadmin "$ADMINMAIL" ROLE_SUPER_ADMIN "$ADMINPASS"
   fi
   echo "$KIMAI" > /opt/kimai/var/installed
   echo "Kimai2 ready"
