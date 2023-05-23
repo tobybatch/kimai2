@@ -10,7 +10,7 @@ when@prod:
             nested:
                 type: stream
                 level: info
-                path: "%kernel.logs_dir%/%kernel.environment%.log"
+                path: "php://stderr"
             console:
                 type: console
                 process_psr_3_messages: false
@@ -18,7 +18,7 @@ when@prod:
             deprecation:
                 type: stream
                 channels: ["deprecation"]
-                path: "%kernel.logs_dir%/deprecations.log"
+                path: "php://stderr"
 
 when@dev:
     monolog:
@@ -26,7 +26,7 @@ when@dev:
         handlers:
             main:
                 type: stream
-                path: "%kernel.logs_dir%/%kernel.environment%.log"
+                path: "php://stderr"
                 level: info
                 channels: ["!event"]
             # uncomment to get logging in your browser
@@ -44,13 +44,13 @@ when@dev:
             deprecation:
                 type: stream
                 channels: ["deprecation"]
-                path: "%kernel.logs_dir%/deprecations.log"
+                path: "php://stderr"
 
 when@test:
     monolog:
         handlers:
             main:
                 type: stream
-                path: "%kernel.logs_dir%/%kernel.environment%.log"
+                path: "php://stderr"
                 level: info
                 channels: ["!event"]
