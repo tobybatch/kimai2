@@ -69,6 +69,7 @@ RUN apk add --no-cache \
     libpng-dev \
     # icu
     icu-dev \
+    icu-data-full \
     # ldap
     openldap-dev \
     libldap \
@@ -140,6 +141,7 @@ RUN apk add --no-cache \
         freetype \
         haveged \
         icu \
+        icu-data-full \
         libldap \
         libpng \
         libzip \
