@@ -18,5 +18,5 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
-  "version": "2.2.1"
+  "version": "2.3.0"
 }

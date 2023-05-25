@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/tobybatch/kimai2/compare/v2.2.1...v2.3.0) (2023-05-25)
+
+
+### Features
+
+* enable v2 builds ([d6d11ad](https://github.com/tobybatch/kimai2/commits/d6d11ad40f7987b2e2a4e9147a3c47b4116c5a5f))
+* enables opcache ([#452](https://github.com/tobybatch/kimai2/issues/452)) ([a6e14b4](https://github.com/tobybatch/kimai2/commits/a6e14b45270ade88974ba46a2cba759fb09a3e9f)), closes [#451](https://github.com/tobybatch/kimai2/issues/451)
+* traefik compose example ([#479](https://github.com/tobybatch/kimai2/issues/479)) ([aaec0e5](https://github.com/tobybatch/kimai2/commits/aaec0e57dd1120b8f3b2a4528e4abc9c2d93abbc))
+
+
+### Bug Fixes
+
+* small tweaks for v2 ([c2d6e3b](https://github.com/tobybatch/kimai2/commits/c2d6e3b5794cc9c680561d41789388fc32c072fc))
+* **assets:** Change create user command for new version ([#505](https://github.com/tobybatch/kimai2/issues/505)) ([41731a1](https://github.com/tobybatch/kimai2/commits/41731a19a4b19cbf72474355a7ecccf1e14e2d26))
+* [#462](https://github.com/tobybatch/kimai2/issues/462) ([7212829](https://github.com/tobybatch/kimai2/commits/7212829d3dc8a3d0451cc4f70d99e13b49cd551a))
+* [#495](https://github.com/tobybatch/kimai2/issues/495) and [#488](https://github.com/tobybatch/kimai2/issues/488) ([#496](https://github.com/tobybatch/kimai2/issues/496)) ([0fae66b](https://github.com/tobybatch/kimai2/commits/0fae66bb4ca5e0e73b244733d5591a85cac8e19c))
+* added ENV COMPOSER_ALLOW_SUPERUSER=1 to allow LDAP build ([81a0166](https://github.com/tobybatch/kimai2/commits/81a01668169c8fc1b4ad5e9f0ee53f4e83aa1569))
+* added swagger and phpmyadmin ([80655ff](https://github.com/tobybatch/kimai2/commits/80655ff3553ba2d313170686b444b78fb6d92f6b))
+* build arg passthrough; add PHP & composer ver ([#478](https://github.com/tobybatch/kimai2/issues/478)) ([2afc8cb](https://github.com/tobybatch/kimai2/commits/2afc8cbd31b4b9769009577d8fc380a302840423))
+* bump node version to 18 ([3f32d05](https://github.com/tobybatch/kimai2/commits/3f32d059bef88d92a7352933938302ff8a22651d))
+* capped the build version at 1.x ([1d4e8ba](https://github.com/tobybatch/kimai2/commits/1d4e8ba7fc5fb82c04b405a9af06f9241c06362b))
+* disable auto build on push ([#472](https://github.com/tobybatch/kimai2/issues/472)) ([b871f0e](https://github.com/tobybatch/kimai2/commits/b871f0e59fec5a5798fe15d5e44fe88e09b6c396))
+* moved back to docker buildx ([a9219bd](https://github.com/tobybatch/kimai2/commits/a9219bdac152c4aac907177a725319e14afd0c4b))
+* moved back to docker buildx ([62f1838](https://github.com/tobybatch/kimai2/commits/62f18388f5fe6f6efa44f698a849b03d795b23a8))
+* push after build ([1cfbe9b](https://github.com/tobybatch/kimai2/commits/1cfbe9b0ae74f5ee6fed785834e27a307bc833f7))
+* ready for v2 ([993e98e](https://github.com/tobybatch/kimai2/commits/993e98e628c7c7f8d76f091682655870908f1421))
+* remove symfont cli ([#471](https://github.com/tobybatch/kimai2/issues/471)) ([160d797](https://github.com/tobybatch/kimai2/commits/160d797bb6ea67d632c86615b3a1efa47708533c))
+* removed multi arch ([8f513f6](https://github.com/tobybatch/kimai2/commits/8f513f6d090fd38b72abe3b5a04bf7aa6240df11))
+* removed tagging from multiarch build ([98e88c5](https://github.com/tobybatch/kimai2/commits/98e88c58a275ea789665c63185102d91b7a05cc5))
+* restored cli logging for monolog ([470ecf0](https://github.com/tobybatch/kimai2/commits/470ecf07b80396af106d688c5c09e01fb63dbe53))
+* try a different containerd src ([e79fcbc](https://github.com/tobybatch/kimai2/commits/e79fcbc3c2bd712cd21b5566c69b74b879872aa1))
+* try a different containerd src ([e191dae](https://github.com/tobybatch/kimai2/commits/e191dae917cd7e5531e465c722c5b8dcef787213))
+* wait to tag after building ([bdde499](https://github.com/tobybatch/kimai2/commits/bdde4992cdf672f0f394ad8f092e2ca6cce9980b))
+
 ### [2.2.1](https://github.com/tobybatch/kimai2/compare/v2.0.4...v2.2.1) (2022-10-20)
 
 ### [2.0.4](https://github.com/tobybatch/kimai2/compare/v2.2.0...v2.0.4) (2022-10-20)
