@@ -294,7 +294,7 @@ RUN \
     /opt/kimai/bin/console kimai:version | awk '{print $2}' > /opt/kimai/version.txt
 ENV APP_ENV=dev
 ENV DATABASE_URL=
-ENV memory_limit=256
+ENV memory_limit=256M
 
 # production build
 FROM base AS prod
@@ -322,4 +322,4 @@ RUN \
     /opt/kimai/bin/console kimai:version | awk '{print $2}' > /opt/kimai/version.txt
 ENV APP_ENV=prod
 ENV DATABASE_URL=
-ENV memory_limit=128
+ENV memory_limit=256M
