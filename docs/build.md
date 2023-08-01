@@ -89,5 +89,5 @@ The process to build it relies on Buildx, install that from here <https://github
 And then you can build an alternate architecture:
 
 ```bash
-    docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t kimai/kimai2:multi .
+    docker buildx build --platform linux/arm64/v8,linux/amd64 -t kimai/kimai2:multi .
 ```
