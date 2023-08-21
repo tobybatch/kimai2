@@ -1,5 +1,5 @@
 # act -j build -W ./.github/workflows/build-multiarch.yml --secret-file  .dockerhub.secrets
-name: 'Build multiarch'
+name: 'Build default'
 
 on:
   workflow_dispatch:
