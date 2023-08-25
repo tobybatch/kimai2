@@ -68,7 +68,7 @@ function handleStartup() {
     echo Group already exists
   else
     echo www-kimai:x:"$GROUP_ID": >> /etc/group
-    pwconv
+    grpconv
   fi
 
   # if user doesn't exist
