@@ -265,7 +265,7 @@ ENV GROUP_ID=
 
 VOLUME [ "/opt/kimai/var" ]
 
-ENTRYPOINT /startup.sh
+CMD [ "/startup.sh" ]
 
 
 
