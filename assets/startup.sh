@@ -45,16 +45,9 @@ function config() {
 function handleStartup() {
   # set mem limits and copy in custom logger config
   sed -i "s/memory_limit.*/memory_limit=$memory_limit/g" /usr/local/etc/php/php.ini
-  if [ "${KIMAI:0:1}" -lt "2" ]; then
-    cp /assets/monolog-prod.yaml /opt/kimai/config/packages/prod/monolog.yaml
-    cp /assets/monolog-dev.yaml /opt/kimai/config/packages/dev/monolog.yaml
-  else
-    cp /assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
-  fi
+  cp /assets/monolog.yaml /opt/kimai/config/packages/monolog.yaml
 
   tar -zx -C /opt/kimai -f /var/tmp/public.tgz
-
-
 
   if [ -z "$USER_ID" ]; then
     USER_ID=$(id -u www-data)
