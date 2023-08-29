@@ -6,18 +6,18 @@ The following settings can set at runtime:
 
 ### Memory limit
 
-the Maximum amount of memory a script may consume, <https://php.net/memory-limit>
+The maximum amount of memory a script may consume, <https://php.net/memory-limit>
 
 ```bash
-memory_limit=512
+memory_limit=512M
 ```
 
-## Kimai/symfony core settings
+## Kimai core settings
 
-See the symfony and Kimai docs for more info on these.
+See the Kimai and Symfony docs for more info on these.
 
 ```bash
-DATABASE_URL=mysql://user:pass@hodt/dbname
+DATABASE_URL=mysql://user:pass@hodt/dbname?charset=utf8&serverVersion=5.7
 APP_SECRET=change_this_to_something_unique
 TRUSTED_PROXIES=nginx,localhost,127.0.0.1
 TRUSTED_HOSTS=nginx,localhost,127.0.0.1
@@ -45,7 +45,7 @@ GROUP_ID=1000
 
 ## Alternate DB config
 
-It is possible to pass the DB config in individual values.  If the ENV variable ```DB_TYPE``` is set then the following values will be expected:
+It is possible to pass the DB config in individual values. If the ENV variable ```DB_TYPE``` is set then the following values will be expected:
 
 The ```DB_TYPE``` must be `mysql`:
 

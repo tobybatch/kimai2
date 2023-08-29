@@ -37,8 +37,8 @@ The FPM image is smaller (~640mb) but requires a web server to provide the http 
 
 This allows over releases of Kimai to be built.  You can specify anything that would be passed to a git clone command.
 
-* A tag or release, e.g. `KIMAI=10.0.2`
-* A branch name, e.g. `KIMAI=master`
+* A tag or release, e.g. `KIMAI=2.0.31`
+* A branch name, e.g. `KIMAI=main`
 
 ### TZ
 
@@ -48,16 +48,16 @@ The PHP timezone for the php build.  Defaults to Europe/Berlin.
 
 ## Examples
 
-Build a dev image of Kimai 1.10.1 that uses the apache bundled web server:
+Build a dev image of Kimai 2.0.31 that uses the apache bundled web server:
 
 ```bash
-    docker build --target=dev --build-arg KIMAI=10.0.1 --build-arg BASE=apache .
+    docker build --target=dev --build-arg KIMAI=2.0.31 --build-arg BASE=apache .
 ```
 
-Build a prod, FPM image of Kimai 1.10.2, localised for the UK
+Build a prod, FPM image of Kimai 2.0.31, localised for the UK
 
 ```bash
-    docker build --target=prod --build-arg KIMAI=10.0.2 --build-arg BASE=fpm --build-arg TZ=Europe/London .
+    docker build --target=prod --build-arg KIMAI=2.0.31 --build-arg BASE=fpm --build-arg TZ=Europe/London .
 ```
 
 ## Extending the image
@@ -77,14 +77,17 @@ RUN docker-php-ext-install -j$(nproc) xsl xml xmlrpc xmlwriter simplexml
 FROM kimai/kimai2:apache-1.12-prod
 COPY --from=php-base /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini /usr/local/etc/php/conf.d/docker-php-ext-xsl.ini
 COPY --from=php-base /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/xsl.so
-
 ```
+
+Attention: the above example is outdated and does not work with Kimai 2.x.
 
 ## Building for other architectures, Pi, Mac etc
 
-Currently the CI chain doesn't do this for us but it is possible to build your own image for ARMN cpus. **Note** Symfony doesn't seem to support ARM7, so older Pi's are not supported.
+Currently, the CI chain doesn't do this for us, but it is possible to build your own image, e.g. for ARM CPUs. 
 
-The process to build it relies on Buildx, install that from here <https://github.com/docker/buildx>
+**Note** Kimai doesn't seem to support 32-bit builds, so older Pi's are not supported.
+
+The process to build it relies on `Buildx`, install that from here <https://github.com/docker/buildx>
 
 And then you can build an alternate architecture:
 

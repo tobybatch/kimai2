@@ -5,7 +5,7 @@ ifndef TIMEZONE
 endif
 
 ifndef KIMAI_VERSION
-  KIMAI_VERSION := master
+  KIMAI_VERSION := main
 endif
 
 ZAP := $(shell echo $(KIMAI_VERSION) | egrep -q "[0-9].[0-9]+" && echo matched)
