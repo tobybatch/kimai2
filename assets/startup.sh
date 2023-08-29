@@ -7,7 +7,7 @@ echo $KIMAI
 function config() {
   # set mem limits and copy in custom logger config
   if [ -z "$memory_limit" ]; then
-    memory_limit=256
+    memory_limit=256M
   fi
 
 
