@@ -1,4 +1,4 @@
-name: '[Deprocated do not use] Build release'
+name: '[Deprecated do not use] Build release'
 
 on:
   workflow_dispatch:
