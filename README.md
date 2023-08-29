@@ -36,7 +36,7 @@ Run the latest production build:
         docker run --rm --name kimai-test \
             -ti \
             -p 8001:8001 \
-            -e DATABASE_URL=mysql://kimai:kimai@host.docker.internal:3399/kimai \
+            -e DATABASE_URL=mysql://kimai:kimai@host.docker.internal:3399/kimai?charset=utf8&serverVersion=5.7 \
             --add-host=host.docker.internal:host-gateway \
             kimai/kimai2:apache
     ```

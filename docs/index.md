@@ -25,7 +25,7 @@ Run the latest production build:
         docker run --rm --name kimai-test \
             -ti \
             -p 8001:8001 \
-            -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3399/kimai \
+            -e DATABASE_URL=mysql://kimai:kimai@${HOSTNAME}:3399/kimai?charset=utf8&serverVersion=5.7 \
             kimai/kimai2:apache
     ```
 
@@ -33,7 +33,7 @@ Run the latest production build:
 
     ```bash
         docker exec -ti kimai-test \
-            /opt/kimai/bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN
+            /opt/kimai/bin/console kimai:user:create admin admin@example.com ROLE_SUPER_ADMIN
     ```
 
 Now, you can access the Kimai instance at <http://localhost:8001>.
