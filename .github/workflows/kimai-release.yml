@@ -30,7 +30,7 @@ jobs:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_PASSWORD}}
 
-      - name: get lastest 1.x version
+      - name: get lastest version
         id: remote_version
         run: echo "::set-output name=version::$(lastversion https://github.com/kevinpapst/kimai2)"
 
