@@ -80,10 +80,14 @@ function handleStartup() {
   fi
 
   if [ -e /use_apache ]; then
-    echo "APACHE_RUN_USER=$(id -nu "$USER_ID")" >> /etc/apache2/envvars
+    export APACHE_RUN_USER=$(id -nu "$USER_ID")
     # This doesn't _exactly_ run as the specified GID, it runs as the GID of the specified user but WTF
-    echo "APACHE_RUN_GROUP=$(id -ng "$USER_ID")" >> /etc/apache2/envvars
-    tail -n2 /etc/apache2/envvars
+    export APACHE_RUN_GROUP=$(id -ng "$USER_ID")
+    export APACHE_PID_FILE=/var/run/apache2/apache2.pid
+    export APACHE_RUN_DIR=/var/run/apache2
+    export APACHE_LOCK_DIR=/var/lock/apache2
+    export APACHE_LOG_DIR=/var/log/apache2
+    export LANG=C
   elif [ -e /use_fpm ]; then
     sed -i "s/user = .*/user = $USER_ID/g" /usr/local/etc/php-fpm.d/www.conf
     sed -i "s/group = .*/group = $GROUP_ID/g" /usr/local/etc/php-fpm.d/www.conf
@@ -96,5 +100,4 @@ function handleStartup() {
 config
 handleStartup
 
-/service.sh
-exit
+exec /service.sh
