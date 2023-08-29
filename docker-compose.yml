@@ -8,8 +8,8 @@ services:
       - MYSQL_USER=kimaiuser
       - MYSQL_PASSWORD=kimaipassword
       - MYSQL_ROOT_PASSWORD=changemeplease
-    ports:
-      - 3336:3306
+    #ports:
+    #  - 3336:3306
     volumes:
       - mysql:/var/lib/mysql
     command: --default-storage-engine innodb
@@ -44,7 +44,6 @@ services:
       - ADMINPASS=changemeplease
       - DATABASE_URL=mysql://kimaiuser:kimaipassword@sqldb/kimai
       - TRUSTED_HOSTS=nginx,localhost,127.0.0.1
-      - memory_limit=500M
       - MAILER_URL=smtp://mailer:1025
       - MAILER_FROM=kimai@example.com
     volumes:
