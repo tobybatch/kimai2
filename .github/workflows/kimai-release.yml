@@ -32,7 +32,7 @@ jobs:
 
       - name: get lastest version
         id: remote_version
-        run: echo "::set-output name=version::$(lastversion https://github.com/kevinpapst/kimai2)"
+        run: echo "::set-output name=version::$(lastversion https://github.com/kimai/kimai)"
 
       - name: Build
         uses: docker/build-push-action@v2
