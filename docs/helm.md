@@ -1,3 +1,7 @@
 # Helm and Kubernetes
 
-We used to keep a helm chart in this repo, but it is now managed in an external repo. Please go to <https://github.com/robjuz/helm-charts/tree/master/charts/kimai2>.
+We used to keep a helm chart in this repo, but it is now managed in an external repo.
+
+The documentation was moved to the official docs page.
+
+See [https://www.kimai.org/documentation/kubernetes.html](https://www.kimai.org/documentation/kubernetes.html)

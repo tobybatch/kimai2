@@ -65,10 +65,8 @@ Keep in mind that this Docker setup is transient and the data will disappear whe
 
 ## Using docker-compose
 
-This will run the latest prod version using FPM with an nginx reverse proxy
-
-See the [docker-compose.yml](docker-compose.yml) in the root of this repo.
+See [https://www.kimai.org/documentation/docker-compose.html](https://www.kimai.org/documentation/docker-compose.html)
 
 ## Documentation
 
-[https://tobybatch.github.io/kimai2/](https://tobybatch.github.io/kimai2/)
+[https://www.kimai.org/documentation/docker.html](https://www.kimai.org/documentation/docker.html)
